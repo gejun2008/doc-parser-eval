@@ -48,29 +48,47 @@ header/footer 默认丢弃、300 DPI 固定等）已经是证据，直接引用�
 ## 目录
 
 ```
-docs/research-plan.md    评测设计（权威范围文档）
-docs/sdk-findings.md     SDK 源码核实结果（证据）
-docs/vendor-api.md       厂商信息 + 未知项 + 已发出的问题
-docs/assertions.md       断言 schema 与七类定义
-tools/probe.py           T0 端点探针（已可运行）
-data/corpus/             下载的公开文档（不入库）
-data/assertions/         断言文件，每份文档一个 YAML（入库）
-runs/<run_id>/           每次评测的原始响应与指标（不入库）
+README.md                    从哪读起、环境、工具清单
+docs/research-plan.md        评测设计（权威范围文档）
+docs/interim-brief.md        中期简报（面向技术主管）
+docs/report-outline.md       成文对照表：每节对应哪些数据文件
+docs/sdk-findings.md         SDK 源码核实结果（证据）
+docs/vendor-api.md           厂商信息 + 未知项
+docs/vendor-questions.md     待厂商答复清单，标了优先级
+docs/assertions.md           断言 schema 与七类定义
+docs/assertions-method.md    实际实现的分层口径（auto / auto_textlayer / draft）
+docs/t0-findings.md          T0 端点探针结果
+docs/olmocr-bench-method.md  第二层口径
+docs/olmocr-bench-results.md 第二层结果
+docs/corpus-method.md        第三层语料与选页口径
+docs/corpus-results-partial.md 第三层结果（部分指标）
+docs/azure-di-baseline.md    在公司电脑跑基线的步骤
+tools/                       见 README 的工具表
+data/corpus/                 下载的公开文档（不入库）
+data/assertions/             断言文件，每份文档一个 YAML（入库，这是 GT）
+runs/<run_id>/               每次评测的原始响应与指标（不入库）
 ```
 
-## 当前状态
+## 当前状态（2026-09-21）
 
-**T0 已完成（2026-09-18）**，结果见 `docs/t0-findings.md`，原始响应在 `probe_out/`。
-决定 runner 形状的三件事已有答案：
+**已完成**：T0 端点探针、第二层 olmOCR-Bench（120 页）、T1 语料与选页（53 份 → 210 页）、
+T2 扰动组（42 页 × 5 种）、T3 断言生成（1,236 条）、T4/T5 runner 与判定器、
+第三层首轮（210 页）、T8 重复一致性（210 页 × 3 次）。约 900 次调用，原始响应全量落盘。
 
-- **logprobs 不可用**——请求返回 200 但 `logprobs` 为 `null`，静默忽略。置信度校准只能走代理指标
-- **限流是静默排队**，无 429。且吞吐恒定 1.6–1.8 页/分，并发 1→8 无提升。
-  所有延迟数字必须附并发条件；runner 客户端超时至少 900s
-- **输出非确定性**——`temperature: 0` 下 3 次调用有 2 次一致、1 次不同
+**阻塞报告成文的三件事**（都不在代码侧）：
 
-另：端点 URL 厂商文档里抄错一个字符，正确地址见 `docs/vendor-api.md`。
+1. **Azure DI 基线未跑**——在公司电脑跑，约 $3.30。没有基线，绝对分数按约定不能报
+2. **141 条人工核对未做**——`critical error rate` 主指标出不来
+3. **厂商六条必答未回**——见 `docs/vendor-questions.md` 顶部
 
-下一步与验收标准见 `TASKS.md`。
+**已声明缺口**：贸易融资单证未覆盖（找不到合规公开源，五类来源排除过程见
+`docs/corpus-method.md`）；第 5 类评级报告建议不补，结构与已测族重合。
+
+端点关键行为（决定 runner 形状，已固化进代码）：
+logprobs 静默忽略；限流是静默排队无 429；吞吐 1.6–5.6 页/分且不随并发上升、
+随时段波动 2–3 倍；`temperature: 0` 下输出非确定性。
+
+成文对照见 `docs/report-outline.md`，进度见 `TASKS.md`。
 
 ## 不要做的事
 
