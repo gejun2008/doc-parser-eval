@@ -93,6 +93,8 @@ def main():
     ap.add_argument("run_dir")
     ap.add_argument("--include-draft", action="store_true",
                     help="调试用。draft 未经人工核对，结果不可进报告")
+    ap.add_argument("--alias", default="",
+                    help="扰动组清单 CSV：把扰动图映射回原文档的页，以复用同一批断言")
     a = ap.parse_args()
 
     run_dir = Path(a.run_dir)
@@ -100,12 +102,30 @@ def main():
     if not raw_dir.is_dir():
         sys.exit(f"{raw_dir} 不存在")
 
-    # 页 -> 原始响应
-    pages = {}
+    # 扰动组：图片路径 -> (原 PDF 路径, 原页码)。零标注成本的关键，
+    # 扰动页内容与原页相同，直接复用原页断言（research-plan.md §3.3 第 8 类）。
+    alias, variant_of = {}, {}
+    if a.alias:
+        for r in csv.DictReader(open(a.alias, encoding="utf-8")):
+            alias[slug(r["path"])] = (slug(r["source_pdf"]), int(r["page"]))
+            variant_of[slug(r["path"])] = r["variant"]
+
+    # (原 PDF, 原页码) -> [原始响应, ...]
+    # 一个 run 里同一页可能有多条记录（5 种扰动各一条），所以值是 list 不是单条。
+    pages = defaultdict(list)
+    n_raw = 0
     for f in raw_dir.glob("*.json"):
         r = json.loads(f.read_text(encoding="utf-8"))
-        pages[(slug(r["pdf"]), r["page"])] = r
-    print(f"读入 {len(pages)} 页原始响应")
+        n_raw += 1
+        key = slug(r["pdf"])
+        if key in alias:
+            base, page = alias[key]
+            r["_variant"] = variant_of[key]
+            pages[(base, page)].append(r)
+        else:
+            pages[(key, r["page"])].append(r)
+    print(f"读入 {n_raw} 条原始响应，覆盖 {len(pages)} 个原页"
+          + (f"（扰动组 {a.alias}）" if a.alias else ""))
 
     allowed = {"auto", "confirmed"} | ({"draft"} if a.include_draft else set())
     rows, skipped, missing_pages = [], Counter(), set()
@@ -118,26 +138,29 @@ def main():
             if st not in allowed:
                 skipped[st] += 1
                 continue
-            rec = pages.get((key_base, it["page"]))
-            if rec is None:
+            recs = pages.get((key_base, it["page"]))
+            if not recs:
                 missing_pages.add((d["doc_id"], it["page"]))
                 continue
             if it.get("eval_on") == "json":
                 skipped["eval_on_json_unsupported"] += 1
                 continue
 
-            if not rec.get("ok"):
-                ok, why = False, (f"page_call_failed status={rec.get('status')} "
-                                  f"finish={rec.get('finish_reason')}")
-            else:
-                ok, why = judge(it, norm(postprocess_doc2md(rec.get("content"))))
-            rows.append({
-                "doc_id": d["doc_id"], "family": d["family"], "window": d["window"],
-                "page": it["page"], "assertion_id": it["id"], "type": it["type"],
-                "severity": it.get("severity", ""), "status": st,
-                "pass": "" if ok is None else int(ok),
-                "target": str(it.get("target"))[:80], "why": why[:160],
-            })
+            # 同一条断言对每个扰动版本各判一次
+            for rec in recs:
+                if not rec.get("ok"):
+                    ok, why = False, (f"page_call_failed status={rec.get('status')} "
+                                      f"finish={rec.get('finish_reason')}")
+                else:
+                    ok, why = judge(it, norm(postprocess_doc2md(rec.get("content"))))
+                rows.append({
+                    "doc_id": d["doc_id"], "family": d["family"], "window": d["window"],
+                    "page": it["page"], "assertion_id": it["id"], "type": it["type"],
+                    "severity": it.get("severity", ""), "status": st,
+                    "pass": "" if ok is None else int(ok),
+                    "variant": rec.get("_variant", "original"),
+                    "target": str(it.get("target"))[:80], "why": why[:160],
+                })
 
     if not rows:
         sys.exit("没有可执行的断言。先用 tools/review_assertions.py 审核草稿。")
@@ -175,6 +198,8 @@ def main():
             "按族与窗口分层，不合成加权总分",
             "分层样本量小，多数分层不足以做显著性判断",
         ],
+        "by_variant": agg("variant"),
+        "by_variant_type": agg("variant", "type"),
         "by_type": agg("type"),
         "by_family": agg("family"),
         "by_family_window": agg("family", "window"),
@@ -192,6 +217,8 @@ def main():
             rate = f"{v['rate']:.1%}" if v["rate"] is not None else "-"
             print(f"{k:34} {v['n']:5} {v['pass']:5} {rate:>8}  {ci}")
 
+    if a.alias:
+        show("按扰动（对照组见原始 run，只有衰减幅度有意义）", summary["by_variant"])
     show("按类型", summary["by_type"])
     show("按文档族", summary["by_family"])
     show("按族 × 窗口（泄漏对照看这张）", summary["by_family_window"])
