@@ -5,3 +5,5 @@ data/corpus/
 data/perturbed/
 __pycache__/
 *.pyc
+.venv/
+data/olmocr_bench/
