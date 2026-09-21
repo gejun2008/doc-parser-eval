@@ -156,6 +156,20 @@ Infinity-Parser2 的对应结果已在包里：
 """
 
 
+def _in_url(text, pos):
+    """命中点是否落在一个 URL 的查询串里。
+
+    olmOCR-Bench 的公开数据集在 `url` 字段里带源文档的预签名链接
+    （形如 https://watermark.silverchair.com/x.pdf?token=AQECAHi...），
+    那是数据集自带的公开链接，不是我们的凭证。第一次打包被它拦下过。
+    """
+    head = text[max(0, pos - 200):pos]
+    i = max(head.rfind("http://"), head.rfind("https://"))
+    if i < 0:
+        return False
+    return not re.search(r"[\s\"']", head[i:])
+
+
 def scan_secrets(paths):
     bad = []
     for p in paths:
@@ -168,6 +182,8 @@ def scan_secrets(paths):
         for m in SECRET_PAT.finditer(t):
             frag = m.group(0)
             if "<" in frag or frag.lower().startswith(("api_key=x", "key=<")):
+                continue
+            if _in_url(t, m.start()):
                 continue
             bad.append((p, frag[:24] + "..."))
             break
