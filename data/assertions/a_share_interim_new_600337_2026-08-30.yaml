@@ -9,7 +9,7 @@ pages_selected:
 - 46
 - 48
 - 50
-generated_utc: '2026-09-21T02:28:46+00:00'
+generated_utc: '2026-09-21T04:20:16+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -18,195 +18,199 @@ assertions:
   severity: critical
   page: 44
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 586,526,340.54
   forbid:
-  - 586,526,340.5
-  - 586526,340.54
+  - 586,526,34.054
   - '586526340.54'
-  status: draft
+  status: auto_textlayer
   context: 586,526,340.54
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600337_2026-08-30_p44_am02
   type: amount
   severity: critical
   page: 44
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 104,403,643.59
   forbid:
-  - 104,403,643.5
-  - 104403,643.59
+  - 104,403,64.359
   - '104403643.59'
-  status: draft
+  status: auto_textlayer
   context: 104,403,643.59
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600337_2026-08-30_p44_am03
   type: amount
   severity: critical
   page: 44
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 200,986,574.03
   forbid:
-  - 200,986,574.0
-  - 200986,574.03
+  - 200,986,57.403
   - '200986574.03'
-  status: draft
+  status: auto_textlayer
   context: 200,986,574.03
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600337_2026-08-30_p44_am04
   type: amount
   severity: critical
   page: 44
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 255,485,832.13
   forbid:
-  - 255,485,832.1
-  - 255485,832.13
+  - 255,485,83.213
   - '255485832.13'
-  status: draft
+  status: auto_textlayer
   context: 255,485,832.13
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600337_2026-08-30_p44_uc01
   type: unit_currency
   severity: critical
   page: 44
   eval_on: md
-  rule: exactly_once
-  target: 单位：美克国际家居用品股份有限公司
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  rule: exactly_n
+  n: 1
+  target: 单位：元币种：人民币
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算
 - id: a_share_interim_new_600337_2026-08-30_p46_am01
   type: amount
   severity: critical
   page: 46
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 21,398,697.45
   forbid:
-  - 21,398,697.4
-  - 21398,697.45
+  - 21,398,69.745
   - '21398697.45'
-  status: draft
+  status: auto_textlayer
   context: 21,398,697.45
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600337_2026-08-30_p46_am02
   type: amount
   severity: critical
   page: 46
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 24,767,850.40
   forbid:
-  - 24,767,850.4
-  - 24767,850.40
+  - 24,767,85.040
   - '24767850.40'
-  status: draft
+  status: auto_textlayer
   context: 24,767,850.40
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600337_2026-08-30_p46_am03
   type: amount
   severity: critical
   page: 46
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 160,182,009.58
   forbid:
-  - 160,182,009.5
-  - 160182,009.58
+  - 160,182,00.958
   - '160182009.58'
-  status: draft
+  status: auto_textlayer
   context: 160,182,009.58
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600337_2026-08-30_p46_am04
   type: amount
   severity: critical
   page: 46
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 111,480,183.86
   forbid:
-  - 111,480,183.8
-  - 111480,183.86
+  - 111,480,18.386
   - '111480183.86'
-  status: draft
+  status: auto_textlayer
   context: 111,480,183.86
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600337_2026-08-30_p46_uc01
   type: unit_currency
   severity: critical
   page: 46
   eval_on: md
-  rule: exactly_once
-  target: 单位：美克国际家居用品股份有限公司
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  rule: exactly_n
+  n: 1
+  target: 单位：元币种：人民币
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算
 - id: a_share_interim_new_600337_2026-08-30_p48_am01
   type: amount
   severity: critical
   page: 48
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 528,485,104.01
   forbid:
-  - 528,485,104.0
-  - 528485,104.01
+  - 528,485,10.401
   - '528485104.01'
-  status: draft
+  status: auto_textlayer
   context: 528,485,104.01
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600337_2026-08-30_p48_am02
   type: amount
   severity: critical
   page: 48
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 607,355,528.72
   forbid:
-  - 607,355,528.7
-  - 607355,528.72
+  - 607,355,52.872
   - '607355528.72'
-  status: draft
+  status: auto_textlayer
   context: 607,355,528.72
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600337_2026-08-30_p48_am03
   type: amount
   severity: critical
   page: 48
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 955,000.00
   forbid:
-  - 955,000.0
+  - 955,00.000
   - '955000.00'
-  status: draft
+  status: auto_textlayer
   context: 955,000.00
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600337_2026-08-30_p48_am04
   type: amount
   severity: critical
   page: 48
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 1,910,000.00
   forbid:
-  - 1,910,000.0
-  - 1910,000.00
+  - 1,910,00.000
   - '1910000.00'
-  status: draft
+  status: auto_textlayer
   context: 1,910,000.00
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600337_2026-08-30_p48_uc01
   type: unit_currency
   severity: critical
   page: 48
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 单位：元币种：人民币
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算
 - id: a_share_interim_new_600337_2026-08-30_p50_pi01
   type: page_integrity
   severity: critical
@@ -239,62 +243,64 @@ assertions:
   severity: critical
   page: 50
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 2
   target: -28,294,724.97
   forbid:
-  - -28,294,724.9
-  - -28294,724.97
+  - -28,294,72.497
   - '-28294724.97'
-  status: draft
+  status: auto_textlayer
   context: -28,294,724.97
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600337_2026-08-30_p50_am02
   type: amount
   severity: critical
   page: 50
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 2
   target: -7,183,214.50
   forbid:
-  - -7,183,214.5
-  - -7183,214.50
+  - -7,183,21.450
   - '-7183214.50'
-  status: draft
+  status: auto_textlayer
   context: -7,183,214.50
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600337_2026-08-30_p50_am03
   type: amount
   severity: critical
   page: 50
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: -601,632.74
   forbid:
-  - -601,632.7
+  - -601,63.274
   - '-601632.74'
-  status: draft
+  status: auto_textlayer
   context: -601,632.74
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600337_2026-08-30_p50_am04
   type: amount
   severity: critical
   page: 50
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: -1,003,142.68
   forbid:
-  - -1,003,142.6
-  - -1003,142.68
+  - -1,003,14.268
   - '-1003142.68'
-  status: draft
+  status: auto_textlayer
   context: -1,003,142.68
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600337_2026-08-30_p50_uc01
   type: unit_currency
   severity: critical
   page: 50
   eval_on: md
-  rule: exactly_once
-  target: 元
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  rule: exactly_n
+  n: 1
+  target: 单位：元币种：人民币
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算

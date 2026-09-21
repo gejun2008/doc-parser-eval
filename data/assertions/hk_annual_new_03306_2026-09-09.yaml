@@ -9,7 +9,7 @@ pages_selected:
 - 145
 - 151
 - 157
-generated_utc: '2026-09-21T02:28:49+00:00'
+generated_utc: '2026-09-21T04:20:19+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -45,62 +45,63 @@ assertions:
   severity: critical
   page: 112
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 501,838
   forbid:
-  - 501,83
   - '501838'
-  status: draft
+  status: auto_textlayer
   context: 501,838
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_annual_new_03306_2026-09-09_p112_am02
   type: amount
   severity: critical
   page: 112
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 434,317
   forbid:
-  - 434,31
   - '434317'
-  status: draft
+  status: auto_textlayer
   context: 434,317
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_annual_new_03306_2026-09-09_p112_am03
   type: amount
   severity: critical
   page: 112
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 10,890
   forbid:
-  - 10,89
   - '10890'
-  status: draft
+  status: auto_textlayer
   context: 10,890
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_annual_new_03306_2026-09-09_p112_am04
   type: amount
   severity: critical
   page: 112
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 35,761
   forbid:
-  - 35,76
   - '35761'
-  status: draft
+  status: auto_textlayer
   context: 35,761
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_annual_new_03306_2026-09-09_p112_uc01
   type: unit_currency
   severity: critical
   page: 112
   eval_on: md
-  rule: exactly_once
-  target: RMB
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  rule: exactly_n
+  n: 2
+  target: RMB’000
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算
 - id: hk_annual_new_03306_2026-09-09_p145_pi01
   type: page_integrity
   severity: critical
@@ -133,66 +134,63 @@ assertions:
   severity: critical
   page: 145
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 4
   target: 7,000,001
   forbid:
-  - 7,000,00
-  - 7000,001
   - '7000001'
-  status: draft
+  status: auto_textlayer
   context: HK$7,000,001 to HK$7,500,000
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_annual_new_03306_2026-09-09_p145_am02
   type: amount
   severity: critical
   page: 145
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 4
   target: 7,500,000
   forbid:
-  - 7,500,00
-  - 7500,000
   - '7500000'
-  status: draft
+  status: auto_textlayer
   context: HK$7,000,001 to HK$7,500,000
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_annual_new_03306_2026-09-09_p145_am03
   type: amount
   severity: critical
   page: 145
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 2
   target: 10,000,001
   forbid:
-  - 10,000,00
-  - 10000,001
   - '10000001'
-  status: draft
+  status: auto_textlayer
   context: HK$10,000,001 to HK$10,500,000
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_annual_new_03306_2026-09-09_p145_am04
   type: amount
   severity: critical
   page: 145
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 2
   target: 10,500,000
   forbid:
-  - 10,500,00
-  - 10500,000
   - '10500000'
-  status: draft
+  status: auto_textlayer
   context: HK$10,000,001 to HK$10,500,000
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_annual_new_03306_2026-09-09_p145_uc01
   type: unit_currency
   severity: critical
   page: 145
   eval_on: md
-  rule: exactly_once
-  target: HK$
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  rule: exactly_n
+  n: 2
+  target: RMB’000
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算
 - id: hk_annual_new_03306_2026-09-09_p151_pi01
   type: page_integrity
   severity: critical
@@ -207,61 +205,63 @@ assertions:
   severity: critical
   page: 151
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 28,377
   forbid:
-  - 28,37
   - '28377'
-  status: draft
+  status: auto_textlayer
   context: 28,377
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_annual_new_03306_2026-09-09_p151_am02
   type: amount
   severity: critical
   page: 151
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 56,179
   forbid:
-  - 56,17
   - '56179'
-  status: draft
+  status: auto_textlayer
   context: 56,179
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_annual_new_03306_2026-09-09_p151_am03
   type: amount
   severity: critical
   page: 151
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 4,911
   forbid:
   - '4911'
-  status: draft
+  status: auto_textlayer
   context: 4,911
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_annual_new_03306_2026-09-09_p151_am04
   type: amount
   severity: critical
   page: 151
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 176,655
   forbid:
-  - 176,65
   - '176655'
-  status: draft
+  status: auto_textlayer
   context: 176,655
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_annual_new_03306_2026-09-09_p151_uc01
   type: unit_currency
   severity: critical
   page: 151
   eval_on: md
-  rule: exactly_once
-  target: RMB
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  rule: exactly_n
+  n: 9
+  target: RMB’000
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算
 - id: hk_annual_new_03306_2026-09-09_p157_pi01
   type: page_integrity
   severity: critical
@@ -285,59 +285,60 @@ assertions:
   severity: critical
   page: 157
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 8
   target: 51,352
   forbid:
-  - 51,35
   - '51352'
-  status: draft
+  status: auto_textlayer
   context: 51,352
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_annual_new_03306_2026-09-09_p157_am02
   type: amount
   severity: critical
   page: 157
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 25,622
   forbid:
-  - 25,62
   - '25622'
-  status: draft
+  status: auto_textlayer
   context: 25,622
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_annual_new_03306_2026-09-09_p157_am03
   type: amount
   severity: critical
   page: 157
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 49,062
   forbid:
-  - 49,06
   - '49062'
-  status: draft
+  status: auto_textlayer
   context: 49,062
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_annual_new_03306_2026-09-09_p157_am04
   type: amount
   severity: critical
   page: 157
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 126,140
   forbid:
-  - 126,14
   - '126140'
-  status: draft
+  status: auto_textlayer
   context: 126,140
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_annual_new_03306_2026-09-09_p157_uc01
   type: unit_currency
   severity: critical
   page: 157
   eval_on: md
-  rule: exactly_once
-  target: RMB
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  rule: exactly_n
+  n: 7
+  target: RMB’000
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算

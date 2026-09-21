@@ -130,19 +130,24 @@ def render_assertion(a):
     aid = a["id"]
     status = a.get("status", "draft")
     esc = html.escape
-    if status == "auto":
+    if status == "auto" or (status == "auto_textlayer" and not a.get("_audit")):
         return (f'<div class="a auto" data-id="{esc(aid)}">'
                 f'<span class="tag">{esc(a["type"])}</span> '
                 f'<span class="tag">自动</span>'
                 f'<div class="t">{esc(str(a.get("target", "")))}</div></div>')
     ctx = a.get("context")
     forbid = a.get("forbid") or []
+    audit = status == "auto_textlayer"
     return (
         f'<div class="a draft" id="a_{esc(aid)}" data-id="{esc(aid)}">'
         f'<span class="tag">{esc(a["type"])}</span> '
         f'<span class="tag">{esc(a.get("severity", ""))}</span>'
-        f'<div class="row"><input type="text" id="t_{esc(aid)}" '
-        f'value="{esc(str(a.get("target", "")))}"></div>'
+        + ('<span class="tag">审计抽样</span>' if audit else "")
+        + (f'<div class="ctx">科目：<b>{esc(str(a["label"]))}</b>'
+           f'　要求与金额同行（间距 ≤ {a.get("max_gap", 120)}）</div>'
+           if a.get("label") else "")
+        + f'<div class="row"><input type="text" id="t_{esc(aid)}" '
+          f'value="{esc(str(a.get("target", "")))}"></div>'
         + (f'<div class="ctx">上下文：{esc(ctx)}</div>' if ctx else "")
         + (f'<div class="ctx">禁止串：{esc(", ".join(forbid))}</div>' if forbid else "")
         + f'<div class="row">'
@@ -155,10 +160,25 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--doc-id", action="append")
     ap.add_argument("--dpi", type=int, default=110)
+    ap.add_argument("--audit", type=int, default=0,
+                    help="额外抽 N 条 auto_textlayer 断言进审核页，用于估计文本层 GT 的错误率")
     a = ap.parse_args()
 
     OUT.mkdir(exist_ok=True)
     files = sorted(ASSERT_DIR.glob("*.yaml"))
+
+    # 审计抽样：文本层派生的 GT 也可能错，抽一小批人工复核以给出错误率上界。
+    # 固定 seed，报告附录要能复现抽了哪些。
+    audit_ids = set()
+    if a.audit:
+        import random
+        pool = []
+        for f in files:
+            d0 = yaml.safe_load(f.read_text(encoding="utf-8"))
+            pool += [i["id"] for i in d0["assertions"]
+                     if i.get("status") == "auto_textlayer"]
+        audit_ids = set(random.Random(20260921).sample(pool, min(a.audit, len(pool))))
+        print(f"审计抽样 {len(audit_ids)} 条（从 {len(pool)} 条文本层派生断言中）")
     index = []
     for f in files:
         d = yaml.safe_load(f.read_text(encoding="utf-8"))
@@ -167,6 +187,8 @@ def main():
         doc = pymupdf.open(d["local_path"])
         by_page = {}
         for it in d["assertions"]:
+            if it["id"] in audit_ids:
+                it["_audit"] = True
             by_page.setdefault(it["page"], []).append(it)
 
         blocks = []
@@ -174,7 +196,8 @@ def main():
             pix = doc[page_no - 1].get_pixmap(dpi=a.dpi)
             b64 = base64.b64encode(pix.tobytes("png")).decode()
             items = sorted(by_page[page_no],
-                           key=lambda x: (x.get("status") != "draft", x["type"]))
+                           key=lambda x: (not (x.get("status") == "draft"
+                                               or x.get("_audit")), x["type"]))
             blocks.append(
                 f'<section class="page"><div><div class="meta">第 {page_no} 页</div>'
                 f'<img src="data:image/png;base64,{b64}" alt="第 {page_no} 页"></div>'
@@ -188,7 +211,8 @@ def main():
             family=html.escape(d["family"]), window=html.escape(d["window"]),
             disclosed_at=html.escape(str(d["disclosed_at"])),
             pages="".join(blocks)), encoding="utf-8")
-        n_draft = sum(1 for i in d["assertions"] if i.get("status") == "draft")
+        n_draft = sum(1 for i in d["assertions"]
+                      if i.get("status") == "draft" or i.get("_audit"))
         index.append((d["doc_id"], d["family"], d["window"], n_draft,
                       len(d["assertions"]), out.name, out.stat().st_size))
         print(f"  {d['doc_id']:44} draft {n_draft:3} / {len(d['assertions']):3} "

@@ -38,11 +38,18 @@ OUT = Path("data/assertions")
 
 # 千分位金额：1,234,567 或 1,234,567.89，允许括号负数
 AMOUNT_RE = re.compile(r"\(?-?\d{1,3}(?:,\d{3})+(?:\.\d+)?\)?")
-# 单位与币种表头
+# 单位与币种表头。
+# 第一版这里错得离谱，教训记下来：
+#   - 匹配 `单位[：:]...` 抓到了「单位：海目星激光科技集团股份有限公司」——
+#     中文「单位」也指公司，不只是计量单位
+#   - 匹配裸 `元` / `RMB` 抓到 39 条 '元'、37 条 'RMB'，一页里到处都是，判了没意义
+# 现在要求必须带计量语境（千元/万元/百万元）或显式币种声明。
 UNIT_RE = re.compile(
-    r"(人民币|港币|美元|新台币)?\s*(千元|万元|百万元|元)|"
-    r"(RMB|HK\$|US\$|USD|HKD|CNY)\s*[''']?\s*(000|million|M)?|"
-    r"單位[：:]\s*[^\n]{1,20}|单位[：:]\s*[^\n]{1,20}",
+    r"(?:单位|單位)\s*[：:]\s*(?:人民币|人民幣|港币|港幣|美元)?\s*(?:千元|万元|萬元|百万元|百萬元|元)"
+    r"(?:\s*(?:币种|幣種)\s*[：:]\s*(?:人民币|人民幣|港元|港币|美元))?"
+    r"|(?:币种|幣種)\s*[：:]\s*(?:人民币|人民幣|港元|港币|美元)"
+    r"|(?:RMB|HK\$|US\$|USD|HKD|CNY)\s*[‘’']\s*000"
+    r"|(?:in\s+thousands?|in\s+millions?)\s+of\s+(?:RMB|HKD|USD|Hong\s+Kong\s+dollars)",
     re.I)
 
 
@@ -75,8 +82,21 @@ def anchors(page_text, doc_text, n=3, min_len=12, min_words=8):
     return out
 
 
+LABEL_RE = re.compile(r"^[一-鿿A-Za-z][一-鿿A-Za-z（）()、/\s]{2,28}")
+
+
+def nows(t):
+    return re.sub(r"\s+", "", t or "")
+
+
 def amount_drafts(page_text, limit=6):
-    """抽候选金额与其所在行（作为人工核对的上下文）。"""
+    """抽候选金额、所在行、行首标签，以及该金额在本页出现的次数。
+
+    次数很重要：报表里同一金额在本期/上期两栏出现是**正常**的，
+    用 exactly_once 判必然假失败。第一版就栽在这里——564 条里 134 条如此。
+    现在按文本层实际次数生成 exactly_n。
+    """
+    page_n = nows(page_text)
     seen, out = set(), []
     for line in page_text.splitlines():
         for m in AMOUNT_RE.finditer(line):
@@ -84,23 +104,37 @@ def amount_drafts(page_text, limit=6):
             if v in seen or len(v.replace(",", "").replace(".", "").strip("()-")) < 4:
                 continue
             seen.add(v)
-            ctx = re.sub(r"\s+", " ", line).strip()[:80]
-            out.append((v, ctx))
+            clean = re.sub(r"\s+", " ", line).strip()
+            lm = LABEL_RE.match(clean)
+            label = lm.group(0).strip() if lm else ""
+            out.append((v, clean[:80], label, page_n.count(nows(v))))
             if len(out) >= limit:
                 return out
     return out
 
 
 def forbid_forms(v):
-    """金额的常见错误形态：丢分隔符、少一位、多一位。判定器要求这些都不出现。"""
+    """金额的常见错误形态，判定器要求这些都不出现。
+
+    **禁止串绝不能是目标值的子串**，否则正确金额一出现就必然误判失败。
+    第一版犯了这个错：把「少末位」（100,000 -> 100,00）当禁止串，
+    而它是正确值的前缀，564 条 amount 里 500 条被判成假失败、通过率假性跌到 9.9%。
+
+    所以这里只保留结构上不可能是子串的形态：
+      丢掉全部千分位分隔符（1,234,567.89 -> 1234567.89）
+      小数点左移一位（金额缩小 10 倍的典型错位）
+    并在返回前逐个校验「不是目标的子串」。
+    """
     plain = v.strip("()")
-    no_sep = plain.replace(",", "")
-    forms = {no_sep}
-    digits = re.sub(r"[^\d]", "", plain)
-    if len(digits) > 4:
-        forms.add(plain[:-1])          # 少末位
-        forms.add(plain.replace(",", "", 1))  # 丢一个分隔符
-    return sorted(f for f in forms if f and f != plain)
+    forms = {plain.replace(",", "")}
+    m = re.match(r"^(-?[\d,]+)\.(\d+)$", plain)
+    if m:
+        intp, dec = m.group(1), m.group(2)
+        if len(intp.replace(",", "")) > 1:
+            forms.add(f"{intp[:-1]}.{intp[-1]}{dec}")   # 小数点左移一位
+    tn = re.sub(r"\s+", "", plain)
+    return sorted(f for f in forms
+                  if f and f != plain and re.sub(r"\s+", "", f) not in tn)
 
 
 def main():
@@ -148,29 +182,51 @@ def main():
                 })
                 stats["page_integrity"] += 1
 
-            for i, (v, ctx) in enumerate(amount_drafts(text, a.amounts_per_page), 1):
+            for i, (v, ctx, label, n_occ) in enumerate(
+                    amount_drafts(text, a.amounts_per_page), 1):
+                # 存在性与次数：文本层是可靠 GT（字符本来就来自它），机器可验证。
+                # **只测「这串数字在不在、出现几次」，不测它挂在哪个科目下。**
                 items.append({
                     "id": f"{doc_id}_p{page_no}_am{i:02d}",
                     "type": "amount", "severity": "critical",
-                    "page": page_no, "eval_on": "md", "rule": "exactly_once",
+                    "page": page_no, "eval_on": "md",
+                    "rule": "exactly_n", "n": n_occ,
                     "target": v, "forbid": forbid_forms(v),
-                    "status": "draft",
+                    "status": "auto_textlayer",
                     "context": ctx,
-                    "note": "草稿：必须对照渲染页人工确认该金额及其所属科目",
+                    "note": ("文本层派生：只验存在性与出现次数，不验科目归属。"
+                             "GT 来源是文本层而非人工，需抽样审计估计其错误率"),
                 })
-                stats["amount_draft"] += 1
+                stats["amount_auto"] += 1
+
+                # 归属：金额必须仍然挨着它的行标签。这是机器判不了的部分——
+                # 文本层跨列拼接会把标签配错，必须人眼对着渲染页确认。
+                if label and len(label) >= 3:
+                    items.append({
+                        "id": f"{doc_id}_p{page_no}_lp{i:02d}",
+                        "type": "amount_label", "severity": "critical",
+                        "page": page_no, "eval_on": "md",
+                        "rule": "label_proximity", "max_gap": 120,
+                        "target": v, "label": label,
+                        "status": "draft",
+                        "context": ctx,
+                        "note": ("草稿：对着渲染页确认『该科目』与『该金额』确实同行。"
+                                 "文本层跨列拼接会把标签配错，机器验不了这一类"),
+                    })
+                    stats["amount_label_draft"] += 1
 
             um = UNIT_RE.search(text)
             if um:
+                tgt = re.sub(r"\s+", " ", um.group(0)).strip()
                 items.append({
                     "id": f"{doc_id}_p{page_no}_uc01",
                     "type": "unit_currency", "severity": "critical",
-                    "page": page_no, "eval_on": "md", "rule": "exactly_once",
-                    "target": re.sub(r"\s+", " ", um.group(0)).strip(),
-                    "status": "draft",
-                    "note": "草稿：确认单位/币种表头是否确实出现在该页且未被换算",
+                    "page": page_no, "eval_on": "md",
+                    "rule": "exactly_n", "n": nows(text).count(nows(tgt)),
+                    "target": tgt, "status": "auto_textlayer",
+                    "note": "文本层派生：验单位/币种表头是否保留。不验金额有没有被换算",
                 })
-                stats["unit_currency_draft"] += 1
+                stats["unit_currency_auto"] += 1
         doc.close()
 
         payload = {
@@ -191,9 +247,10 @@ def main():
         stats["docs"] += 1
 
     print(f"生成 {stats['docs']} 份断言文件 -> {OUT}/")
-    print(f"  page_integrity  {stats['page_integrity']:4} 条  自动，可直接用")
-    print(f"  amount          {stats['amount_draft']:4} 条  草稿，待人工核对")
-    print(f"  unit_currency   {stats['unit_currency_draft']:4} 条  草稿，待人工核对")
+    print(f"  page_integrity  {stats['page_integrity']:4} 条  自动（文本层锚点）")
+    print(f"  amount          {stats['amount_auto']:4} 条  自动（文本层，只验存在与次数）")
+    print(f"  unit_currency   {stats['unit_currency_auto']:4} 条  自动（文本层）")
+    print(f"  amount_label    {stats['amount_label_draft']:4} 条  **需人工**（科目归属）")
     print(f"  合计 {sum(v for k, v in stats.items() if k != 'docs')} 条")
     print("\n下一步：python tools/review_assertions.py 生成本地审核页")
 

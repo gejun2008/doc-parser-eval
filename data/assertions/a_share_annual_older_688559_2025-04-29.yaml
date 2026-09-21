@@ -9,7 +9,7 @@ pages_selected:
 - 56
 - 161
 - 163
-generated_utc: '2026-09-21T02:28:45+00:00'
+generated_utc: '2026-09-21T04:20:16+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -45,66 +45,67 @@ assertions:
   severity: critical
   page: 9
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 4,524,717,231.68
   forbid:
-  - 4,524,717,231.6
-  - 4524,717,231.68
+  - 4,524,717,23.168
   - '4524717231.68'
-  status: draft
+  status: auto_textlayer
   context: 4,524,717,231.68
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688559_2025-04-29_p9_am02
   type: amount
   severity: critical
   page: 9
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 4,804,512,316.57
   forbid:
-  - 4,804,512,316.5
-  - 4804,512,316.57
+  - 4,804,512,31.657
   - '4804512316.57'
-  status: draft
+  status: auto_textlayer
   context: 4,804,512,316.57
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688559_2025-04-29_p9_am03
   type: amount
   severity: critical
   page: 9
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 4,105,415,522.44
   forbid:
-  - 4,105,415,522.4
-  - 4105,415,522.44
+  - 4,105,415,52.244
   - '4105415522.44'
-  status: draft
+  status: auto_textlayer
   context: 4,105,415,522.44
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688559_2025-04-29_p9_am04
   type: amount
   severity: critical
   page: 9
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 4,516,494,367.21
   forbid:
-  - 4,516,494,367.2
-  - 4516,494,367.21
+  - 4,516,494,36.721
   - '4516494367.21'
-  status: draft
+  status: auto_textlayer
   context: 4,516,494,367.21
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688559_2025-04-29_p9_uc01
   type: unit_currency
   severity: critical
   page: 9
   eval_on: md
-  rule: exactly_once
-  target: 单位：元
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  rule: exactly_n
+  n: 1
+  target: 单位：元 币种：人民币
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算
 - id: a_share_annual_older_688559_2025-04-29_p56_pi01
   type: page_integrity
   severity: critical
@@ -119,193 +120,196 @@ assertions:
   severity: critical
   page: 56
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 4,198,843,927.13
   forbid:
-  - 4,198,843,927.1
-  - 4198,843,927.13
+  - 4,198,843,92.713
   - '4198843927.13'
-  status: draft
+  status: auto_textlayer
   context: 4,198,843,927.13
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688559_2025-04-29_p56_am02
   type: amount
   severity: critical
   page: 56
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 3,360,876,262.03
   forbid:
-  - 3,360,876,262.0
-  - 3360,876,262.03
+  - 3,360,876,26.203
   - '3360876262.03'
-  status: draft
+  status: auto_textlayer
   context: 3,360,876,262.03
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688559_2025-04-29_p56_am03
   type: amount
   severity: critical
   page: 56
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 2,805,714,782.26
   forbid:
-  - 2,805,714,782.2
-  - 2805,714,782.26
+  - 2,805,714,78.226
   - '2805714782.26'
-  status: draft
+  status: auto_textlayer
   context: 2,805,714,782.26
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688559_2025-04-29_p56_am04
   type: amount
   severity: critical
   page: 56
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 2,294,285,539.53
   forbid:
-  - 2,294,285,539.5
-  - 2294,285,539.53
+  - 2,294,285,53.953
   - '2294285539.53'
-  status: draft
+  status: auto_textlayer
   context: 2,294,285,539.53
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688559_2025-04-29_p56_uc01
   type: unit_currency
   severity: critical
   page: 56
   eval_on: md
-  rule: exactly_once
-  target: 单位：元
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  rule: exactly_n
+  n: 1
+  target: 单位：元 币种：人民币
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算
 - id: a_share_annual_older_688559_2025-04-29_p161_am01
   type: amount
   severity: critical
   page: 161
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 1,655,983,071.37
   forbid:
-  - 1,655,983,071.3
-  - 1655,983,071.37
+  - 1,655,983,07.137
   - '1655983071.37'
-  status: draft
+  status: auto_textlayer
   context: 1,655,983,071.37
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688559_2025-04-29_p161_am02
   type: amount
   severity: critical
   page: 161
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 1,058,609,329.20
   forbid:
-  - 1,058,609,329.2
-  - 1058,609,329.20
+  - 1,058,609,32.920
   - '1058609329.20'
-  status: draft
+  status: auto_textlayer
   context: 1,058,609,329.20
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688559_2025-04-29_p161_am03
   type: amount
   severity: critical
   page: 161
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 210,455,853.44
   forbid:
-  - 210,455,853.4
-  - 210455,853.44
+  - 210,455,85.344
   - '210455853.44'
-  status: draft
+  status: auto_textlayer
   context: 210,455,853.44
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688559_2025-04-29_p161_am04
   type: amount
   severity: critical
   page: 161
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 62,838,128.61
   forbid:
-  - 62,838,128.6
-  - 62838,128.61
+  - 62,838,12.861
   - '62838128.61'
-  status: draft
+  status: auto_textlayer
   context: 62,838,128.61
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688559_2025-04-29_p161_uc01
   type: unit_currency
   severity: critical
   page: 161
   eval_on: md
-  rule: exactly_once
-  target: 单位：海目星激光科技集团股份有限公司
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  rule: exactly_n
+  n: 1
+  target: 单位：元币种：人民币
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算
 - id: a_share_annual_older_688559_2025-04-29_p163_am01
   type: amount
   severity: critical
   page: 163
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 246,604,600.00
   forbid:
-  - 246,604,600.0
-  - 246604,600.00
+  - 246,604,60.000
   - '246604600.00'
-  status: draft
+  status: auto_textlayer
   context: 246,604,600.00
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688559_2025-04-29_p163_am02
   type: amount
   severity: critical
   page: 163
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 203,962,000.00
   forbid:
-  - 203,962,000.0
-  - 203962,000.00
+  - 203,962,00.000
   - '203962000.00'
-  status: draft
+  status: auto_textlayer
   context: 203,962,000.00
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688559_2025-04-29_p163_am03
   type: amount
   severity: critical
   page: 163
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 2,150,621,080.10
   forbid:
-  - 2,150,621,080.1
-  - 2150,621,080.10
+  - 2,150,621,08.010
   - '2150621080.10'
-  status: draft
+  status: auto_textlayer
   context: 2,150,621,080.10
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688559_2025-04-29_p163_am04
   type: amount
   severity: critical
   page: 163
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 1,119,138,398.29
   forbid:
-  - 1,119,138,398.2
-  - 1119,138,398.29
+  - 1,119,138,39.829
   - '1119138398.29'
-  status: draft
+  status: auto_textlayer
   context: 1,119,138,398.29
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688559_2025-04-29_p163_uc01
   type: unit_currency
   severity: critical
   page: 163
   eval_on: md
-  rule: exactly_once
-  target: 单位：海目星激光科技集团股份有限公司
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  rule: exactly_n
+  n: 1
+  target: 单位：元币种：人民币
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算

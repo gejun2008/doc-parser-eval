@@ -80,6 +80,42 @@ def judge(a, content_n):
         return False, f"expected exactly once, found {cnt}"
     if rule == "at_least_once" and cnt < 1:
         return False, "not found"
+    if rule == "exactly_n":
+        # 期望次数来自 PDF 文本层。报表里同一金额在本期/上期两栏出现是正常的，
+        # 一律按 exactly_once 判会制造大量假失败（第一版 564 条里 134 条如此）。
+        want = a.get("n")
+        if want is None:
+            return None, "assertion_missing_n"
+        if cnt != want:
+            return False, f"expected {want}, found {cnt}"
+    if rule == "label_proximity":
+        # 科目归属：金额必须仍然挨着它的行标签。
+        # 只判「都在」不够——数字出现在错误的行里照样算通过，
+        # 而那正是金融文档最要命的失败方式。
+        ln = norm(str(a.get("label") or ""))
+        if not ln:
+            return None, "assertion_missing_label"
+        gap = a.get("max_gap", 120)
+        if cnt < 1:
+            return False, "amount not found"
+        if ln not in content_n:
+            return False, f"label not found: {a.get('label')}"
+        best = None
+        li = -1
+        while True:
+            li = content_n.find(ln, li + 1)
+            if li < 0:
+                break
+            ai = -1
+            while True:
+                ai = content_n.find(tn, ai + 1)
+                if ai < 0:
+                    break
+                d = ai - (li + len(ln)) if ai > li else li - (ai + len(tn))
+                best = d if best is None else min(best, d)
+        if best is None or best > gap:
+            return False, f"label-amount gap {best} > {gap}"
+        return True, f"label-amount gap {best}"
 
     for f in (a.get("forbid") or []):
         fn = norm(str(f))
@@ -127,7 +163,7 @@ def main():
     print(f"读入 {n_raw} 条原始响应，覆盖 {len(pages)} 个原页"
           + (f"（扰动组 {a.alias}）" if a.alias else ""))
 
-    allowed = {"auto", "confirmed"} | ({"draft"} if a.include_draft else set())
+    allowed = {"auto", "auto_textlayer", "confirmed"} | ({"draft"} if a.include_draft else set())
     rows, skipped, missing_pages = [], Counter(), set()
 
     for yf in sorted(ASSERT_DIR.glob("*.yaml")):

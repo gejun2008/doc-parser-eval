@@ -10,7 +10,7 @@ pages_selected:
 - 3
 - 4
 - 5
-generated_utc: '2026-09-21T02:28:47+00:00'
+generated_utc: '2026-09-21T04:20:17+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -46,66 +46,78 @@ assertions:
   severity: critical
   page: 1
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 2
   target: 2,376,612
   forbid:
-  - 2,376,61
-  - 2376,612
   - '2376612'
-  status: draft
+  status: auto_textlayer
   context: “公司”）通过回购专用证券账户持有公司股份2,376,612 股。根据《中华人民共
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_notice_old_001323_2025-09-19_p1_am02
   type: amount
   severity: critical
   page: 1
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 432,704,152
   forbid:
-  - 432,704,15
-  - 432704,152
   - '432704152'
-  status: draft
+  status: auto_textlayer
   context: 2,376,612 股后的432,704,152 股为基数，向全体股东每10 股派4.50 元现金（含税），
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_notice_old_001323_2025-09-19_p1_am03
   type: amount
   severity: critical
   page: 1
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 2
   target: 194,716,868.40
   forbid:
-  - 194,716,868.4
-  - 194716,868.40
+  - 194,716,86.840
   - '194716868.40'
+  status: auto_textlayer
+  context: 共计派发现金红利194,716,868.40 元，不送红股，不以资本公积金转增股本。
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
+- id: a_share_notice_old_001323_2025-09-19_p1_lp03
+  type: amount_label
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: label_proximity
+  max_gap: 120
+  target: 194,716,868.40
+  label: 共计派发现金红利
   status: draft
   context: 共计派发现金红利194,716,868.40 元，不送红股，不以资本公积金转增股本。
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
 - id: a_share_notice_old_001323_2025-09-19_p1_am04
   type: amount
   severity: critical
   page: 1
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 435,080,764
   forbid:
-  - 435,080,76
-  - 435080,764
   - '435080764'
-  status: draft
+  status: auto_textlayer
   context: 分红总额/公司总股本*10 股=194,716,868.40 元/435,080,764 股*10 股=4.475418 元
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
-- id: a_share_notice_old_001323_2025-09-19_p1_uc01
-  type: unit_currency
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
+- id: a_share_notice_old_001323_2025-09-19_p1_lp04
+  type: amount_label
   severity: critical
   page: 1
   eval_on: md
-  rule: exactly_once
-  target: 元
+  rule: label_proximity
+  max_gap: 120
+  target: 435,080,764
+  label: 分红总额/公司总股本
   status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  context: 分红总额/公司总股本*10 股=194,716,868.40 元/435,080,764 股*10 股=4.475418 元
+  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
 - id: a_share_notice_old_001323_2025-09-19_p2_pi01
   type: page_integrity
   severity: critical
@@ -138,38 +150,27 @@ assertions:
   severity: critical
   page: 2
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 2,376,612
   forbid:
-  - 2,376,61
-  - 2376,612
   - '2376612'
-  status: draft
+  status: auto_textlayer
   context: 2,376,612 股后的432,704,152 股为基数，向全体股东每10 股派4.50 元人民币现金
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_notice_old_001323_2025-09-19_p2_am02
   type: amount
   severity: critical
   page: 2
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 432,704,152
   forbid:
-  - 432,704,15
-  - 432704,152
   - '432704152'
-  status: draft
+  status: auto_textlayer
   context: 2,376,612 股后的432,704,152 股为基数，向全体股东每10 股派4.50 元人民币现金
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
-- id: a_share_notice_old_001323_2025-09-19_p2_uc01
-  type: unit_currency
-  severity: critical
-  page: 2
-  eval_on: md
-  rule: exactly_once
-  target: 元
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_notice_old_001323_2025-09-19_p3_pi01
   type: page_integrity
   severity: critical
@@ -197,15 +198,6 @@ assertions:
   target: 1 年）的，每10 股补缴税款0.45 元；持股超过1 年的，不需补缴税款。】
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_notice_old_001323_2025-09-19_p3_uc01
-  type: unit_currency
-  severity: critical
-  page: 3
-  eval_on: md
-  rule: exactly_once
-  target: 元
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
 - id: a_share_notice_old_001323_2025-09-19_p4_pi01
   type: page_integrity
   severity: critical
@@ -238,35 +230,49 @@ assertions:
   severity: critical
   page: 4
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 194,716,868.40
   forbid:
-  - 194,716,868.4
-  - 194716,868.40
+  - 194,716,86.840
   - '194716868.40'
+  status: auto_textlayer
+  context: 分红总额/公司总股本*10 股=194,716,868.40 元/435,080,764 股*10 股=4.475418 元
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
+- id: a_share_notice_old_001323_2025-09-19_p4_lp01
+  type: amount_label
+  severity: critical
+  page: 4
+  eval_on: md
+  rule: label_proximity
+  max_gap: 120
+  target: 194,716,868.40
+  label: 分红总额/公司总股本
   status: draft
   context: 分红总额/公司总股本*10 股=194,716,868.40 元/435,080,764 股*10 股=4.475418 元
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
 - id: a_share_notice_old_001323_2025-09-19_p4_am02
   type: amount
   severity: critical
   page: 4
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 435,080,764
   forbid:
-  - 435,080,76
-  - 435080,764
   - '435080764'
-  status: draft
+  status: auto_textlayer
   context: 分红总额/公司总股本*10 股=194,716,868.40 元/435,080,764 股*10 股=4.475418 元
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
-- id: a_share_notice_old_001323_2025-09-19_p4_uc01
-  type: unit_currency
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
+- id: a_share_notice_old_001323_2025-09-19_p4_lp02
+  type: amount_label
   severity: critical
   page: 4
   eval_on: md
-  rule: exactly_once
-  target: 元
+  rule: label_proximity
+  max_gap: 120
+  target: 435,080,764
+  label: 分红总额/公司总股本
   status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  context: 分红总额/公司总股本*10 股=194,716,868.40 元/435,080,764 股*10 股=4.475418 元
+  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类

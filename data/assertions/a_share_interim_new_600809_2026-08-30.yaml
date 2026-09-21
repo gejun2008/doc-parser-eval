@@ -9,7 +9,7 @@ pages_selected:
 - 25
 - 27
 - 29
-generated_utc: '2026-09-21T02:28:46+00:00'
+generated_utc: '2026-09-21T04:20:16+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -18,129 +18,133 @@ assertions:
   severity: critical
   page: 22
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 9,721,396,974.38
   forbid:
-  - 9,721,396,974.3
-  - 9721,396,974.38
+  - 9,721,396,97.438
   - '9721396974.38'
-  status: draft
+  status: auto_textlayer
   context: 9,721,396,974.38
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600809_2026-08-30_p22_am02
   type: amount
   severity: critical
   page: 22
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 9,766,895,738.57
   forbid:
-  - 9,766,895,738.5
-  - 9766,895,738.57
+  - 9,766,895,73.857
   - '9766895738.57'
-  status: draft
+  status: auto_textlayer
   context: 9,766,895,738.57
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600809_2026-08-30_p22_am03
   type: amount
   severity: critical
   page: 22
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 308,729.64
   forbid:
-  - 308,729.6
+  - 308,72.964
   - '308729.64'
-  status: draft
+  status: auto_textlayer
   context: 308,729.64
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600809_2026-08-30_p22_am04
   type: amount
   severity: critical
   page: 22
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 96,807.50
   forbid:
-  - 96,807.5
+  - 96,80.750
   - '96807.50'
-  status: draft
+  status: auto_textlayer
   context: 96,807.50
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600809_2026-08-30_p22_uc01
   type: unit_currency
   severity: critical
   page: 22
   eval_on: md
-  rule: exactly_once
-  target: 单位：山西杏花村汾酒厂股份有限公司
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  rule: exactly_n
+  n: 1
+  target: 单位：元 币种：人民币
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算
 - id: a_share_interim_new_600809_2026-08-30_p25_am01
   type: amount
   severity: critical
   page: 25
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 8,854,363,451.85
   forbid:
-  - 8,854,363,451.8
-  - 8854,363,451.85
+  - 8,854,363,45.185
   - '8854363451.85'
-  status: draft
+  status: auto_textlayer
   context: 8,854,363,451.85
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600809_2026-08-30_p25_am02
   type: amount
   severity: critical
   page: 25
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 8,825,665,837.16
   forbid:
-  - 8,825,665,837.1
-  - 8825,665,837.16
+  - 8,825,665,83.716
   - '8825665837.16'
-  status: draft
+  status: auto_textlayer
   context: 8,825,665,837.16
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600809_2026-08-30_p25_am03
   type: amount
   severity: critical
   page: 25
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 4,439,609,997.76
   forbid:
-  - 4,439,609,997.7
-  - 4439,609,997.76
+  - 4,439,609,99.776
   - '4439609997.76'
-  status: draft
+  status: auto_textlayer
   context: 4,439,609,997.76
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600809_2026-08-30_p25_am04
   type: amount
   severity: critical
   page: 25
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 652,451,650.46
   forbid:
-  - 652,451,650.4
-  - 652451,650.46
+  - 652,451,65.046
   - '652451650.46'
-  status: draft
+  status: auto_textlayer
   context: 652,451,650.46
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600809_2026-08-30_p25_uc01
   type: unit_currency
   severity: critical
   page: 25
   eval_on: md
-  rule: exactly_once
-  target: 单位：山西杏花村汾酒厂股份有限公司
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  rule: exactly_n
+  n: 1
+  target: 单位：元 币种：人民币
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算
 - id: a_share_interim_new_600809_2026-08-30_p27_pi01
   type: page_integrity
   severity: critical
@@ -173,66 +177,67 @@ assertions:
   severity: critical
   page: 27
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 2
   target: 21,044,387,808.34
   forbid:
-  - 21,044,387,808.3
-  - 21044,387,808.34
+  - 21,044,387,80.834
   - '21044387808.34'
-  status: draft
+  status: auto_textlayer
   context: 21,044,387,808.34
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600809_2026-08-30_p27_am02
   type: amount
   severity: critical
   page: 27
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 2
   target: 23,963,969,151.59
   forbid:
-  - 23,963,969,151.5
-  - 23963,969,151.59
+  - 23,963,969,15.159
   - '23963969151.59'
-  status: draft
+  status: auto_textlayer
   context: 23,963,969,151.59
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600809_2026-08-30_p27_am03
   type: amount
   severity: critical
   page: 27
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 12,242,345,838.79
   forbid:
-  - 12,242,345,838.7
-  - 12242,345,838.79
+  - 12,242,345,83.879
   - '12242345838.79'
-  status: draft
+  status: auto_textlayer
   context: 12,242,345,838.79
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600809_2026-08-30_p27_am04
   type: amount
   severity: critical
   page: 27
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 12,576,856,486.65
   forbid:
-  - 12,576,856,486.6
-  - 12576,856,486.65
+  - 12,576,856,48.665
   - '12576856486.65'
-  status: draft
+  status: auto_textlayer
   context: 12,576,856,486.65
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600809_2026-08-30_p27_uc01
   type: unit_currency
   severity: critical
   page: 27
   eval_on: md
-  rule: exactly_once
-  target: 单位：元
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  rule: exactly_n
+  n: 1
+  target: 单位：元 币种：人民币
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算
 - id: a_share_interim_new_600809_2026-08-30_p29_pi01
   type: page_integrity
   severity: critical
@@ -265,63 +270,64 @@ assertions:
   severity: critical
   page: 29
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 14,286,230,749.10
   forbid:
-  - 14,286,230,749.1
-  - 14286,230,749.10
+  - 14,286,230,74.910
   - '14286230749.10'
-  status: draft
+  status: auto_textlayer
   context: 14,286,230,749.10
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600809_2026-08-30_p29_am02
   type: amount
   severity: critical
   page: 29
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 15,184,992,437.94
   forbid:
-  - 15,184,992,437.9
-  - 15184,992,437.94
+  - 15,184,992,43.794
   - '15184992437.94'
-  status: draft
+  status: auto_textlayer
   context: 15,184,992,437.94
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600809_2026-08-30_p29_am03
   type: amount
   severity: critical
   page: 29
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 5,326,461,664.06
   forbid:
-  - 5,326,461,664.0
-  - 5326,461,664.06
+  - 5,326,461,66.406
   - '5326461664.06'
-  status: draft
+  status: auto_textlayer
   context: 5,326,461,664.06
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600809_2026-08-30_p29_am04
   type: amount
   severity: critical
   page: 29
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 5,165,512,919.77
   forbid:
-  - 5,165,512,919.7
-  - 5165,512,919.77
+  - 5,165,512,91.977
   - '5165512919.77'
-  status: draft
+  status: auto_textlayer
   context: 5,165,512,919.77
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_600809_2026-08-30_p29_uc01
   type: unit_currency
   severity: critical
   page: 29
   eval_on: md
-  rule: exactly_once
-  target: 单位：元
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  rule: exactly_n
+  n: 1
+  target: 单位：元 币种：人民币
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算
