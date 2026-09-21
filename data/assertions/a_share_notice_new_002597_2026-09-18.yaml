@@ -9,7 +9,7 @@ pages_selected:
 - 2
 - 3
 - 4
-generated_utc: '2026-09-21T02:28:47+00:00'
+generated_utc: '2026-09-21T04:20:17+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -45,66 +45,78 @@ assertions:
   severity: critical
   page: 1
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 2
   target: 6,191,637
   forbid:
-  - 6,191,63
-  - 6191,637
   - '6191637'
+  status: auto_textlayer
+  context: 户中的6,191,637 股不参与本次权益分派。
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
+- id: a_share_notice_new_002597_2026-09-18_p1_lp01
+  type: amount_label
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: label_proximity
+  max_gap: 120
+  target: 6,191,637
+  label: 户中的
   status: draft
   context: 户中的6,191,637 股不参与本次权益分派。
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
 - id: a_share_notice_new_002597_2026-09-18_p1_am02
   type: amount
   severity: critical
   page: 1
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 2
   target: 84,319,236.15
   forbid:
-  - 84,319,236.1
-  - 84319,236.15
+  - 84,319,23.615
   - '84319236.15'
-  status: draft
+  status: auto_textlayer
   context: 股本×10=84,319,236.15/568,319,878×10=1.483658 元，本次权益分派实施
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_notice_new_002597_2026-09-18_p1_am03
   type: amount
   severity: critical
   page: 1
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 2
   target: 568,319,878
   forbid:
-  - 568,319,87
-  - 568319,878
   - '568319878'
-  status: draft
+  status: auto_textlayer
   context: 股本×10=84,319,236.15/568,319,878×10=1.483658 元，本次权益分派实施
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_notice_new_002597_2026-09-18_p1_am04
   type: amount
   severity: critical
   page: 1
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 562,128,241
   forbid:
-  - 562,128,24
-  - 562128,241
   - '562128241'
-  status: draft
+  status: auto_textlayer
   context: 公司以总股本568,319,878 剔除6,191,637 股后的总股本562,128,241 股
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
-- id: a_share_notice_new_002597_2026-09-18_p1_uc01
-  type: unit_currency
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
+- id: a_share_notice_new_002597_2026-09-18_p1_lp04
+  type: amount_label
   severity: critical
   page: 1
   eval_on: md
-  rule: exactly_once
-  target: 元
+  rule: label_proximity
+  max_gap: 120
+  target: 562,128,241
+  label: 公司以总股本
   status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  context: 公司以总股本568,319,878 剔除6,191,637 股后的总股本562,128,241 股
+  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
 - id: a_share_notice_new_002597_2026-09-18_p2_pi01
   type: page_integrity
   severity: critical
@@ -137,52 +149,64 @@ assertions:
   severity: critical
   page: 2
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 568,319,878
   forbid:
-  - 568,319,87
-  - 568319,878
   - '568319878'
-  status: draft
+  status: auto_textlayer
   context: 1、本公司2026 年半年度权益分配方案为：公司以总股本568,319,878 剔
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_notice_new_002597_2026-09-18_p2_am02
   type: amount
   severity: critical
   page: 2
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 6,191,637
   forbid:
-  - 6,191,63
-  - 6191,637
   - '6191637'
+  status: auto_textlayer
+  context: 除回购专户持有6,191,637 股后的总股本562,128,241 股为基数，向全体股东
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
+- id: a_share_notice_new_002597_2026-09-18_p2_lp02
+  type: amount_label
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: label_proximity
+  max_gap: 120
+  target: 6,191,637
+  label: 除回购专户持有
   status: draft
   context: 除回购专户持有6,191,637 股后的总股本562,128,241 股为基数，向全体股东
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
 - id: a_share_notice_new_002597_2026-09-18_p2_am03
   type: amount
   severity: critical
   page: 2
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 562,128,241
   forbid:
-  - 562,128,24
-  - 562128,241
   - '562128241'
-  status: draft
+  status: auto_textlayer
   context: 除回购专户持有6,191,637 股后的总股本562,128,241 股为基数，向全体股东
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
-- id: a_share_notice_new_002597_2026-09-18_p2_uc01
-  type: unit_currency
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
+- id: a_share_notice_new_002597_2026-09-18_p2_lp03
+  type: amount_label
   severity: critical
   page: 2
   eval_on: md
-  rule: exactly_once
-  target: 元
+  rule: label_proximity
+  max_gap: 120
+  target: 562,128,241
+  label: 除回购专户持有
   status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  context: 除回购专户持有6,191,637 股后的总股本562,128,241 股为基数，向全体股东
+  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
 - id: a_share_notice_new_002597_2026-09-18_p3_pi01
   type: page_integrity
   severity: critical
@@ -215,35 +239,25 @@ assertions:
   severity: critical
   page: 3
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 84,319,236.15
   forbid:
-  - 84,319,236.1
-  - 84319,236.15
+  - 84,319,23.615
   - '84319236.15'
-  status: draft
+  status: auto_textlayer
   context: ×10=84,319,236.15/568,319,878×10=1.483658 元，本次权益分派实施后的
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_notice_new_002597_2026-09-18_p3_am02
   type: amount
   severity: critical
   page: 3
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 568,319,878
   forbid:
-  - 568,319,87
-  - 568319,878
   - '568319878'
-  status: draft
+  status: auto_textlayer
   context: ×10=84,319,236.15/568,319,878×10=1.483658 元，本次权益分派实施后的
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
-- id: a_share_notice_new_002597_2026-09-18_p3_uc01
-  type: unit_currency
-  severity: critical
-  page: 3
-  eval_on: md
-  rule: exactly_once
-  target: 元
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率

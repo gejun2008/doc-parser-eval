@@ -61,7 +61,8 @@ def apply_one(path):
         if not dec:
             continue
         if it.get("status") == "auto":
-            continue  # 自动类不接受人工改动
+            continue  # page_integrity 锚点为纯自动类，不接受人工改动
+        # auto_textlayer 可以被审计推翻：人工发现文本层 GT 错了就标 rejected
         new_status = dec.get("status")
         if new_status not in ("confirmed", "rejected"):
             continue

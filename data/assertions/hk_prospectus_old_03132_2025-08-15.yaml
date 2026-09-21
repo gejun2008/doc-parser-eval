@@ -13,19 +13,10 @@ pages_selected:
 - 104
 - 105
 - 148
-generated_utc: '2026-09-21T02:28:56+00:00'
+generated_utc: '2026-09-21T04:20:26+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
-- id: hk_prospectus_old_03132_2025-08-15_p5_uc01
-  type: unit_currency
-  severity: critical
-  page: 5
-  eval_on: md
-  rule: exactly_once
-  target: RMB M
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
 - id: hk_prospectus_old_03132_2025-08-15_p35_pi01
   type: page_integrity
   severity: critical
@@ -116,46 +107,76 @@ assertions:
   severity: critical
   page: 54
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 3
   target: 4,000
   forbid:
   - '4000'
+  status: auto_textlayer
+  context: HKD4,0001
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
+- id: hk_prospectus_old_03132_2025-08-15_p54_lp01
+  type: amount_label
+  severity: critical
+  page: 54
+  eval_on: md
+  rule: label_proximity
+  max_gap: 120
+  target: 4,000
+  label: HKD
   status: draft
   context: HKD4,0001
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
 - id: hk_prospectus_old_03132_2025-08-15_p54_am02
   type: amount
   severity: critical
   page: 54
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 14
   target: 1,000
   forbid:
   - '1000'
+  status: auto_textlayer
+  context: HKD1,0001
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
+- id: hk_prospectus_old_03132_2025-08-15_p54_lp02
+  type: amount_label
+  severity: critical
+  page: 54
+  eval_on: md
+  rule: label_proximity
+  max_gap: 120
+  target: 1,000
+  label: HKD
   status: draft
   context: HKD1,0001
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
 - id: hk_prospectus_old_03132_2025-08-15_p54_am03
   type: amount
   severity: critical
   page: 54
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 2
   target: 4,700
   forbid:
   - '4700'
-  status: draft
+  status: auto_textlayer
   context: HKD4,7009
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
-- id: hk_prospectus_old_03132_2025-08-15_p54_uc01
-  type: unit_currency
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
+- id: hk_prospectus_old_03132_2025-08-15_p54_lp03
+  type: amount_label
   severity: critical
   page: 54
   eval_on: md
-  rule: exactly_once
-  target: HKD
+  rule: label_proximity
+  max_gap: 120
+  target: 4,700
+  label: HKD
   status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  context: HKD4,7009
+  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
 - id: hk_prospectus_old_03132_2025-08-15_p56_pi01
   type: page_integrity
   severity: critical
@@ -211,15 +232,6 @@ assertions:
   target: which would be in the S&P GSCI on 15 September 2020 (which are the November 2020 WTI
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: hk_prospectus_old_03132_2025-08-15_p104_uc01
-  type: unit_currency
-  severity: critical
-  page: 104
-  eval_on: md
-  rule: exactly_once
-  target: USD
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
 - id: hk_prospectus_old_03132_2025-08-15_p105_pi01
   type: page_integrity
   severity: critical

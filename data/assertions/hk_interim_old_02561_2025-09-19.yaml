@@ -9,7 +9,7 @@ pages_selected:
 - 24
 - 30
 - 31
-generated_utc: '2026-09-21T02:28:52+00:00'
+generated_utc: '2026-09-21T04:20:22+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -75,43 +75,76 @@ assertions:
   severity: critical
   page: 24
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 8,845,500
   forbid:
-  - 8,845,50
-  - 8845,500
   - '8845500'
+  status: auto_textlayer
+  context: 'As of the date of this interim report, there were outstanding RSUs representing '
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
+- id: hk_interim_old_02561_2025-09-19_p24_lp01
+  type: amount_label
+  severity: critical
+  page: 24
+  eval_on: md
+  rule: label_proximity
+  max_gap: 120
+  target: 8,845,500
+  label: As of the date of this interi
   status: draft
   context: 'As of the date of this interim report, there were outstanding RSUs representing '
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
 - id: hk_interim_old_02561_2025-09-19_p24_am02
   type: amount
   severity: critical
   page: 24
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 5,000,000
   forbid:
-  - 5,000,00
-  - 5000,000
   - '5000000'
+  status: auto_textlayer
+  context: granted to 23 grantees under the Equity Incentive Plan, among which RSUs represe
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
+- id: hk_interim_old_02561_2025-09-19_p24_lp02
+  type: amount_label
+  severity: critical
+  page: 24
+  eval_on: md
+  rule: label_proximity
+  max_gap: 120
+  target: 5,000,000
+  label: granted to
   status: draft
   context: granted to 23 grantees under the Equity Incentive Plan, among which RSUs represe
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
 - id: hk_interim_old_02561_2025-09-19_p24_am03
   type: amount
   severity: critical
   page: 24
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 3,845,500
   forbid:
-  - 3,845,50
-  - 3845,500
   - '3845500'
+  status: auto_textlayer
+  context: granted to Mr. Lu and held by VPP LU Limited, and RSUs representing 3,845,500 Sh
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
+- id: hk_interim_old_02561_2025-09-19_p24_lp03
+  type: amount_label
+  severity: critical
+  page: 24
+  eval_on: md
+  rule: label_proximity
+  max_gap: 120
+  target: 3,845,500
+  label: granted to Mr
   status: draft
   context: granted to Mr. Lu and held by VPP LU Limited, and RSUs representing 3,845,500 Sh
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
 - id: hk_interim_old_02561_2025-09-19_p30_pi01
   type: page_integrity
   severity: critical
@@ -171,55 +204,60 @@ assertions:
   severity: critical
   page: 31
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 5,301
   forbid:
   - '5301'
-  status: draft
+  status: auto_textlayer
   context: 5,301
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_interim_old_02561_2025-09-19_p31_am02
   type: amount
   severity: critical
   page: 31
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 7,248
   forbid:
   - '7248'
-  status: draft
+  status: auto_textlayer
   context: 7,248
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_interim_old_02561_2025-09-19_p31_am03
   type: amount
   severity: critical
   page: 31
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: (7,062)
   forbid:
   - '7062'
-  status: draft
+  status: auto_textlayer
   context: (7,062)
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_interim_old_02561_2025-09-19_p31_am04
   type: amount
   severity: critical
   page: 31
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 1,582
   forbid:
   - '1582'
-  status: draft
+  status: auto_textlayer
   context: 1,582
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: hk_interim_old_02561_2025-09-19_p31_uc01
   type: unit_currency
   severity: critical
   page: 31
   eval_on: md
-  rule: exactly_once
-  target: RMB
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  rule: exactly_n
+  n: 2
+  target: RMB’000
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算

@@ -9,7 +9,7 @@ pages_selected:
 - 96
 - 178
 - 187
-generated_utc: '2026-09-21T02:28:47+00:00'
+generated_utc: '2026-09-21T04:20:17+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -45,130 +45,133 @@ assertions:
   severity: critical
   page: 94
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 21,330,699.98
   forbid:
-  - 21,330,699.9
-  - 21330,699.98
+  - 21,330,69.998
   - '21330699.98'
-  status: draft
+  status: auto_textlayer
   context: 21,330,699.98
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_old_688515_2025-08-29_p94_am02
   type: amount
   severity: critical
   page: 94
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 3,817,349.88
   forbid:
-  - 3,817,349.8
-  - 3817,349.88
+  - 3,817,34.988
   - '3817349.88'
-  status: draft
+  status: auto_textlayer
   context: 3,817,349.88
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_old_688515_2025-08-29_p94_am03
   type: amount
   severity: critical
   page: 94
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 21,964,667.72
   forbid:
-  - 21,964,667.7
-  - 21964,667.72
+  - 21,964,66.772
   - '21964667.72'
-  status: draft
+  status: auto_textlayer
   context: 21,964,667.72
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_old_688515_2025-08-29_p94_am04
   type: amount
   severity: critical
   page: 94
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 8,402,019.93
   forbid:
-  - 8,402,019.9
-  - 8402,019.93
+  - 8,402,01.993
   - '8402019.93'
-  status: draft
+  status: auto_textlayer
   context: 8,402,019.93
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_old_688515_2025-08-29_p94_uc01
   type: unit_currency
   severity: critical
   page: 94
   eval_on: md
-  rule: exactly_once
-  target: 单位:裕太微电子股份有限公司
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  rule: exactly_n
+  n: 1
+  target: 单位:元 币种:人民币
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算
 - id: a_share_interim_old_688515_2025-08-29_p96_am01
   type: amount
   severity: critical
   page: 96
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 537,495.41
   forbid:
-  - 537,495.4
+  - 537,49.541
   - '537495.41'
-  status: draft
+  status: auto_textlayer
   context: 537,495.41
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_old_688515_2025-08-29_p96_am02
   type: amount
   severity: critical
   page: 96
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 3,581,871.17
   forbid:
-  - 3,581,871.1
-  - 3581,871.17
+  - 3,581,87.117
   - '3581871.17'
-  status: draft
+  status: auto_textlayer
   context: 3,581,871.17
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_old_688515_2025-08-29_p96_am03
   type: amount
   severity: critical
   page: 96
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 21,330,699.98
   forbid:
-  - 21,330,699.9
-  - 21330,699.98
+  - 21,330,69.998
   - '21330699.98'
-  status: draft
+  status: auto_textlayer
   context: 21,330,699.98
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_old_688515_2025-08-29_p96_am04
   type: amount
   severity: critical
   page: 96
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 3,817,349.88
   forbid:
-  - 3,817,349.8
-  - 3817,349.88
+  - 3,817,34.988
   - '3817349.88'
-  status: draft
+  status: auto_textlayer
   context: 3,817,349.88
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_old_688515_2025-08-29_p96_uc01
   type: unit_currency
   severity: critical
   page: 96
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 单位:元 币种:人民币
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算
 - id: a_share_interim_old_688515_2025-08-29_p178_pi01
   type: page_integrity
   severity: critical
@@ -192,64 +195,67 @@ assertions:
   severity: critical
   page: 178
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 4
   target: 100,200.00
   forbid:
-  - 100,200.0
+  - 100,20.000
   - '100200.00'
-  status: draft
+  status: auto_textlayer
   context: 100,200.00
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_old_688515_2025-08-29_p178_am02
   type: amount
   severity: critical
   page: 178
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 13,041,854.58
   forbid:
-  - 13,041,854.5
-  - 13041,854.58
+  - 13,041,85.458
   - '13041854.58'
-  status: draft
+  status: auto_textlayer
   context: 13,041,854.58
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_old_688515_2025-08-29_p178_am03
   type: amount
   severity: critical
   page: 178
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 932,259.35
   forbid:
-  - 932,259.3
+  - 932,25.935
   - '932259.35'
-  status: draft
+  status: auto_textlayer
   context: 932,259.35
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_old_688515_2025-08-29_p178_am04
   type: amount
   severity: critical
   page: 178
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 6,673,653.30
   forbid:
-  - 6,673,653.3
-  - 6673,653.30
+  - 6,673,65.330
   - '6673653.30'
-  status: draft
+  status: auto_textlayer
   context: 6,673,653.30
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_old_688515_2025-08-29_p178_uc01
   type: unit_currency
   severity: critical
   page: 178
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 单位：元
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  status: auto_textlayer
+  note: 文本层派生：验单位/币种表头是否保留。不验金额有没有被换算
 - id: a_share_interim_old_688515_2025-08-29_p187_pi01
   type: page_integrity
   severity: critical
@@ -282,63 +288,54 @@ assertions:
   severity: critical
   page: 187
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 6,673,653.30
   forbid:
-  - 6,673,653.3
-  - 6673,653.30
+  - 6,673,65.330
   - '6673653.30'
-  status: draft
+  status: auto_textlayer
   context: 6,673,653.30
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_old_688515_2025-08-29_p187_am02
   type: amount
   severity: critical
   page: 187
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 6,368,201.28
   forbid:
-  - 6,368,201.2
-  - 6368,201.28
+  - 6,368,20.128
   - '6368201.28'
-  status: draft
+  status: auto_textlayer
   context: 6,368,201.28
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_old_688515_2025-08-29_p187_am03
   type: amount
   severity: critical
   page: 187
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 13,041,854.58
   forbid:
-  - 13,041,854.5
-  - 13041,854.58
+  - 13,041,85.458
   - '13041854.58'
-  status: draft
+  status: auto_textlayer
   context: 13,041,854.58
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_old_688515_2025-08-29_p187_am04
   type: amount
   severity: critical
   page: 187
   eval_on: md
-  rule: exactly_once
+  rule: exactly_n
+  n: 1
   target: 67,235,129.67
   forbid:
-  - 67,235,129.6
-  - 67235,129.67
+  - 67,235,12.967
   - '67235129.67'
-  status: draft
+  status: auto_textlayer
   context: 67,235,129.67
-  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
-- id: a_share_interim_old_688515_2025-08-29_p187_uc01
-  type: unit_currency
-  severity: critical
-  page: 187
-  eval_on: md
-  rule: exactly_once
-  target: 元
-  status: draft
-  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
