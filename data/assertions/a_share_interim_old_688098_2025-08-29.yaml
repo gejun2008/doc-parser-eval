@@ -9,7 +9,7 @@ pages_selected:
 - 170
 - 202
 - 211
-generated_utc: '2026-09-21T01:41:52+00:00'
+generated_utc: '2026-09-21T02:28:46+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -118,7 +118,7 @@ assertions:
   page: 170
   eval_on: md
   rule: exactly_once
-  target: (3). 履约义务的说明
+  target: (4). 分摊至剩余履约义务的说明
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_old_688098_2025-08-29_p170_pi03
@@ -127,7 +127,7 @@ assertions:
   page: 170
   eval_on: md
   rule: exactly_once
-  target: (4). 分摊至剩余履约义务的说明
+  target: (5). 重大合同变更或重大交易价格调整
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_old_688098_2025-08-29_p170_am01
@@ -195,24 +195,6 @@ assertions:
   target: 单位：元 币种：人民币
   status: draft
   note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
-- id: a_share_interim_old_688098_2025-08-29_p202_pi01
-  type: page_integrity
-  severity: critical
-  page: 202
-  eval_on: md
-  rule: exactly_once
-  target: 164,779,915.17
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_old_688098_2025-08-29_p202_pi02
-  type: page_integrity
-  severity: critical
-  page: 202
-  eval_on: md
-  rule: exactly_once
-  target: 1,647,799.15
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_old_688098_2025-08-29_p202_am01
   type: amount
   severity: critical
@@ -294,15 +276,6 @@ assertions:
   eval_on: md
   rule: exactly_once
   target: 4、 营业收入和营业成本
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_old_688098_2025-08-29_p211_pi03
-  type: page_integrity
-  severity: critical
-  page: 211
-  eval_on: md
-  rule: exactly_once
-  target: 49,270,599.00 124,818,752.09 51,980,024.77
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_old_688098_2025-08-29_p211_am01

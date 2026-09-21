@@ -9,28 +9,10 @@ pages_selected:
 - 70
 - 72
 - 80
-generated_utc: '2026-09-21T01:41:51+00:00'
+generated_utc: '2026-09-21T02:28:46+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
-- id: a_share_interim_new_688458_2026-08-30_p68_pi01
-  type: page_integrity
-  severity: critical
-  page: 68
-  eval_on: md
-  rule: exactly_once
-  target: 1,508,859,351.02
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_new_688458_2026-08-30_p68_pi02
-  type: page_integrity
-  severity: critical
-  page: 68
-  eval_on: md
-  rule: exactly_once
-  target: 1,722,795,259.95
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_new_688458_2026-08-30_p68_am01
   type: amount
   severity: critical
@@ -96,33 +78,6 @@ assertions:
   target: 单位：美芯晟科技（北京）股份有限公司
   status: draft
   note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
-- id: a_share_interim_new_688458_2026-08-30_p70_pi01
-  type: page_integrity
-  severity: critical
-  page: 70
-  eval_on: md
-  rule: exactly_once
-  target: 7,788,332.55
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_new_688458_2026-08-30_p70_pi02
-  type: page_integrity
-  severity: critical
-  page: 70
-  eval_on: md
-  rule: exactly_once
-  target: 219,429,398.81
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_new_688458_2026-08-30_p70_pi03
-  type: page_integrity
-  severity: critical
-  page: 70
-  eval_on: md
-  rule: exactly_once
-  target: 139,445,321.77
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_new_688458_2026-08-30_p70_am01
   type: amount
   severity: critical
@@ -188,33 +143,6 @@ assertions:
   target: 单位：美芯晟科技（北京）股份有限公司
   status: draft
   note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
-- id: a_share_interim_new_688458_2026-08-30_p72_pi01
-  type: page_integrity
-  severity: critical
-  page: 72
-  eval_on: md
-  rule: exactly_once
-  target: 187,036,886.15
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_new_688458_2026-08-30_p72_pi02
-  type: page_integrity
-  severity: critical
-  page: 72
-  eval_on: md
-  rule: exactly_once
-  target: 137,651,454.68
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_new_688458_2026-08-30_p72_pi03
-  type: page_integrity
-  severity: critical
-  page: 72
-  eval_on: md
-  rule: exactly_once
-  target: -8,105,804.99
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_new_688458_2026-08-30_p72_am01
   type: amount
   severity: critical

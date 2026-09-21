@@ -9,7 +9,7 @@ pages_selected:
 - 62
 - 64
 - 66
-generated_utc: '2026-09-21T01:41:51+00:00'
+generated_utc: '2026-09-21T02:28:46+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -37,7 +37,7 @@ assertions:
   page: 24
   eval_on: md
   rule: exactly_once
-  target: 100% 137,569.81
+  target: 报告期内取得和处置子公司的情况
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_new_603733_2026-08-30_p24_am01
@@ -101,33 +101,6 @@ assertions:
   target: 单位：万元币种：人民币
   status: draft
   note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
-- id: a_share_interim_new_603733_2026-08-30_p62_pi01
-  type: page_integrity
-  severity: critical
-  page: 62
-  eval_on: md
-  rule: exactly_once
-  target: 1,866,919,160.41
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_new_603733_2026-08-30_p62_pi02
-  type: page_integrity
-  severity: critical
-  page: 62
-  eval_on: md
-  rule: exactly_once
-  target: 1,805,154,002.76
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_new_603733_2026-08-30_p62_pi03
-  type: page_integrity
-  severity: critical
-  page: 62
-  eval_on: md
-  rule: exactly_once
-  target: 8,984,756,394.93
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_new_603733_2026-08-30_p62_am01
   type: amount
   severity: critical
@@ -193,33 +166,6 @@ assertions:
   target: 单位：仙鹤股份有限公司
   status: draft
   note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
-- id: a_share_interim_new_603733_2026-08-30_p64_pi01
-  type: page_integrity
-  severity: critical
-  page: 64
-  eval_on: md
-  rule: exactly_once
-  target: 10,618,603,327.11
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_new_603733_2026-08-30_p64_pi02
-  type: page_integrity
-  severity: critical
-  page: 64
-  eval_on: md
-  rule: exactly_once
-  target: 10,524,701,355.50
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_new_603733_2026-08-30_p64_pi03
-  type: page_integrity
-  severity: critical
-  page: 64
-  eval_on: md
-  rule: exactly_once
-  target: 17,308,229,682.41
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_new_603733_2026-08-30_p64_am01
   type: amount
   severity: critical
@@ -285,33 +231,6 @@ assertions:
   target: 单位：仙鹤股份有限公司
   status: draft
   note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
-- id: a_share_interim_new_603733_2026-08-30_p66_pi01
-  type: page_integrity
-  severity: critical
-  page: 66
-  eval_on: md
-  rule: exactly_once
-  target: 35,113,569.21
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_new_603733_2026-08-30_p66_pi02
-  type: page_integrity
-  severity: critical
-  page: 66
-  eval_on: md
-  rule: exactly_once
-  target: 38,845,955.13
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_new_603733_2026-08-30_p66_pi03
-  type: page_integrity
-  severity: critical
-  page: 66
-  eval_on: md
-  rule: exactly_once
-  target: 14,861,819.83
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_new_603733_2026-08-30_p66_am01
   type: amount
   severity: critical

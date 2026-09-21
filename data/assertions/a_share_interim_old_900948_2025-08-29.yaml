@@ -9,7 +9,7 @@ pages_selected:
 - 16
 - 36
 - 38
-generated_utc: '2026-09-21T01:41:52+00:00'
+generated_utc: '2026-09-21T02:28:47+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -19,7 +19,7 @@ assertions:
   page: 11
   eval_on: md
   rule: exactly_once
-  target: 1,562,986.20
+  target: （2）主营业务分地区情况
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_old_900948_2025-08-29_p11_pi02
@@ -28,7 +28,7 @@ assertions:
   page: 11
   eval_on: md
   rule: exactly_once
-  target: 1,137,261.19
+  target: 营业收入比上年增减（%）
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_old_900948_2025-08-29_p11_pi03
@@ -37,7 +37,7 @@ assertions:
   page: 11
   eval_on: md
   rule: exactly_once
-  target: 1,460,145.58
+  target: (二) 非主营业务导致利润重大变化的说明
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_old_900948_2025-08-29_p11_am01
@@ -121,15 +121,6 @@ assertions:
   target: 主要子公司及对公司净利润影响达10%以上的参股公司情况
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_old_900948_2025-08-29_p16_pi03
-  type: page_integrity
-  severity: critical
-  page: 16
-  eval_on: md
-  rule: exactly_once
-  target: 1,080,000,000.00 13,700,013,056.39 12,529,623,935.39 2,113,860,536.25 956,419,998.84 799,282,359.55
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_old_900948_2025-08-29_p16_am01
   type: amount
   severity: critical
@@ -195,24 +186,6 @@ assertions:
   target: 单位：元
   status: draft
   note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
-- id: a_share_interim_old_900948_2025-08-29_p36_pi01
-  type: page_integrity
-  severity: critical
-  page: 36
-  eval_on: md
-  rule: exactly_once
-  target: 22,196,467,992.73
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_old_900948_2025-08-29_p36_pi02
-  type: page_integrity
-  severity: critical
-  page: 36
-  eval_on: md
-  rule: exactly_once
-  target: 18,901,630,401.95
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_old_900948_2025-08-29_p36_am01
   type: amount
   severity: critical
@@ -278,33 +251,6 @@ assertions:
   target: 单位：内蒙古伊泰煤炭股份有限公司
   status: draft
   note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
-- id: a_share_interim_old_900948_2025-08-29_p38_pi01
-  type: page_integrity
-  severity: critical
-  page: 38
-  eval_on: md
-  rule: exactly_once
-  target: 25,090,488,889.46
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_old_900948_2025-08-29_p38_pi02
-  type: page_integrity
-  severity: critical
-  page: 38
-  eval_on: md
-  rule: exactly_once
-  target: 13,127,332,974.40
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_old_900948_2025-08-29_p38_pi03
-  type: page_integrity
-  severity: critical
-  page: 38
-  eval_on: md
-  rule: exactly_once
-  target: 39,000,393,152.82
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_old_900948_2025-08-29_p38_am01
   type: amount
   severity: critical

@@ -9,7 +9,7 @@ pages_selected:
 - 20
 - 224
 - 225
-generated_utc: '2026-09-21T01:41:49+00:00'
+generated_utc: '2026-09-21T02:28:44+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -111,7 +111,7 @@ assertions:
   page: 20
   eval_on: md
   rule: exactly_once
-  target: 41,519,357.72
+  target: 相关财务指标发生较大变化的原因
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_old_002310_2026-04-30_p20_pi02
@@ -120,7 +120,7 @@ assertions:
   page: 20
   eval_on: md
   rule: exactly_once
-  target: 98,418,084.54
+  target: 公司根据重整计划执行相关安排，完成了原有传统生态环保业务相关资产剥离与结构优化，全面布
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_old_002310_2026-04-30_p20_pi03
@@ -129,7 +129,7 @@ assertions:
   page: 20
   eval_on: md
   rule: exactly_once
-  target: 50,075,546.84
+  target: 局新能源领域，主营业务构成发生重大调整。受业务结构优化及资产出清影响，公司合并报表范围内子
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_old_002310_2026-04-30_p20_am01
@@ -296,15 +296,6 @@ assertions:
   eval_on: md
   rule: exactly_once
   target: 按组合计提坏账准备：-12,858,358.12
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_old_002310_2026-04-30_p225_pi02
-  type: page_integrity
-  severity: critical
-  page: 225
-  eval_on: md
-  rule: exactly_once
-  target: 1,168,230.02
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_old_002310_2026-04-30_p225_am01

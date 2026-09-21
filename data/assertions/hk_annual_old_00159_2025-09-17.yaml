@@ -9,40 +9,10 @@ pages_selected:
 - 80
 - 86
 - 108
-generated_utc: '2026-09-21T01:41:54+00:00'
+generated_utc: '2026-09-21T02:28:49+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
-- id: hk_annual_old_00159_2025-09-17_p2_pi01
-  type: page_integrity
-  severity: critical
-  page: 2
-  eval_on: md
-  rule: exactly_once
-  target: Corporate Information..................................................................................................................................................................
-    2
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: hk_annual_old_00159_2025-09-17_p2_pi02
-  type: page_integrity
-  severity: critical
-  page: 2
-  eval_on: md
-  rule: exactly_once
-  target: Chairman’s Message....................................................................................................................................................................
-    3
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: hk_annual_old_00159_2025-09-17_p2_pi03
-  type: page_integrity
-  severity: critical
-  page: 2
-  eval_on: md
-  rule: exactly_once
-  target: Management Discussion and Analysis.........................................................................................................................................
-    4
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: hk_annual_old_00159_2025-09-17_p80_pi01
   type: page_integrity
   severity: critical

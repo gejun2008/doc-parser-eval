@@ -85,3 +85,57 @@ bbox 会被默认当成像素坐标用——**这是一个会静默出错的集�
 厂商换 prompt、换采样参数、换权重版本都不会改变 API 契约，客户端无从察觉。
 端点只回显别名 `inf-mllm`，不含档位与版本号（t0 §3）——
 **合同里必须要求版本号可查、变更需通知**，否则今天测的和明天跑的不是同一个东西。
+
+---
+
+# 补充（2026-09-21）：OCR 流水线 ↔ 纯生成 VLM 是一条谱系，不是二分
+
+上文把 inf-mllm 和「OCR 流水线」对立着写，那是为了说清它不是 OCR。
+但擂台表里的对手（vendor-benchmark-critique.md）并不都在同一端，
+报告里用二分法会失真。真实的谱系是这样：
+
+| 位置 | 代表 | 框从哪来 | 有无置信度 | 确定性 |
+|---|---|---|---|---|
+| 纯流水线 | Tesseract、PP-OCRv5、EasyOCR、docTR | 检测模型（DBNet/CRAFT） | 有，逐词/逐行 | 有 |
+| 商业文档服务 | **Azure DI**、Textract、Google DocAI、ABBYY | 检测模型 | 有，逐 span | 有 |
+| **混合** | **PaddleOCR-VL、MinerU2.5** | **检测模型**（PP-DocLayout / DocLayout-YOLO 等） | 检测段有 | 检测段有，识别段无 |
+| 纯生成 | **Infinity-Parser2**、dots.ocr、Qwen-VL 直接提示 | **模型生成的 token** | **无** | **无** |
+
+**这解释了一件事**：擂台表里 PaddleOCR-VL 和 MinerU2.5 虽然也叫 VLM，
+但它们的 bbox 来自真实检测器，几何可验证、带分数、不会幻觉。
+**Infinity-Parser2 处在谱系最右端，把检测器整个去掉了。**
+
+## 这条谱系怎么读：它放弃了什么，换来了什么
+
+**放弃**（三条全是银行最需要的）：逐字段置信度（t0 §7 已测：logprobs 被静默忽略）、
+确定性（t0 §9 已测：temperature 0 下仍漂移）、几何可验证的 bbox（本文上半部分）。
+外加输出长度预算这个流水线根本不存在的失败模式（t0 §8，120 页里 1 页触发）。
+
+**换来**：表格结构。vendor-benchmark-critique.md §2.2 按厂商自己的数算出来，
+他们唯一的显著优势就在 Table Acc（相对次优 1.24×），字符准确率只有 1.01×。
+
+**报告写法**：不要写「VLM 比 OCR 好/差」。写
+**「Infinity-Parser2 用置信度、确定性、几何 bbox 三样东西，换了表格结构上的 1.24×。
+这笔交易在 HSBC 场景下是否划算」** ——这才是决策问题的正确形状。
+Azure DI 在谱系另一端，三样都有。
+
+## 没有任何一个被引用的 benchmark 测 bbox
+
+| benchmark | 测什么 |
+|---|---|
+| olmOCR-Bench | `present` / `absent` / `order` / `table` / `math` 五类，**无 layout/bbox 类** |
+| 厂商 Financial Benchmark | Page / Char / Table / Cell Acc，**无 bbox 指标** |
+| ParseBench | 未公开细则 |
+
+olmOCR-Bench 的类型构成有我们自己跑的数据为证：
+`runs/inf-mllm_doc2md_20260918T065831Z/olmocr_results.csv` 的 `type` 列只有
+table 187 / present 162 / math 105 / order 90 / absent 60。
+
+**含义**：bbox 是下游人工复核、版面还原、定位取证、脱敏这些工作流的唯一依据，
+而厂商拿来证明实力的两套 benchmark 一个都不测它。
+纯生成模型在这一项上的表现处于**无人测量**状态——
+这不是「测出来不好」，是「没人测」，两者在报告里要分清。
+
+**动作**：vendor-benchmark-critique.md §4 的反证清单加一条 R8，
+在自建集上做 bbox 专项：把模型返回的框按 0–1000 还原后画回原图，
+人工抽检 IoU 与「文字对但框错」的比例。这是全报告里唯一会有的 bbox 数据。

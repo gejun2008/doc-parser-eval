@@ -9,7 +9,7 @@ pages_selected:
 - 39
 - 197
 - 216
-generated_utc: '2026-09-21T01:41:50+00:00'
+generated_utc: '2026-09-21T02:28:45+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -19,7 +19,7 @@ assertions:
   page: 34
   eval_on: md
   rule: exactly_once
-  target: 10,272,240.00
+  target: 主营业务分行业、分产品、分地区、分销售模式情况的说明
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_older_688386_2025-04-29_p34_pi02
@@ -28,7 +28,7 @@ assertions:
   page: 34
   eval_on: md
   rule: exactly_once
-  target: 9,501,472.53
+  target: 由于公司线束业务目前规模较小，暂时列入其他产品列示。
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_older_688386_2025-04-29_p34_pi03
@@ -37,7 +37,7 @@ assertions:
   page: 34
   eval_on: md
   rule: exactly_once
-  target: 490,289,683.11 269,053,479.24
+  target: (2). 产销量情况分析表
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_older_688386_2025-04-29_p34_am01
@@ -203,16 +203,7 @@ assertions:
   page: 197
   eval_on: md
   rule: exactly_once
-  target: 512,846,504.09
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_older_688386_2025-04-29_p197_pi03
-  type: page_integrity
-  severity: critical
-  page: 197
-  eval_on: md
-  rule: exactly_once
-  target: 271,910,948.57
+  target: ePTFE 微透产品 162,496,379.21
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_older_688386_2025-04-29_p197_am01
@@ -287,24 +278,6 @@ assertions:
   eval_on: md
   rule: exactly_once
   target: (3). 重要联营企业的主要财务信息
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_older_688386_2025-04-29_p216_pi02
-  type: page_integrity
-  severity: critical
-  page: 216
-  eval_on: md
-  rule: exactly_once
-  target: 42,604,332.40 161,157,070.78 118,924,780.33 155,726,702.69
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_older_688386_2025-04-29_p216_pi03
-  type: page_integrity
-  severity: critical
-  page: 216
-  eval_on: md
-  rule: exactly_once
-  target: 404,521,363.52 209,574,101.40 285,878,272.15
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_older_688386_2025-04-29_p216_am01

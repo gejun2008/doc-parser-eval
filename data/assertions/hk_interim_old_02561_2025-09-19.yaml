@@ -9,7 +9,7 @@ pages_selected:
 - 24
 - 30
 - 31
-generated_utc: '2026-09-21T01:41:57+00:00'
+generated_utc: '2026-09-21T02:28:52+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -136,7 +136,7 @@ assertions:
   page: 30
   eval_on: md
   rule: exactly_once
-  target: 'Tel 曢婘: +852 2846 9888'
+  target: Quarry Bay, Hong Kong
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: hk_interim_old_02561_2025-09-19_p31_pi01

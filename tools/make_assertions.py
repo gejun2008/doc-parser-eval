@@ -46,8 +46,15 @@ UNIT_RE = re.compile(
     re.I)
 
 
-def anchors(page_text, doc_text, n=3, min_len=12):
-    """取 n 条长度 ≥ min_len 且在全文唯一的锚点串。
+# 锚点必须含足够的文字内容。纯数字行不能当锚点：
+# 报表里同一金额在本期/上期两列出现是正常的，用 exactly_once 判必然假失败；
+# 而金额的正确性本来就归 amount 类管，不该混进「漏页与幻觉」这一类。
+# 这个教训来自第一版：58 条失败里有 8 条是同一金额出现两次的误判。
+WORD_RE = re.compile(r"[\u4e00-\u9fff\u3400-\u4dbfA-Za-z]")
+
+
+def anchors(page_text, doc_text, n=3, min_len=12, min_words=8):
+    """取 n 条长度 ≥ min_len、含 ≥ min_words 个文字字符、且在全文唯一的锚点串。
 
     唯一性是关键：重复出现的串无法区分「这一页漏了」和「别处还有」。
     """
@@ -56,6 +63,11 @@ def anchors(page_text, doc_text, n=3, min_len=12):
         line = re.sub(r"\s+", " ", line)
         if len(line) < min_len or len(out) >= n:
             continue
+        words = len(WORD_RE.findall(line))
+        if words < min_words:
+            continue          # 纯数字/符号行
+        if words / len(line) < 0.3:
+            continue          # 文字占比过低，实质仍是数字行
         if any(line in o or o in line for o in out):
             continue
         if doc_text.count(line) == 1:
@@ -95,6 +107,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--doc-id", action="append")
     ap.add_argument("--amounts-per-page", type=int, default=4)
+    ap.add_argument("--force", action="store_true", help="覆盖已含人工审核结果的文件")
     a = ap.parse_args()
 
     rows = list(csv.DictReader(PAGES.open(encoding="utf-8")))
@@ -105,6 +118,16 @@ def main():
         by_doc[r["doc_id"]].append(r)
 
     OUT.mkdir(parents=True, exist_ok=True)
+    if not a.force:
+        reviewed = []
+        for f in OUT.glob("*.yaml"):
+            d = yaml.safe_load(f.read_text(encoding="utf-8"))
+            if any(i.get("status") in ("confirmed", "rejected") for i in d["assertions"]):
+                reviewed.append(f.name)
+        if reviewed:
+            raise SystemExit(
+                f"！{len(reviewed)} 份文件已含人工审核结果，重新生成会覆盖掉。"
+                f"\n  例如 {reviewed[:3]}\n  确认要重来请加 --force")
     stats = Counter()
     for doc_id, prs in sorted(by_doc.items()):
         meta = prs[0]
