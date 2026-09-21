@@ -9,7 +9,7 @@ pages_selected:
 - 14
 - 18
 - 79
-generated_utc: '2026-09-21T01:41:49+00:00'
+generated_utc: '2026-09-21T02:28:44+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -28,7 +28,7 @@ assertions:
   page: 9
   eval_on: md
   rule: exactly_once
-  target: 114,808,914.75
+  target: 归属于上市公司股东的扣除非
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_old_300572_2026-04-30_p9_pi03
@@ -37,7 +37,7 @@ assertions:
   page: 9
   eval_on: md
   rule: exactly_once
-  target: 105,066,765.49
+  target: 上述财务指标或其加总数是否与公司已披露季度报告、半年度报告相关财务指标存在重大差异
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_old_300572_2026-04-30_p9_am01
@@ -111,25 +111,7 @@ assertions:
   page: 14
   eval_on: md
   rule: exactly_once
-  target: 245,934,627.19
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_old_300572_2026-04-30_p14_pi02
-  type: page_integrity
-  severity: critical
-  page: 14
-  eval_on: md
-  rule: exactly_once
-  target: 5,700,069.10
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_old_300572_2026-04-30_p14_pi03
-  type: page_integrity
-  severity: critical
-  page: 14
-  eval_on: md
-  rule: exactly_once
-  target: 193,290,292.63
+  target: （2）占公司营业收入或营业利润10%以上的行业、产品、地区、销售模式的情况
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_old_300572_2026-04-30_p14_am01
@@ -289,24 +271,6 @@ assertions:
   target: 元
   status: draft
   note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
-- id: a_share_annual_old_300572_2026-04-30_p79_pi01
-  type: page_integrity
-  severity: critical
-  page: 79
-  eval_on: md
-  rule: exactly_once
-  target: 1,717,182,499.49
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_old_300572_2026-04-30_p79_pi02
-  type: page_integrity
-  severity: critical
-  page: 79
-  eval_on: md
-  rule: exactly_once
-  target: 1,683,200,772.68
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_old_300572_2026-04-30_p79_am01
   type: amount
   severity: critical

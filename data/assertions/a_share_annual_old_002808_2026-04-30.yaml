@@ -9,7 +9,7 @@ pages_selected:
 - 16
 - 17
 - 19
-generated_utc: '2026-09-21T01:41:49+00:00'
+generated_utc: '2026-09-21T02:28:44+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -203,7 +203,7 @@ assertions:
   page: 17
   eval_on: md
   rule: exactly_once
-  target: 288,095,092.00
+  target: 说明经营季节性（或周期性）发生的原因及波动风险
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_old_002808_2026-04-30_p17_pi02
@@ -212,7 +212,7 @@ assertions:
   page: 17
   eval_on: md
   rule: exactly_once
-  target: 129,430,928.16
+  target: （2）占公司营业收入或营业利润10%以上的行业、产品、地区、销售模式的情况
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_old_002808_2026-04-30_p17_pi03
@@ -221,7 +221,7 @@ assertions:
   page: 17
   eval_on: md
   rule: exactly_once
-  target: 28,934,499.03
+  target: 公司主营业务数据统计口径在报告期发生调整的情况下，公司最近1 年按报告期末口径调整后的主营业务数据
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_old_002808_2026-04-30_p17_am01
@@ -295,7 +295,7 @@ assertions:
   page: 19
   eval_on: md
   rule: exactly_once
-  target: 114,117,322.39
+  target: （6）报告期内合并范围是否发生变动
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_old_002808_2026-04-30_p19_pi02
@@ -304,7 +304,7 @@ assertions:
   page: 19
   eval_on: md
   rule: exactly_once
-  target: 104,046,485.11
+  target: （7）公司报告期内业务、产品或服务发生重大变化或调整有关情况
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_old_002808_2026-04-30_p19_pi03
@@ -313,7 +313,7 @@ assertions:
   page: 19
   eval_on: md
   rule: exactly_once
-  target: 14,330,740.01
+  target: 报告期内购买及增资憬芯科技，憬芯科技纳入公司合并报表，新增光伏发电项目技术及运维服务业
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_old_002808_2026-04-30_p19_am01

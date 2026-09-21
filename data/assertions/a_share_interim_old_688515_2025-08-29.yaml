@@ -9,7 +9,7 @@ pages_selected:
 - 96
 - 178
 - 187
-generated_utc: '2026-09-21T01:41:52+00:00'
+generated_utc: '2026-09-21T02:28:47+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -19,7 +19,7 @@ assertions:
   page: 94
   eval_on: md
   rule: exactly_once
-  target: 21,964,667.72
+  target: 归属于母公司所有者权益（或股东权
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_old_688515_2025-08-29_p94_pi02
@@ -28,7 +28,7 @@ assertions:
   page: 94
   eval_on: md
   rule: exactly_once
-  target: 8,402,019.93
+  target: 负债和所有者权益（或股东权益）
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_old_688515_2025-08-29_p94_pi03
@@ -37,7 +37,7 @@ assertions:
   page: 94
   eval_on: md
   rule: exactly_once
-  target: 143,738,252.94
+  target: 编制单位:裕太微电子股份有限公司
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_old_688515_2025-08-29_p94_am01
@@ -105,33 +105,6 @@ assertions:
   target: 单位:裕太微电子股份有限公司
   status: draft
   note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
-- id: a_share_interim_old_688515_2025-08-29_p96_pi01
-  type: page_integrity
-  severity: critical
-  page: 96
-  eval_on: md
-  rule: exactly_once
-  target: 21,868,195.39
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_old_688515_2025-08-29_p96_pi02
-  type: page_integrity
-  severity: critical
-  page: 96
-  eval_on: md
-  rule: exactly_once
-  target: 7,399,221.05
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_old_688515_2025-08-29_p96_pi03
-  type: page_integrity
-  severity: critical
-  page: 96
-  eval_on: md
-  rule: exactly_once
-  target: 139,477,899.32
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_old_688515_2025-08-29_p96_am01
   type: amount
   severity: critical
@@ -202,19 +175,10 @@ assertions:
   page: 178
   eval_on: md
   rule: exactly_once
-  target: 100,200.00 保证金受限
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_old_688515_2025-08-29_p178_pi02
-  type: page_integrity
-  severity: critical
-  page: 178
-  eval_on: md
-  rule: exactly_once
   target: 80、 所有者权益变动表项目注释
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_old_688515_2025-08-29_p178_pi03
+- id: a_share_interim_old_688515_2025-08-29_p178_pi02
   type: page_integrity
   severity: critical
   page: 178
@@ -292,7 +256,7 @@ assertions:
   page: 187
   eval_on: md
   rule: exactly_once
-  target: 6,368,201.28
+  target: 于2025 年6 月30 日，在所有其他变量保持不变的情况下，如果人民币对美元升值或贬值
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_old_688515_2025-08-29_p187_pi02
@@ -301,7 +265,7 @@ assertions:
   page: 187
   eval_on: md
   rule: exactly_once
-  target: 67,235,129.67
+  target: 5%，则公司将增加或减少净利润547.81 万元。管理层认为5%合理反映了下一年度人民币对美
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_old_688515_2025-08-29_p187_pi03
@@ -310,7 +274,7 @@ assertions:
   page: 187
   eval_on: md
   rule: exactly_once
-  target: 12,296,932.17
+  target: 元可能发生变动的合理范围。
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_old_688515_2025-08-29_p187_am01

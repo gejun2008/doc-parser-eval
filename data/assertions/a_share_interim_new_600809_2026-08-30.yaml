@@ -9,28 +9,10 @@ pages_selected:
 - 25
 - 27
 - 29
-generated_utc: '2026-09-21T01:41:51+00:00'
+generated_utc: '2026-09-21T02:28:46+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
-- id: a_share_interim_new_600809_2026-08-30_p22_pi01
-  type: page_integrity
-  severity: critical
-  page: 22
-  eval_on: md
-  rule: exactly_once
-  target: 52,584,507,917.02
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_new_600809_2026-08-30_p22_pi02
-  type: page_integrity
-  severity: critical
-  page: 22
-  eval_on: md
-  rule: exactly_once
-  target: 45,910,577,243.32
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_new_600809_2026-08-30_p22_am01
   type: amount
   severity: critical
@@ -94,33 +76,6 @@ assertions:
   target: 单位：山西杏花村汾酒厂股份有限公司
   status: draft
   note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
-- id: a_share_interim_new_600809_2026-08-30_p25_pi01
-  type: page_integrity
-  severity: critical
-  page: 25
-  eval_on: md
-  rule: exactly_once
-  target: 1,585,746,976.72
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_new_600809_2026-08-30_p25_pi02
-  type: page_integrity
-  severity: critical
-  page: 25
-  eval_on: md
-  rule: exactly_once
-  target: 1,000,474,409.59
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_interim_new_600809_2026-08-30_p25_pi03
-  type: page_integrity
-  severity: critical
-  page: 25
-  eval_on: md
-  rule: exactly_once
-  target: 31,491,038.26
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_new_600809_2026-08-30_p25_am01
   type: amount
   severity: critical
@@ -192,7 +147,7 @@ assertions:
   page: 27
   eval_on: md
   rule: exactly_once
-  target: 12,242,345,838.79
+  target: 汇兑收益（损失以“-”号填列）
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_new_600809_2026-08-30_p27_pi02
@@ -201,7 +156,7 @@ assertions:
   page: 27
   eval_on: md
   rule: exactly_once
-  target: 12,576,856,486.65
+  target: 三、营业利润（亏损以“-”号填列）
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_new_600809_2026-08-30_p27_pi03
@@ -210,7 +165,7 @@ assertions:
   page: 27
   eval_on: md
   rule: exactly_once
-  target: 43,905,925.05
+  target: 四、利润总额（亏损总额以“-”号填列）
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_new_600809_2026-08-30_p27_am01
@@ -284,7 +239,7 @@ assertions:
   page: 29
   eval_on: md
   rule: exactly_once
-  target: 3,472,000,144.67
+  target: 二、营业利润（亏损以“-”号填列）
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_new_600809_2026-08-30_p29_pi02
@@ -293,7 +248,7 @@ assertions:
   page: 29
   eval_on: md
   rule: exactly_once
-  target: 3,687,179,998.35
+  target: 三、利润总额（亏损总额以“-”号填列）
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_new_600809_2026-08-30_p29_pi03
@@ -302,7 +257,7 @@ assertions:
   page: 29
   eval_on: md
   rule: exactly_once
-  target: 216,018,648.81
+  target: 四、净利润（净亏损以“-”号填列）
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_interim_new_600809_2026-08-30_p29_am01

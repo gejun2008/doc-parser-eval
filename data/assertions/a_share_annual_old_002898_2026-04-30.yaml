@@ -9,7 +9,7 @@ pages_selected:
 - 22
 - 25
 - 26
-generated_utc: '2026-09-21T01:41:49+00:00'
+generated_utc: '2026-09-21T02:28:44+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -19,25 +19,7 @@ assertions:
   page: 19
   eval_on: md
   rule: exactly_once
-  target: 357,982,654.68
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_old_002898_2026-04-30_p19_pi02
-  type: page_integrity
-  severity: critical
-  page: 19
-  eval_on: md
-  rule: exactly_once
-  target: 1,269,504.37
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_old_002898_2026-04-30_p19_pi03
-  type: page_integrity
-  severity: critical
-  page: 19
-  eval_on: md
-  rule: exactly_once
-  target: 142,825,000.88
+  target: （2）占公司营业收入或营业利润10%以上的行业、产品、地区、销售模式的情况
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_old_002898_2026-04-30_p19_am01
@@ -120,7 +102,7 @@ assertions:
   page: 22
   eval_on: md
   rule: exactly_once
-  target: 177,654,867.26
+  target: 四川脑动极光医疗科技有限
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_old_002898_2026-04-30_p22_pi03
@@ -129,7 +111,7 @@ assertions:
   page: 22
   eval_on: md
   rule: exactly_once
-  target: 57,775,241.55
+  target: 深圳易信科技股份有限公司
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_old_002898_2026-04-30_p22_am01

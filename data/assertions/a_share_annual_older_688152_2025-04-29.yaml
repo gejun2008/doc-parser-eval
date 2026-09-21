@@ -9,37 +9,10 @@ pages_selected:
 - 204
 - 243
 - 274
-generated_utc: '2026-09-21T01:41:50+00:00'
+generated_utc: '2026-09-21T02:28:45+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
-- id: a_share_annual_older_688152_2025-04-29_p160_pi01
-  type: page_integrity
-  severity: critical
-  page: 160
-  eval_on: md
-  rule: exactly_once
-  target: 7,234,174.54
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_older_688152_2025-04-29_p160_pi02
-  type: page_integrity
-  severity: critical
-  page: 160
-  eval_on: md
-  rule: exactly_once
-  target: 50,562,896.66
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_older_688152_2025-04-29_p160_pi03
-  type: page_integrity
-  severity: critical
-  page: 160
-  eval_on: md
-  rule: exactly_once
-  target: 37,674,820.58
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_older_688152_2025-04-29_p160_am01
   type: amount
   severity: critical
@@ -105,33 +78,6 @@ assertions:
   target: 单位：元 币种：人民币
   status: draft
   note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
-- id: a_share_annual_older_688152_2025-04-29_p204_pi01
-  type: page_integrity
-  severity: critical
-  page: 204
-  eval_on: md
-  rule: exactly_once
-  target: 7,068,668.07
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_older_688152_2025-04-29_p204_pi02
-  type: page_integrity
-  severity: critical
-  page: 204
-  eval_on: md
-  rule: exactly_once
-  target: 181,801,731.11
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_older_688152_2025-04-29_p204_pi03
-  type: page_integrity
-  severity: critical
-  page: 204
-  eval_on: md
-  rule: exactly_once
-  target: 15,715,476.08
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_older_688152_2025-04-29_p204_am01
   type: amount
   severity: critical
@@ -208,7 +154,7 @@ assertions:
   page: 243
   eval_on: md
   rule: exactly_once
-  target: (4). 履约义务的说明
+  target: 2024 年，公司销售软件产品及服务，在与购货方已经签署合同，根据合同约定将产品或服务
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_older_688152_2025-04-29_p243_pi03
@@ -217,7 +163,7 @@ assertions:
   page: 243
   eval_on: md
   rule: exactly_once
-  target: 2024 年，公司销售软件产品及服务，在与购货方已经签署合同，根据合同约定将产品或服务
+  target: 交付给购货方，经购货方验收后一次性确认。公司向客户提供的技术服务若为一段时间履行的履
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_older_688152_2025-04-29_p243_am01
@@ -285,33 +231,6 @@ assertions:
   target: 单位：元 币种：人民币
   status: draft
   note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
-- id: a_share_annual_older_688152_2025-04-29_p274_pi01
-  type: page_integrity
-  severity: critical
-  page: 274
-  eval_on: md
-  rule: exactly_once
-  target: 6,980,014.73
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_older_688152_2025-04-29_p274_pi02
-  type: page_integrity
-  severity: critical
-  page: 274
-  eval_on: md
-  rule: exactly_once
-  target: 180,028,664.39
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_older_688152_2025-04-29_p274_pi03
-  type: page_integrity
-  severity: critical
-  page: 274
-  eval_on: md
-  rule: exactly_once
-  target: 15,626,822.74
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_older_688152_2025-04-29_p274_am01
   type: amount
   severity: critical

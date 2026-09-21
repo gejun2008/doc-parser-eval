@@ -9,7 +9,7 @@ pages_selected:
 - 48
 - 51
 - 52
-generated_utc: '2026-09-21T01:41:57+00:00'
+generated_utc: '2026-09-21T02:28:52+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -293,7 +293,7 @@ assertions:
   page: 52
   eval_on: md
   rule: exactly_once
-  target: '30 June 2025:'
+  target: Dividends approved in respect
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: hk_interim_old_03316_2025-09-19_p52_pi03
@@ -302,7 +302,7 @@ assertions:
   page: 52
   eval_on: md
   rule: exactly_once
-  target: Dividends approved in respect
+  target: of the previous year
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: hk_interim_old_03316_2025-09-19_p52_am01

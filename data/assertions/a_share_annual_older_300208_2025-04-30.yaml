@@ -9,7 +9,7 @@ pages_selected:
 - 17
 - 24
 - 87
-generated_utc: '2026-09-21T01:41:50+00:00'
+generated_utc: '2026-09-21T02:28:44+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -111,7 +111,7 @@ assertions:
   page: 17
   eval_on: md
   rule: exactly_once
-  target: 20,834,174.90
+  target: 1、机械成套装备收入较去年同期减少主要因为印尼镍电项目完工结算导致收入冲回。
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_older_300208_2025-04-30_p17_pi02
@@ -120,7 +120,7 @@ assertions:
   page: 17
   eval_on: md
   rule: exactly_once
-  target: 438,135,879.80
+  target: 2、物业服务收入较去年同期减少主要因为镍电项目已完成建设，园区内施工企业减少所致。
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_older_300208_2025-04-30_p17_pi03
@@ -129,7 +129,7 @@ assertions:
   page: 17
   eval_on: md
   rule: exactly_once
-  target: 1、机械成套装备收入较去年同期减少主要因为印尼镍电项目完工结算导致收入冲回。
+  target: 3、矿渣处理收入较去年增加主要因为2024 年下半年MSS 产量增加，矿渣处置业务量随之增长，使得收入增加。
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_older_300208_2025-04-30_p17_am01
@@ -289,33 +289,6 @@ assertions:
   target: 单位：元
   status: draft
   note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
-- id: a_share_annual_older_300208_2025-04-30_p87_pi01
-  type: page_integrity
-  severity: critical
-  page: 87
-  eval_on: md
-  rule: exactly_once
-  target: 1,518,804,008.29
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_older_300208_2025-04-30_p87_pi02
-  type: page_integrity
-  severity: critical
-  page: 87
-  eval_on: md
-  rule: exactly_once
-  target: 1,984,690,342.58
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_older_300208_2025-04-30_p87_pi03
-  type: page_integrity
-  severity: critical
-  page: 87
-  eval_on: md
-  rule: exactly_once
-  target: 566,704,717.59
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_older_300208_2025-04-30_p87_am01
   type: amount
   severity: critical

@@ -9,7 +9,7 @@ pages_selected:
 - 145
 - 151
 - 157
-generated_utc: '2026-09-21T01:41:54+00:00'
+generated_utc: '2026-09-21T02:28:49+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -116,7 +116,7 @@ assertions:
   page: 145
   eval_on: md
   rule: exactly_once
-  target: 註24））屬於以下範圍：
+  target: Five highest paid individuals (Continued)
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: hk_annual_new_03306_2026-09-09_p145_pi03
@@ -125,7 +125,7 @@ assertions:
   page: 145
   eval_on: md
   rule: exactly_once
-  target: Five highest paid individuals (Continued)
+  target: The emoluments including share-based compensation expenses (Note 24) of the
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: hk_annual_new_03306_2026-09-09_p145_am01

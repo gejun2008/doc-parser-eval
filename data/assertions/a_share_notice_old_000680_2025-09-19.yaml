@@ -8,7 +8,7 @@ pages_selected:
 - 1
 - 2
 - 3
-generated_utc: '2026-09-21T01:41:52+00:00'
+generated_utc: '2026-09-21T02:28:47+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -18,7 +18,7 @@ assertions:
   page: 1
   eval_on: md
   rule: exactly_once
-  target: 公告编号：2025-077
+  target: 2025 年中期权益分派实施公告
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_notice_old_000680_2025-09-19_p1_pi02
@@ -27,7 +27,7 @@ assertions:
   page: 1
   eval_on: md
   rule: exactly_once
-  target: 2025 年中期权益分派实施公告
+  target: 本公司及董事会全体成员保证信息披露的内容真实、准确、完整，没有虚假记载、
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_notice_old_000680_2025-09-19_p1_pi03
@@ -36,7 +36,7 @@ assertions:
   page: 1
   eval_on: md
   rule: exactly_once
-  target: 本公司及董事会全体成员保证信息披露的内容真实、准确、完整，没有虚假记载、
+  target: 1、根据《深圳证券交易所上市公司自律监管指引第9 号-回购股份》的相关规定，
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_notice_old_000680_2025-09-19_p1_am01

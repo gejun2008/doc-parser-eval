@@ -9,7 +9,7 @@ pages_selected:
 - 56
 - 161
 - 163
-generated_utc: '2026-09-21T01:41:51+00:00'
+generated_utc: '2026-09-21T02:28:45+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -114,24 +114,6 @@ assertions:
   target: (1). 主营业务分行业、分产品、分地区、分销售模式情况
   status: auto
   note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_older_688559_2025-04-29_p56_pi02
-  type: page_integrity
-  severity: critical
-  page: 56
-  eval_on: md
-  rule: exactly_once
-  target: 减少11.78 个百分点
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_older_688559_2025-04-29_p56_pi03
-  type: page_integrity
-  severity: critical
-  page: 56
-  eval_on: md
-  rule: exactly_once
-  target: 增加30.10 个百分点
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_older_688559_2025-04-29_p56_am01
   type: amount
   severity: critical
@@ -197,24 +179,6 @@ assertions:
   target: 单位：元
   status: draft
   note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
-- id: a_share_annual_older_688559_2025-04-29_p161_pi01
-  type: page_integrity
-  severity: critical
-  page: 161
-  eval_on: md
-  rule: exactly_once
-  target: 8,744,777,331.96
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_older_688559_2025-04-29_p161_pi02
-  type: page_integrity
-  severity: critical
-  page: 161
-  eval_on: md
-  rule: exactly_once
-  target: 8,555,453,860.58
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_older_688559_2025-04-29_p161_am01
   type: amount
   severity: critical
@@ -280,33 +244,6 @@ assertions:
   target: 单位：海目星激光科技集团股份有限公司
   status: draft
   note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
-- id: a_share_annual_older_688559_2025-04-29_p163_pi01
-  type: page_integrity
-  severity: critical
-  page: 163
-  eval_on: md
-  rule: exactly_once
-  target: 1,404,602,136.98
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_older_688559_2025-04-29_p163_pi02
-  type: page_integrity
-  severity: critical
-  page: 163
-  eval_on: md
-  rule: exactly_once
-  target: 806,066,278.06
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
-- id: a_share_annual_older_688559_2025-04-29_p163_pi03
-  type: page_integrity
-  severity: critical
-  page: 163
-  eval_on: md
-  rule: exactly_once
-  target: 179,220,909.58
-  status: auto
-  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
 - id: a_share_annual_older_688559_2025-04-29_p163_am01
   type: amount
   severity: critical
