@@ -127,8 +127,9 @@ def _body(r):
 
 
 def process(job, cfg):
-    pdf, page, doc_id = job
-    dst = cfg["raw_dir"] / f"{slug(pdf)}_p{page}.json"
+    pdf_rel, page, doc_id = job
+    pdf = Path(cfg["pdf_root"]) / pdf_rel if cfg["pdf_root"] else Path(pdf_rel)
+    dst = cfg["raw_dir"] / f"{slug(pdf_rel)}_p{page}.json"
     if dst.exists():
         prev = json.loads(dst.read_text(encoding="utf-8"))
         if prev.get("ok"):
@@ -140,7 +141,7 @@ def process(job, cfg):
     ok = rec.get("op_status") == "succeeded" and bool(content)
     out = {
         "schema": "inf-eval/raw/1",       # 与 Infinity-Parser2 落盘同 schema
-        "run_id": cfg["run_id"], "pdf": str(pdf), "page": page, "doc_id": doc_id,
+        "run_id": cfg["run_id"], "pdf": str(pdf_rel), "page": page, "doc_id": doc_id,
         "system": "azure_di", "model_id": MODEL_ID, "api_version": API_VERSION,
         "task_type": "layout_markdown",
         "request": {"outputContentFormat": "markdown", "pages": page,
@@ -168,6 +169,9 @@ def process(job, cfg):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pages-csv", default="data/corpus/pages.csv")
+    ap.add_argument("--pdf-root", default="",
+                    help="清单里的路径相对于哪个目录。跑 olmOCR-Bench 时必须给，"
+                         "否则落盘的 slug 与官方判定器对不上")
     ap.add_argument("--concurrency", type=int, default=4)
     ap.add_argument("--timeout", type=int, default=180)
     ap.add_argument("--limit", type=int, default=0)
@@ -176,7 +180,16 @@ def main():
     a = ap.parse_args()
 
     rows = list(csv.DictReader(open(a.pages_csv, encoding="utf-8")))
-    jobs = [(r["local_path"], int(r["page"]), r["doc_id"]) for r in rows]
+    # 两种清单都支持：
+    #   自建集 data/corpus/pages.csv          local_path / page / doc_id
+    #   olmOCR-Bench data/olmocr_bench/*.csv  pdf（相对 --pdf-root）/ 无 page
+    # 落盘的 "pdf" 字段必须与 Infinity-Parser2 那一侧一致，否则判定器匹配不上。
+    jobs = []
+    for r in rows:
+        rel = r.get("local_path") or r["pdf"]
+        page = int(r.get("page") or 1)
+        doc_id = r.get("doc_id") or Path(rel).stem
+        jobs.append((rel, page, doc_id))
     if a.limit:
         jobs = jobs[:a.limit]
 
@@ -190,7 +203,8 @@ def main():
         print(f"凭证状态: {'占位符/缺失' if placeholder else '已配置'}")
         fams = {}
         for r in rows[:len(jobs)]:
-            fams[r["family"]] = fams.get(r["family"], 0) + 1
+            k = r.get("family") or r.get("subset") or "(未分族)"
+            fams[k] = fams.get(k, 0) + 1
         print("\n按族:")
         for k, v in sorted(fams.items()):
             print(f"  {k:18} {v:4} 页")
@@ -205,13 +219,13 @@ def main():
     raw = run_dir / "raw"
     raw.mkdir(parents=True, exist_ok=True)
     cfg = {"run_id": run_dir.name, "raw_dir": raw, "ep": ep, "key": key,
-           "timeout": a.timeout}
+           "timeout": a.timeout, "pdf_root": a.pdf_root}
     (run_dir / "run_meta.json").write_text(json.dumps({
         "run_id": cfg["run_id"], "started_utc": now(), "system": "azure_di",
         "model_id": MODEL_ID, "api_version": API_VERSION,
         "output_content_format": "markdown",
         "conversion_by_us": False,
-        "pages_csv": a.pages_csv, "n_pages": len(jobs),
+        "pages_csv": a.pages_csv, "pdf_root": a.pdf_root, "n_pages": len(jobs),
         "concurrency": a.concurrency,
         "price_per_1k_pages_usd": PRICE_PER_1K_PAGES_USD,
         "asymmetries": [
