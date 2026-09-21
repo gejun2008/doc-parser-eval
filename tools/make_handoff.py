@@ -136,14 +136,45 @@ set -a && source .env && set +a
 
 ## 七、比对
 
-Infinity-Parser2 的对应结果已在包里：
+Infinity-Parser2 的对应结果已在包里，两边跑的是同一批页、同一套断言、同一个判定器：
 
 | 层 | Infinity-Parser2 run_id |
 |---|---|
 | 第二层 olmOCR-Bench | `inf-mllm_doc2md_20260918T065831Z` |
 | 第三层 自建集 | `inf-mllm_doc2md_20260921T013924Z` |
 
-两边跑的是同一批页、同一套断言、同一个判定器。
+```bash
+# 第三层
+.venv/bin/python tools/compare_systems.py \\
+    runs/inf-mllm_doc2md_20260921T013924Z/results.csv \\
+    runs/azure_di_layout_<时间戳>/results.csv \\
+    --name-a Infinity --name-b AzureDI
+
+# 第二层
+.venv/bin/python tools/compare_systems.py \\
+    runs/inf-mllm_doc2md_20260918T065831Z/olmocr_results.csv \\
+    runs/azure_di_layout_<时间戳>/olmocr_results.csv \\
+    --name-a Infinity --name-b AzureDI
+```
+
+### 读这张表的三条纪律
+
+两边判的是**同一批断言**，属配对数据，所以用 McNemar 检验而不是比两个置信区间。
+表里的 `b/c` 是「只有 A 对」与「只有 B 对」的条数，差异是否显著看它们。
+
+1. **「全部」那一行不是加权总分**，只是同口径汇总。结论按分层写
+2. **p ≥ 0.05 写「未观察到显著差异」**，不得写成「持平」「相当」「不相上下」
+3. **n < 30 的分层写「样本不足，不下结论」**，不要为了好看合并分层
+
+### 写进报告时必须声明的不对称
+
+- Azure DI 按整份文档分析，即使指定单页也可能利用全文上下文，
+  Infinity-Parser2 是逐页独立调用。**这一条对 Azure 有利，要主动写明**
+- 两边 markdown 风格由各自厂商决定，`formatting` 类断言不可跨系统比较
+- Azure 返回 span 级 confidence，Infinity-Parser2 没有，置信度只能单边报
+- 选页刻意偏向财务报表页，两边同批页，但绝对分数天然低于通用文档
+
+完整清单见 `docs/azure-di-baseline.md`。
 
 ## 注意
 
