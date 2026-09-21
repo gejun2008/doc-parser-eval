@@ -1,0 +1,268 @@
+doc_id: hk_prospectus_old_03132_2025-08-15
+family: hk_prospectus
+window: old
+source_url: https://www1.hkexnews.hk/listedco/listconews/sehk/2025/0815/2025081500335.pdf
+disclosed_at: '2025-08-15'
+local_path: data/corpus/hk_prospectus/hk_prospectus_old_03132_2025-08-15.pdf
+pages_selected:
+- 5
+- 35
+- 36
+- 54
+- 56
+- 104
+- 105
+- 148
+generated_utc: '2026-09-21T01:42:01+00:00'
+generator: tools/make_assertions.py
+review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
+assertions:
+- id: hk_prospectus_old_03132_2025-08-15_p5_uc01
+  type: unit_currency
+  severity: critical
+  page: 5
+  eval_on: md
+  rule: exactly_once
+  target: RMB M
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: hk_prospectus_old_03132_2025-08-15_p35_pi01
+  type: page_integrity
+  severity: critical
+  page: 35
+  eval_on: md
+  rule: exactly_once
+  target: Price returns of SSE Composite Index and SZSE Composite Index between 2003 and 2024
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p35_pi02
+  type: page_integrity
+  severity: critical
+  page: 35
+  eval_on: md
+  rule: exactly_once
+  target: Total market capitalisation of both the SSE and the SZSE – Main Board
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p35_pi03
+  type: page_integrity
+  severity: critical
+  page: 35
+  eval_on: md
+  rule: exactly_once
+  target: 'Data source: Bloomberg as of 31 December 2024 (Note: The China Shenzhen Stock Exchange Total
+    Market'
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p36_pi01
+  type: page_integrity
+  severity: critical
+  page: 36
+  eval_on: md
+  rule: exactly_once
+  target: Annual trading volumes (turnover) of A-Shares of both SSE and SZSE
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p36_pi02
+  type: page_integrity
+  severity: critical
+  page: 36
+  eval_on: md
+  rule: exactly_once
+  target: 'Data source: Bloomberg as of 31 December 2024 (Note: The SZSE SME Board has been merged into
+    the SZSE Main'
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p36_pi03
+  type: page_integrity
+  severity: critical
+  page: 36
+  eval_on: md
+  rule: exactly_once
+  target: Differences with the Hong Kong market
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p54_pi01
+  type: page_integrity
+  severity: critical
+  page: 54
+  eval_on: md
+  rule: exactly_once
+  target: There are different levels of fees and expenses applicable to investing in a Sub-Fund as set
+    out
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p54_pi02
+  type: page_integrity
+  severity: critical
+  page: 54
+  eval_on: md
+  rule: exactly_once
+  target: below, current as at the date of this Prospectus. Where any levels of fees and expenses applicable
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p54_pi03
+  type: page_integrity
+  severity: critical
+  page: 54
+  eval_on: md
+  rule: exactly_once
+  target: to a particular Sub-Fund differs from the following, such fees and expenses will be set out
+    in full in
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p54_am01
+  type: amount
+  severity: critical
+  page: 54
+  eval_on: md
+  rule: exactly_once
+  target: 4,000
+  forbid:
+  - '4000'
+  status: draft
+  context: HKD4,0001
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_prospectus_old_03132_2025-08-15_p54_am02
+  type: amount
+  severity: critical
+  page: 54
+  eval_on: md
+  rule: exactly_once
+  target: 1,000
+  forbid:
+  - '1000'
+  status: draft
+  context: HKD1,0001
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_prospectus_old_03132_2025-08-15_p54_am03
+  type: amount
+  severity: critical
+  page: 54
+  eval_on: md
+  rule: exactly_once
+  target: 4,700
+  forbid:
+  - '4700'
+  status: draft
+  context: HKD4,7009
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_prospectus_old_03132_2025-08-15_p54_uc01
+  type: unit_currency
+  severity: critical
+  page: 54
+  eval_on: md
+  rule: exactly_once
+  target: HKD
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: hk_prospectus_old_03132_2025-08-15_p56_pi01
+  type: page_integrity
+  severity: critical
+  page: 56
+  eval_on: md
+  rule: exactly_once
+  target: (ii) Fees payable by all investors in respect of dealings in the Units
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p56_pi02
+  type: page_integrity
+  severity: critical
+  page: 56
+  eval_on: md
+  rule: exactly_once
+  target: on SEHK (applicable After Listing)
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p56_pi03
+  type: page_integrity
+  severity: critical
+  page: 56
+  eval_on: md
+  rule: exactly_once
+  target: Market rates
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p104_pi01
+  type: page_integrity
+  severity: critical
+  page: 104
+  eval_on: md
+  rule: exactly_once
+  target: that would be in the index on the specified forward dates. For example, on 15 June 2020, the
+    WTI
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p104_pi02
+  type: page_integrity
+  severity: critical
+  page: 104
+  eval_on: md
+  rule: exactly_once
+  target: Futures Contracts of the S&P GSCI 3 Month Forward Index include those WTI Futures Contracts
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p104_pi03
+  type: page_integrity
+  severity: critical
+  page: 104
+  eval_on: md
+  rule: exactly_once
+  target: which would be in the S&P GSCI on 15 September 2020 (which are the November 2020 WTI
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p104_uc01
+  type: unit_currency
+  severity: critical
+  page: 104
+  eval_on: md
+  rule: exactly_once
+  target: USD
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: hk_prospectus_old_03132_2025-08-15_p105_pi01
+  type: page_integrity
+  severity: critical
+  page: 105
+  eval_on: md
+  rule: exactly_once
+  target: The table below summarises the above example.
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p105_pi02
+  type: page_integrity
+  severity: critical
+  page: 105
+  eval_on: md
+  rule: exactly_once
+  target: S&P GSCI Business Days of Month
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p105_pi03
+  type: page_integrity
+  severity: critical
+  page: 105
+  eval_on: md
+  rule: exactly_once
+  target: Notwithstanding the rolling methodology and schedule described above, if market conditions
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p148_pi01
+  type: page_integrity
+  severity: critical
+  page: 148
+  eval_on: md
+  rule: exactly_once
+  target: written notice of termination to the other party of its intent not to renew at least 30 days
+    prior to the
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_prospectus_old_03132_2025-08-15_p148_pi02
+  type: page_integrity
+  severity: critical
+  page: 148
+  eval_on: md
+  rule: exactly_once
+  target: end of the initial term or the then current term. The licence agreement may otherwise be terminated
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测

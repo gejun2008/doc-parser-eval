@@ -1,0 +1,369 @@
+doc_id: hk_annual_new_01797_2026-09-15
+family: hk_annual
+window: new
+source_url: https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0915/2026091500653.pdf
+disclosed_at: '2026-09-15'
+local_path: data/corpus/hk_annual/hk_annual_new_01797_2026-09-15.pdf
+pages_selected:
+- 6
+- 203
+- 232
+- 241
+generated_utc: '2026-09-21T01:41:53+00:00'
+generator: tools/make_assertions.py
+review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
+assertions:
+- id: hk_annual_new_01797_2026-09-15_p6_pi01
+  type: page_integrity
+  severity: critical
+  page: 6
+  eval_on: md
+  rule: exactly_once
+  target: FINANCIAL HIGHLIGHTS
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_01797_2026-09-15_p6_pi02
+  type: page_integrity
+  severity: critical
+  page: 6
+  eval_on: md
+  rule: exactly_once
+  target: FINANCIAL PERFORMANCE HIGHLIGHTS
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_01797_2026-09-15_p6_pi03
+  type: page_integrity
+  severity: critical
+  page: 6
+  eval_on: md
+  rule: exactly_once
+  target: 'Profit for the year attributable to:'
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_01797_2026-09-15_p6_am01
+  type: amount
+  severity: critical
+  page: 6
+  eval_on: md
+  rule: exactly_once
+  target: 5,701,007
+  forbid:
+  - 5,701,00
+  - 5701,007
+  - '5701007'
+  status: draft
+  context: 5,701,007
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_01797_2026-09-15_p6_am02
+  type: amount
+  severity: critical
+  page: 6
+  eval_on: md
+  rule: exactly_once
+  target: 4,392,071
+  forbid:
+  - 4,392,07
+  - 4392,071
+  - '4392071'
+  status: draft
+  context: 4,392,071
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_01797_2026-09-15_p6_am03
+  type: amount
+  severity: critical
+  page: 6
+  eval_on: md
+  rule: exactly_once
+  target: 663,391
+  forbid:
+  - 663,39
+  - '663391'
+  status: draft
+  context: 663,391
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_01797_2026-09-15_p6_am04
+  type: amount
+  severity: critical
+  page: 6
+  eval_on: md
+  rule: exactly_once
+  target: (109,884)
+  forbid:
+  - 109,88
+  - '109884'
+  status: draft
+  context: (109,884)
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_01797_2026-09-15_p6_uc01
+  type: unit_currency
+  severity: critical
+  page: 6
+  eval_on: md
+  rule: exactly_once
+  target: RMB
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: hk_annual_new_01797_2026-09-15_p203_pi01
+  type: page_integrity
+  severity: critical
+  page: 203
+  eval_on: md
+  rule: exactly_once
+  target: 2026 ANNUAL REPORT 201
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_01797_2026-09-15_p203_pi02
+  type: page_integrity
+  severity: critical
+  page: 203
+  eval_on: md
+  rule: exactly_once
+  target: 13. PROPERTY AND EQUIPMENT
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_01797_2026-09-15_p203_pi03
+  type: page_integrity
+  severity: critical
+  page: 203
+  eval_on: md
+  rule: exactly_once
+  target: Disposal of a subsidiary
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_01797_2026-09-15_p203_am01
+  type: amount
+  severity: critical
+  page: 203
+  eval_on: md
+  rule: exactly_once
+  target: 93,044
+  forbid:
+  - 93,04
+  - '93044'
+  status: draft
+  context: 93,044
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_01797_2026-09-15_p203_am02
+  type: amount
+  severity: critical
+  page: 203
+  eval_on: md
+  rule: exactly_once
+  target: 20,397
+  forbid:
+  - 20,39
+  - '20397'
+  status: draft
+  context: 20,397
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_01797_2026-09-15_p203_am03
+  type: amount
+  severity: critical
+  page: 203
+  eval_on: md
+  rule: exactly_once
+  target: 7,540
+  forbid:
+  - '7540'
+  status: draft
+  context: 7,540
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_01797_2026-09-15_p203_am04
+  type: amount
+  severity: critical
+  page: 203
+  eval_on: md
+  rule: exactly_once
+  target: 1,138
+  forbid:
+  - '1138'
+  status: draft
+  context: 1,138
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_01797_2026-09-15_p203_uc01
+  type: unit_currency
+  severity: critical
+  page: 203
+  eval_on: md
+  rule: exactly_once
+  target: RMB
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: hk_annual_new_01797_2026-09-15_p232_pi01
+  type: page_integrity
+  severity: critical
+  page: 232
+  eval_on: md
+  rule: exactly_once
+  target: 230 EAST BUY HOLDING LIMITED
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_01797_2026-09-15_p232_pi02
+  type: page_integrity
+  severity: critical
+  page: 232
+  eval_on: md
+  rule: exactly_once
+  target: Liquidity risk (Continued)
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_01797_2026-09-15_p232_pi03
+  type: page_integrity
+  severity: critical
+  page: 232
+  eval_on: md
+  rule: exactly_once
+  target: Liquidity tables
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_01797_2026-09-15_p232_am01
+  type: amount
+  severity: critical
+  page: 232
+  eval_on: md
+  rule: exactly_once
+  target: 697,843
+  forbid:
+  - 697,84
+  - '697843'
+  status: draft
+  context: 697,843
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_01797_2026-09-15_p232_am02
+  type: amount
+  severity: critical
+  page: 232
+  eval_on: md
+  rule: exactly_once
+  target: 288,421
+  forbid:
+  - 288,42
+  - '288421'
+  status: draft
+  context: 288,421
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_01797_2026-09-15_p232_am03
+  type: amount
+  severity: critical
+  page: 232
+  eval_on: md
+  rule: exactly_once
+  target: 7,657
+  forbid:
+  - '7657'
+  status: draft
+  context: 7,657
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_01797_2026-09-15_p232_am04
+  type: amount
+  severity: critical
+  page: 232
+  eval_on: md
+  rule: exactly_once
+  target: 14,551
+  forbid:
+  - 14,55
+  - '14551'
+  status: draft
+  context: 14,551
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_01797_2026-09-15_p232_uc01
+  type: unit_currency
+  severity: critical
+  page: 232
+  eval_on: md
+  rule: exactly_once
+  target: RMB
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: hk_annual_new_01797_2026-09-15_p241_pi01
+  type: page_integrity
+  severity: critical
+  page: 241
+  eval_on: md
+  rule: exactly_once
+  target: 2026 ANNUAL REPORT 239
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_01797_2026-09-15_p241_pi02
+  type: page_integrity
+  severity: critical
+  page: 241
+  eval_on: md
+  rule: exactly_once
+  target: Interests in subsidiaries
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_01797_2026-09-15_p241_pi03
+  type: page_integrity
+  severity: critical
+  page: 241
+  eval_on: md
+  rule: exactly_once
+  target: Current Liability
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_01797_2026-09-15_p241_am01
+  type: amount
+  severity: critical
+  page: 241
+  eval_on: md
+  rule: exactly_once
+  target: 2,733,621
+  forbid:
+  - 2,733,62
+  - 2733,621
+  - '2733621'
+  status: draft
+  context: 2,733,621
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_01797_2026-09-15_p241_am02
+  type: amount
+  severity: critical
+  page: 241
+  eval_on: md
+  rule: exactly_once
+  target: 2,735,079
+  forbid:
+  - 2,735,07
+  - 2735,079
+  - '2735079'
+  status: draft
+  context: 2,735,079
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_01797_2026-09-15_p241_am03
+  type: amount
+  severity: critical
+  page: 241
+  eval_on: md
+  rule: exactly_once
+  target: 76,487
+  forbid:
+  - 76,48
+  - '76487'
+  status: draft
+  context: 76,487
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_01797_2026-09-15_p241_am04
+  type: amount
+  severity: critical
+  page: 241
+  eval_on: md
+  rule: exactly_once
+  target: 1,166,166
+  forbid:
+  - 1,166,16
+  - 1166,166
+  - '1166166'
+  status: draft
+  context: 1,166,166
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_01797_2026-09-15_p241_uc01
+  type: unit_currency
+  severity: critical
+  page: 241
+  eval_on: md
+  rule: exactly_once
+  target: RMB
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算

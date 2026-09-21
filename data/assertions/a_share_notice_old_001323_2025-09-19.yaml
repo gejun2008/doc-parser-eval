@@ -1,0 +1,281 @@
+doc_id: a_share_notice_old_001323_2025-09-19
+family: a_share_notice
+window: old
+source_url: http://static.cninfo.com.cn/finalpage/2025-09-20/1224672031.PDF
+disclosed_at: '2025-09-19'
+local_path: data/corpus/a_share_notice/a_share_notice_old_001323_2025-09-19.pdf
+pages_selected:
+- 1
+- 2
+- 3
+- 4
+- 5
+generated_utc: '2026-09-21T01:41:52+00:00'
+generator: tools/make_assertions.py
+review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
+assertions:
+- id: a_share_notice_old_001323_2025-09-19_p1_pi01
+  type: page_integrity
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: 公告编号：2025-064
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_old_001323_2025-09-19_p1_pi02
+  type: page_integrity
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: 2025 年半年度权益分派实施公告
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_old_001323_2025-09-19_p1_pi03
+  type: page_integrity
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: 本公司及董事会全体成员保证信息披露的内容真实、准确、完整，没有虚假
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_old_001323_2025-09-19_p1_am01
+  type: amount
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: 2,376,612
+  forbid:
+  - 2,376,61
+  - 2376,612
+  - '2376612'
+  status: draft
+  context: “公司”）通过回购专用证券账户持有公司股份2,376,612 股。根据《中华人民共
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_notice_old_001323_2025-09-19_p1_am02
+  type: amount
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: 432,704,152
+  forbid:
+  - 432,704,15
+  - 432704,152
+  - '432704152'
+  status: draft
+  context: 2,376,612 股后的432,704,152 股为基数，向全体股东每10 股派4.50 元现金（含税），
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_notice_old_001323_2025-09-19_p1_am03
+  type: amount
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: 194,716,868.40
+  forbid:
+  - 194,716,868.4
+  - 194716,868.40
+  - '194716868.40'
+  status: draft
+  context: 共计派发现金红利194,716,868.40 元，不送红股，不以资本公积金转增股本。
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_notice_old_001323_2025-09-19_p1_am04
+  type: amount
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: 435,080,764
+  forbid:
+  - 435,080,76
+  - 435080,764
+  - '435080764'
+  status: draft
+  context: 分红总额/公司总股本*10 股=194,716,868.40 元/435,080,764 股*10 股=4.475418 元
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_notice_old_001323_2025-09-19_p1_uc01
+  type: unit_currency
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: 元
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: a_share_notice_old_001323_2025-09-19_p2_pi01
+  type: page_integrity
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: 公司2025 年半年度利润分配方案已获2025 年9 月12 日召开的2025 年第三
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_old_001323_2025-09-19_p2_pi02
+  type: page_integrity
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: 次临时股东大会审议通过，现将本次利润分配方案事宜公告如下：
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_old_001323_2025-09-19_p2_pi03
+  type: page_integrity
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: 一、股东大会审议通过利润分配方案情况
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_old_001323_2025-09-19_p2_am01
+  type: amount
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: 2,376,612
+  forbid:
+  - 2,376,61
+  - 2376,612
+  - '2376612'
+  status: draft
+  context: 2,376,612 股后的432,704,152 股为基数，向全体股东每10 股派4.50 元人民币现金
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_notice_old_001323_2025-09-19_p2_am02
+  type: amount
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: 432,704,152
+  forbid:
+  - 432,704,15
+  - 432704,152
+  - '432704152'
+  status: draft
+  context: 2,376,612 股后的432,704,152 股为基数，向全体股东每10 股派4.50 元人民币现金
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_notice_old_001323_2025-09-19_p2_uc01
+  type: unit_currency
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: 元
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: a_share_notice_old_001323_2025-09-19_p3_pi01
+  type: page_integrity
+  severity: critical
+  page: 3
+  eval_on: md
+  rule: exactly_once
+  target: 【注：根据先进先出的原则，以投资者证券账户为单位计算持股期限，持股
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_old_001323_2025-09-19_p3_pi02
+  type: page_integrity
+  severity: critical
+  page: 3
+  eval_on: md
+  rule: exactly_once
+  target: 1 个月（含1 个月）以内，每10 股补缴税款0.90 元；持股1 个月以上至1 年（含
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_old_001323_2025-09-19_p3_pi03
+  type: page_integrity
+  severity: critical
+  page: 3
+  eval_on: md
+  rule: exactly_once
+  target: 1 年）的，每10 股补缴税款0.45 元；持股超过1 年的，不需补缴税款。】
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_old_001323_2025-09-19_p3_uc01
+  type: unit_currency
+  severity: critical
+  page: 3
+  eval_on: md
+  rule: exactly_once
+  target: 元
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: a_share_notice_old_001323_2025-09-19_p4_pi01
+  type: page_integrity
+  severity: critical
+  page: 4
+  eval_on: md
+  rule: exactly_once
+  target: 2、公司持股5%以上股东在《首次公开发行股票招股说明书》中承诺“本公
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_old_001323_2025-09-19_p4_pi02
+  type: page_integrity
+  severity: critical
+  page: 4
+  eval_on: md
+  rule: exactly_once
+  target: 司/本人在锁定期满后两年内减持股票的，减持价格不低于公司首次公开发行股票
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_old_001323_2025-09-19_p4_pi03
+  type: page_integrity
+  severity: critical
+  page: 4
+  eval_on: md
+  rule: exactly_once
+  target: 时的发行价（如果因派发现金红利、送股、转增股本、增发新股等原因进行除权、
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_old_001323_2025-09-19_p4_am01
+  type: amount
+  severity: critical
+  page: 4
+  eval_on: md
+  rule: exactly_once
+  target: 194,716,868.40
+  forbid:
+  - 194,716,868.4
+  - 194716,868.40
+  - '194716868.40'
+  status: draft
+  context: 分红总额/公司总股本*10 股=194,716,868.40 元/435,080,764 股*10 股=4.475418 元
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_notice_old_001323_2025-09-19_p4_am02
+  type: amount
+  severity: critical
+  page: 4
+  eval_on: md
+  rule: exactly_once
+  target: 435,080,764
+  forbid:
+  - 435,080,76
+  - 435080,764
+  - '435080764'
+  status: draft
+  context: 分红总额/公司总股本*10 股=194,716,868.40 元/435,080,764 股*10 股=4.475418 元
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_notice_old_001323_2025-09-19_p4_uc01
+  type: unit_currency
+  severity: critical
+  page: 4
+  eval_on: md
+  rule: exactly_once
+  target: 元
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: a_share_notice_old_001323_2025-09-19_p5_pi01
+  type: page_integrity
+  severity: critical
+  page: 5
+  eval_on: md
+  rule: exactly_once
+  target: 2025 年9 月20 日
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测

@@ -1,0 +1,225 @@
+doc_id: hk_interim_old_02561_2025-09-19
+family: hk_interim
+window: old
+source_url: https://www1.hkexnews.hk/listedco/listconews/sehk/2025/0919/2025091901918.pdf
+disclosed_at: '2025-09-19'
+local_path: data/corpus/hk_interim/hk_interim_old_02561_2025-09-19.pdf
+pages_selected:
+- 2
+- 24
+- 30
+- 31
+generated_utc: '2026-09-21T01:41:57+00:00'
+generator: tools/make_assertions.py
+review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
+assertions:
+- id: hk_interim_old_02561_2025-09-19_p2_pi01
+  type: page_integrity
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: Corporate Information
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_old_02561_2025-09-19_p2_pi02
+  type: page_integrity
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: Financial Highlights
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_old_02561_2025-09-19_p2_pi03
+  type: page_integrity
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: Management Discussion and Analysis
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_old_02561_2025-09-19_p24_pi01
+  type: page_integrity
+  severity: critical
+  page: 24
+  eval_on: md
+  rule: exactly_once
+  target: Save as disclosed above, as of the date of this interim report, the Company had not been notified
+    of any persons
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_old_02561_2025-09-19_p24_pi02
+  type: page_integrity
+  severity: critical
+  page: 24
+  eval_on: md
+  rule: exactly_once
+  target: (other than a Director or chief executive of the Company) who had an interest or short position
+    in the Shares or
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_old_02561_2025-09-19_p24_pi03
+  type: page_integrity
+  severity: critical
+  page: 24
+  eval_on: md
+  rule: exactly_once
+  target: underlying Shares that were recorded in the register required to be kept under section 336 of
+    the SFO.
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_old_02561_2025-09-19_p24_am01
+  type: amount
+  severity: critical
+  page: 24
+  eval_on: md
+  rule: exactly_once
+  target: 8,845,500
+  forbid:
+  - 8,845,50
+  - 8845,500
+  - '8845500'
+  status: draft
+  context: 'As of the date of this interim report, there were outstanding RSUs representing '
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_old_02561_2025-09-19_p24_am02
+  type: amount
+  severity: critical
+  page: 24
+  eval_on: md
+  rule: exactly_once
+  target: 5,000,000
+  forbid:
+  - 5,000,00
+  - 5000,000
+  - '5000000'
+  status: draft
+  context: granted to 23 grantees under the Equity Incentive Plan, among which RSUs represe
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_old_02561_2025-09-19_p24_am03
+  type: amount
+  severity: critical
+  page: 24
+  eval_on: md
+  rule: exactly_once
+  target: 3,845,500
+  forbid:
+  - 3,845,50
+  - 3845,500
+  - '3845500'
+  status: draft
+  context: granted to Mr. Lu and held by VPP LU Limited, and RSUs representing 3,845,500 Sh
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_old_02561_2025-09-19_p30_pi01
+  type: page_integrity
+  severity: critical
+  page: 30
+  eval_on: md
+  rule: exactly_once
+  target: INDEPENDENT REVIEW REPORT
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_old_02561_2025-09-19_p30_pi02
+  type: page_integrity
+  severity: critical
+  page: 30
+  eval_on: md
+  rule: exactly_once
+  target: 榀㸖毩歁㵳勘䙮怺979噆
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_old_02561_2025-09-19_p30_pi03
+  type: page_integrity
+  severity: critical
+  page: 30
+  eval_on: md
+  rule: exactly_once
+  target: 'Tel 曢婘: +852 2846 9888'
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_old_02561_2025-09-19_p31_pi01
+  type: page_integrity
+  severity: critical
+  page: 31
+  eval_on: md
+  rule: exactly_once
+  target: INTERIM CONDENSED CONSOLIDATED STATEMENT OF PROFIT OR LOSS AND OTHER
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_old_02561_2025-09-19_p31_pi02
+  type: page_integrity
+  severity: critical
+  page: 31
+  eval_on: md
+  rule: exactly_once
+  target: Income tax expense
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_old_02561_2025-09-19_p31_pi03
+  type: page_integrity
+  severity: critical
+  page: 31
+  eval_on: md
+  rule: exactly_once
+  target: Other comprehensive income/(loss) that may be reclassified
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_old_02561_2025-09-19_p31_am01
+  type: amount
+  severity: critical
+  page: 31
+  eval_on: md
+  rule: exactly_once
+  target: 5,301
+  forbid:
+  - '5301'
+  status: draft
+  context: 5,301
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_old_02561_2025-09-19_p31_am02
+  type: amount
+  severity: critical
+  page: 31
+  eval_on: md
+  rule: exactly_once
+  target: 7,248
+  forbid:
+  - '7248'
+  status: draft
+  context: 7,248
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_old_02561_2025-09-19_p31_am03
+  type: amount
+  severity: critical
+  page: 31
+  eval_on: md
+  rule: exactly_once
+  target: (7,062)
+  forbid:
+  - '7062'
+  status: draft
+  context: (7,062)
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_old_02561_2025-09-19_p31_am04
+  type: amount
+  severity: critical
+  page: 31
+  eval_on: md
+  rule: exactly_once
+  target: 1,582
+  forbid:
+  - '1582'
+  status: draft
+  context: 1,582
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_old_02561_2025-09-19_p31_uc01
+  type: unit_currency
+  severity: critical
+  page: 31
+  eval_on: md
+  rule: exactly_once
+  target: RMB
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
