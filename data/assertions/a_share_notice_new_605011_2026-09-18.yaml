@@ -1,0 +1,150 @@
+doc_id: a_share_notice_new_605011_2026-09-18
+family: a_share_notice
+window: new
+source_url: http://static.cninfo.com.cn/finalpage/2026-09-19/1225571764.PDF
+disclosed_at: '2026-09-18'
+local_path: data/corpus/a_share_notice/a_share_notice_new_605011_2026-09-18.pdf
+pages_selected:
+- 1
+- 2
+- 3
+generated_utc: '2026-09-21T01:41:52+00:00'
+generator: tools/make_assertions.py
+review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
+assertions:
+- id: a_share_notice_new_605011_2026-09-18_p1_pi01
+  type: page_integrity
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: 公告编号：2026-041
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_new_605011_2026-09-18_p1_pi02
+  type: page_integrity
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: 2026年半年度权益分派实施公告
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_new_605011_2026-09-18_p1_pi03
+  type: page_integrity
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: 本公司董事会及全体董事保证本公告内容不存在任何虚假记载、误导性陈述或者重大遗
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_new_605011_2026-09-18_p1_am01
+  type: amount
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: 400,100,000
+  forbid:
+  - 400,100,00
+  - 400100,000
+  - '400100000'
+  status: draft
+  context: 本次利润分配以方案实施前的公司总股本400,100,000股为基数，每股派发现金红利0.05
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_notice_new_605011_2026-09-18_p1_am02
+  type: amount
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: 20,005,000.00
+  forbid:
+  - 20,005,000.0
+  - 20005,000.00
+  - '20005000.00'
+  status: draft
+  context: 元（含税），共计派发现金红利20,005,000.00元。
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_notice_new_605011_2026-09-18_p1_uc01
+  type: unit_currency
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: 元
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: a_share_notice_new_605011_2026-09-18_p2_pi01
+  type: page_integrity
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: 已办理指定交易的投资者可于红利发放日在其指定的证券营业部领取现金红利，未办理指定
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_new_605011_2026-09-18_p2_pi02
+  type: page_integrity
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: 交易的股东红利暂由中国结算上海分公司保管，待办理指定交易后再进行派发。
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_new_605011_2026-09-18_p2_pi03
+  type: page_integrity
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: （2）派送红股或转增股本的，由中国结算上海分公司根据股权登记日上海证券交易所收
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_new_605011_2026-09-18_p2_uc01
+  type: unit_currency
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: 元
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: a_share_notice_new_605011_2026-09-18_p3_pi01
+  type: page_integrity
+  severity: critical
+  page: 3
+  eval_on: md
+  rule: exactly_once
+  target: 可按照相关规定在取得股息红利后自行向主管税务机关提出申请。
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_new_605011_2026-09-18_p3_pi02
+  type: page_integrity
+  severity: critical
+  page: 3
+  eval_on: md
+  rule: exactly_once
+  target: （4）对于香港联合交易所有限公司投资者（包括企业和个人）投资上海证券交易所本公
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_new_605011_2026-09-18_p3_pi03
+  type: page_integrity
+  severity: critical
+  page: 3
+  eval_on: md
+  rule: exactly_once
+  target: 司A 股股票，根据《关于沪港股票市场交易互联互通机制试点有关税收政策的通知》（财税
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_notice_new_605011_2026-09-18_p3_uc01
+  type: unit_currency
+  severity: critical
+  page: 3
+  eval_on: md
+  rule: exactly_once
+  target: 元
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算

@@ -1,0 +1,343 @@
+doc_id: hk_annual_new_03306_2026-09-09
+family: hk_annual
+window: new
+source_url: https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0909/2026090901137.pdf
+disclosed_at: '2026-09-09'
+local_path: data/corpus/hk_annual/hk_annual_new_03306_2026-09-09.pdf
+pages_selected:
+- 112
+- 145
+- 151
+- 157
+generated_utc: '2026-09-21T01:41:54+00:00'
+generator: tools/make_assertions.py
+review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
+assertions:
+- id: hk_annual_new_03306_2026-09-09_p112_pi01
+  type: page_integrity
+  severity: critical
+  page: 112
+  eval_on: md
+  rule: exactly_once
+  target: Financial assets at fair value through profit or
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_03306_2026-09-09_p112_pi02
+  type: page_integrity
+  severity: critical
+  page: 112
+  eval_on: md
+  rule: exactly_once
+  target: 按公允價值計入損益（「按公允
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_03306_2026-09-09_p112_pi03
+  type: page_integrity
+  severity: critical
+  page: 112
+  eval_on: md
+  rule: exactly_once
+  target: 價值計入損益」）的金融資產
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_03306_2026-09-09_p112_am01
+  type: amount
+  severity: critical
+  page: 112
+  eval_on: md
+  rule: exactly_once
+  target: 501,838
+  forbid:
+  - 501,83
+  - '501838'
+  status: draft
+  context: 501,838
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_03306_2026-09-09_p112_am02
+  type: amount
+  severity: critical
+  page: 112
+  eval_on: md
+  rule: exactly_once
+  target: 434,317
+  forbid:
+  - 434,31
+  - '434317'
+  status: draft
+  context: 434,317
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_03306_2026-09-09_p112_am03
+  type: amount
+  severity: critical
+  page: 112
+  eval_on: md
+  rule: exactly_once
+  target: 10,890
+  forbid:
+  - 10,89
+  - '10890'
+  status: draft
+  context: 10,890
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_03306_2026-09-09_p112_am04
+  type: amount
+  severity: critical
+  page: 112
+  eval_on: md
+  rule: exactly_once
+  target: 35,761
+  forbid:
+  - 35,76
+  - '35761'
+  status: draft
+  context: 35,761
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_03306_2026-09-09_p112_uc01
+  type: unit_currency
+  severity: critical
+  page: 112
+  eval_on: md
+  rule: exactly_once
+  target: RMB
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: hk_annual_new_03306_2026-09-09_p145_pi01
+  type: page_integrity
+  severity: critical
+  page: 145
+  eval_on: md
+  rule: exactly_once
+  target: 餘下最高薪人士的酬金（包括以股份為基礎的薪酬開支（附
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_03306_2026-09-09_p145_pi02
+  type: page_integrity
+  severity: critical
+  page: 145
+  eval_on: md
+  rule: exactly_once
+  target: 註24））屬於以下範圍：
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_03306_2026-09-09_p145_pi03
+  type: page_integrity
+  severity: critical
+  page: 145
+  eval_on: md
+  rule: exactly_once
+  target: Five highest paid individuals (Continued)
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_03306_2026-09-09_p145_am01
+  type: amount
+  severity: critical
+  page: 145
+  eval_on: md
+  rule: exactly_once
+  target: 7,000,001
+  forbid:
+  - 7,000,00
+  - 7000,001
+  - '7000001'
+  status: draft
+  context: HK$7,000,001 to HK$7,500,000
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_03306_2026-09-09_p145_am02
+  type: amount
+  severity: critical
+  page: 145
+  eval_on: md
+  rule: exactly_once
+  target: 7,500,000
+  forbid:
+  - 7,500,00
+  - 7500,000
+  - '7500000'
+  status: draft
+  context: HK$7,000,001 to HK$7,500,000
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_03306_2026-09-09_p145_am03
+  type: amount
+  severity: critical
+  page: 145
+  eval_on: md
+  rule: exactly_once
+  target: 10,000,001
+  forbid:
+  - 10,000,00
+  - 10000,001
+  - '10000001'
+  status: draft
+  context: HK$10,000,001 to HK$10,500,000
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_03306_2026-09-09_p145_am04
+  type: amount
+  severity: critical
+  page: 145
+  eval_on: md
+  rule: exactly_once
+  target: 10,500,000
+  forbid:
+  - 10,500,00
+  - 10500,000
+  - '10500000'
+  status: draft
+  context: HK$10,000,001 to HK$10,500,000
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_03306_2026-09-09_p145_uc01
+  type: unit_currency
+  severity: critical
+  page: 145
+  eval_on: md
+  rule: exactly_once
+  target: HK$
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: hk_annual_new_03306_2026-09-09_p151_pi01
+  type: page_integrity
+  severity: critical
+  page: 151
+  eval_on: md
+  rule: exactly_once
+  target: properties (a)
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_03306_2026-09-09_p151_am01
+  type: amount
+  severity: critical
+  page: 151
+  eval_on: md
+  rule: exactly_once
+  target: 28,377
+  forbid:
+  - 28,37
+  - '28377'
+  status: draft
+  context: 28,377
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_03306_2026-09-09_p151_am02
+  type: amount
+  severity: critical
+  page: 151
+  eval_on: md
+  rule: exactly_once
+  target: 56,179
+  forbid:
+  - 56,17
+  - '56179'
+  status: draft
+  context: 56,179
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_03306_2026-09-09_p151_am03
+  type: amount
+  severity: critical
+  page: 151
+  eval_on: md
+  rule: exactly_once
+  target: 4,911
+  forbid:
+  - '4911'
+  status: draft
+  context: 4,911
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_03306_2026-09-09_p151_am04
+  type: amount
+  severity: critical
+  page: 151
+  eval_on: md
+  rule: exactly_once
+  target: 176,655
+  forbid:
+  - 176,65
+  - '176655'
+  status: draft
+  context: 176,655
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_03306_2026-09-09_p151_uc01
+  type: unit_currency
+  severity: critical
+  page: 151
+  eval_on: md
+  rule: exactly_once
+  target: RMB
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: hk_annual_new_03306_2026-09-09_p157_pi01
+  type: page_integrity
+  severity: critical
+  page: 157
+  eval_on: md
+  rule: exactly_once
+  target: 攤銷開支按以下方式自綜合損益及其他全面收益表扣除：
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_03306_2026-09-09_p157_pi02
+  type: page_integrity
+  severity: critical
+  page: 157
+  eval_on: md
+  rule: exactly_once
+  target: Amortisation expenses have been charged to the consolidated statement of profit or
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_new_03306_2026-09-09_p157_am01
+  type: amount
+  severity: critical
+  page: 157
+  eval_on: md
+  rule: exactly_once
+  target: 51,352
+  forbid:
+  - 51,35
+  - '51352'
+  status: draft
+  context: 51,352
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_03306_2026-09-09_p157_am02
+  type: amount
+  severity: critical
+  page: 157
+  eval_on: md
+  rule: exactly_once
+  target: 25,622
+  forbid:
+  - 25,62
+  - '25622'
+  status: draft
+  context: 25,622
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_03306_2026-09-09_p157_am03
+  type: amount
+  severity: critical
+  page: 157
+  eval_on: md
+  rule: exactly_once
+  target: 49,062
+  forbid:
+  - 49,06
+  - '49062'
+  status: draft
+  context: 49,062
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_03306_2026-09-09_p157_am04
+  type: amount
+  severity: critical
+  page: 157
+  eval_on: md
+  rule: exactly_once
+  target: 126,140
+  forbid:
+  - 126,14
+  - '126140'
+  status: draft
+  context: 126,140
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_new_03306_2026-09-09_p157_uc01
+  type: unit_currency
+  severity: critical
+  page: 157
+  eval_on: md
+  rule: exactly_once
+  target: RMB
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算

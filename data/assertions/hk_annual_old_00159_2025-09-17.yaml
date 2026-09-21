@@ -1,0 +1,225 @@
+doc_id: hk_annual_old_00159_2025-09-17
+family: hk_annual
+window: old
+source_url: https://www1.hkexnews.hk/listedco/listconews/sehk/2025/0917/2025091701306.pdf
+disclosed_at: '2025-09-17'
+local_path: data/corpus/hk_annual/hk_annual_old_00159_2025-09-17.pdf
+pages_selected:
+- 2
+- 80
+- 86
+- 108
+generated_utc: '2026-09-21T01:41:54+00:00'
+generator: tools/make_assertions.py
+review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
+assertions:
+- id: hk_annual_old_00159_2025-09-17_p2_pi01
+  type: page_integrity
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: Corporate Information..................................................................................................................................................................
+    2
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_old_00159_2025-09-17_p2_pi02
+  type: page_integrity
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: Chairman’s Message....................................................................................................................................................................
+    3
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_old_00159_2025-09-17_p2_pi03
+  type: page_integrity
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: Management Discussion and Analysis.........................................................................................................................................
+    4
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_old_00159_2025-09-17_p80_pi01
+  type: page_integrity
+  severity: critical
+  page: 80
+  eval_on: md
+  rule: exactly_once
+  target: Changes in accounting policy and disclosures (Continued)
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_old_00159_2025-09-17_p80_pi02
+  type: page_integrity
+  severity: critical
+  page: 80
+  eval_on: md
+  rule: exactly_once
+  target: New standards, interpretations and amendments adopted by the Group (Continued)
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_old_00159_2025-09-17_p80_pi03
+  type: page_integrity
+  severity: critical
+  page: 80
+  eval_on: md
+  rule: exactly_once
+  target: 'Amendments to IAS 1: Classification of Liabilities as Current or Non-Current (Continued)'
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_old_00159_2025-09-17_p86_pi01
+  type: page_integrity
+  severity: critical
+  page: 86
+  eval_on: md
+  rule: exactly_once
+  target: Related parties (Continued)
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_old_00159_2025-09-17_p86_pi02
+  type: page_integrity
+  severity: critical
+  page: 86
+  eval_on: md
+  rule: exactly_once
+  target: 'The party is an entity where any of the following conditions applies:'
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_old_00159_2025-09-17_p86_pi03
+  type: page_integrity
+  severity: critical
+  page: 86
+  eval_on: md
+  rule: exactly_once
+  target: The entity and the Group are members of the same group;
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_old_00159_2025-09-17_p86_am01
+  type: amount
+  severity: critical
+  page: 86
+  eval_on: md
+  rule: exactly_once
+  target: 67,643,000
+  forbid:
+  - 67,643,00
+  - 67643,000
+  - '67643000'
+  status: draft
+  context: Other payables include the Group’s share of the joint operation expenditure of H
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_old_00159_2025-09-17_p86_am02
+  type: amount
+  severity: critical
+  page: 86
+  eval_on: md
+  rule: exactly_once
+  target: 57,104,000)
+  forbid:
+  - 57,104,00
+  - 57104,000
+  - '57104000'
+  status: draft
+  context: presented as a non-current liability as the repayment date is deferred to 30 Sep
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_old_00159_2025-09-17_p86_uc01
+  type: unit_currency
+  severity: critical
+  page: 86
+  eval_on: md
+  rule: exactly_once
+  target: HK$
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: hk_annual_old_00159_2025-09-17_p108_pi01
+  type: page_integrity
+  severity: critical
+  page: 108
+  eval_on: md
+  rule: exactly_once
+  target: Major non-cash transactions
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_old_00159_2025-09-17_p108_pi02
+  type: page_integrity
+  severity: critical
+  page: 108
+  eval_on: md
+  rule: exactly_once
+  target: 'During the year, there were no additions to right-of-use assets (2024: HK$58,000) and lease
+    liabilities (2024: HK$58,000), in'
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_old_00159_2025-09-17_p108_pi03
+  type: page_integrity
+  severity: critical
+  page: 108
+  eval_on: md
+  rule: exactly_once
+  target: respect of lease arrangements for commercial office and equipment.
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_annual_old_00159_2025-09-17_p108_am01
+  type: amount
+  severity: critical
+  page: 108
+  eval_on: md
+  rule: exactly_once
+  target: 58,000)
+  forbid:
+  - 58,00
+  - '58000'
+  status: draft
+  context: 'During the year, there were no additions to right-of-use assets (2024: HK$58,000'
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_old_00159_2025-09-17_p108_am02
+  type: amount
+  severity: critical
+  page: 108
+  eval_on: md
+  rule: exactly_once
+  target: 75,756
+  forbid:
+  - 75,75
+  - '75756'
+  status: draft
+  context: 75,756
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_old_00159_2025-09-17_p108_am03
+  type: amount
+  severity: critical
+  page: 108
+  eval_on: md
+  rule: exactly_once
+  target: 57,104
+  forbid:
+  - 57,10
+  - '57104'
+  status: draft
+  context: 57,104
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_old_00159_2025-09-17_p108_am04
+  type: amount
+  severity: critical
+  page: 108
+  eval_on: md
+  rule: exactly_once
+  target: 17,189
+  forbid:
+  - 17,18
+  - '17189'
+  status: draft
+  context: 17,189
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_annual_old_00159_2025-09-17_p108_uc01
+  type: unit_currency
+  severity: critical
+  page: 108
+  eval_on: md
+  rule: exactly_once
+  target: HK$
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算

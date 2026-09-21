@@ -1,0 +1,368 @@
+doc_id: hk_interim_new_00239_2026-09-20
+family: hk_interim
+window: new
+source_url: https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0920/2026092000019.pdf
+disclosed_at: '2026-09-20'
+local_path: data/corpus/hk_interim/hk_interim_new_00239_2026-09-20.pdf
+pages_selected:
+- 4
+- 18
+- 22
+- 30
+generated_utc: '2026-09-21T01:41:56+00:00'
+generator: tools/make_assertions.py
+review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
+assertions:
+- id: hk_interim_new_00239_2026-09-20_p4_pi01
+  type: page_integrity
+  severity: critical
+  page: 4
+  eval_on: md
+  rule: exactly_once
+  target: Revenue and Underlying Recurring Profit increased year-on-year by 6.7% and 3.7%
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_new_00239_2026-09-20_p4_pi02
+  type: page_integrity
+  severity: critical
+  page: 4
+  eval_on: md
+  rule: exactly_once
+  target: respectively, primarily due to an increase in sales contribution from Healthcare
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_new_00239_2026-09-20_p4_pi03
+  type: page_integrity
+  severity: critical
+  page: 4
+  eval_on: md
+  rule: exactly_once
+  target: Reported profit up 19.1%, primarily due to a significant decrease in non-cash fair
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_new_00239_2026-09-20_p4_am01
+  type: amount
+  severity: critical
+  page: 4
+  eval_on: md
+  rule: exactly_once
+  target: 101,035
+  forbid:
+  - 101,03
+  - '101035'
+  status: draft
+  context: 101,035
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_new_00239_2026-09-20_p4_am02
+  type: amount
+  severity: critical
+  page: 4
+  eval_on: md
+  rule: exactly_once
+  target: 94,734
+  forbid:
+  - 94,73
+  - '94734'
+  status: draft
+  context: 94,734
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_new_00239_2026-09-20_p4_am03
+  type: amount
+  severity: critical
+  page: 4
+  eval_on: md
+  rule: exactly_once
+  target: 47,352
+  forbid:
+  - 47,35
+  - '47352'
+  status: draft
+  context: 47,352
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_new_00239_2026-09-20_p4_am04
+  type: amount
+  severity: critical
+  page: 4
+  eval_on: md
+  rule: exactly_once
+  target: 39,743
+  forbid:
+  - 39,74
+  - '39743'
+  status: draft
+  context: 39,743
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_new_00239_2026-09-20_p4_uc01
+  type: unit_currency
+  severity: critical
+  page: 4
+  eval_on: md
+  rule: exactly_once
+  target: HK$
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: hk_interim_new_00239_2026-09-20_p18_pi01
+  type: page_integrity
+  severity: critical
+  page: 18
+  eval_on: md
+  rule: exactly_once
+  target: Items that may be reclassified subsequently to
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_new_00239_2026-09-20_p18_pi02
+  type: page_integrity
+  severity: critical
+  page: 18
+  eval_on: md
+  rule: exactly_once
+  target: of financial statements of overseas
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_new_00239_2026-09-20_p18_pi03
+  type: page_integrity
+  severity: critical
+  page: 18
+  eval_on: md
+  rule: exactly_once
+  target: of inter-company balances with overseas
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_new_00239_2026-09-20_p18_am01
+  type: amount
+  severity: critical
+  page: 18
+  eval_on: md
+  rule: exactly_once
+  target: 6,277
+  forbid:
+  - '6277'
+  status: draft
+  context: 6,277
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_new_00239_2026-09-20_p18_am02
+  type: amount
+  severity: critical
+  page: 18
+  eval_on: md
+  rule: exactly_once
+  target: 6,451
+  forbid:
+  - '6451'
+  status: draft
+  context: 6,451
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_new_00239_2026-09-20_p18_am03
+  type: amount
+  severity: critical
+  page: 18
+  eval_on: md
+  rule: exactly_once
+  target: 255,000
+  forbid:
+  - 255,00
+  - '255000'
+  status: draft
+  context: buildings, net of tax effect of HK$255,000
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_new_00239_2026-09-20_p18_am04
+  type: amount
+  severity: critical
+  page: 18
+  eval_on: md
+  rule: exactly_once
+  target: 8,143,000)
+  forbid:
+  - 8,143,00
+  - 8143,000
+  - '8143000'
+  status: draft
+  context: '(2025: HK$8,143,000)'
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_new_00239_2026-09-20_p18_uc01
+  type: unit_currency
+  severity: critical
+  page: 18
+  eval_on: md
+  rule: exactly_once
+  target: HK$
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: hk_interim_new_00239_2026-09-20_p22_pi01
+  type: page_integrity
+  severity: critical
+  page: 22
+  eval_on: md
+  rule: exactly_once
+  target: CONDENSED CONSOLIDATED STATEMENT OF CASH FLOWS
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_new_00239_2026-09-20_p22_pi02
+  type: page_integrity
+  severity: critical
+  page: 22
+  eval_on: md
+  rule: exactly_once
+  target: OPERATING ACTIVITIES
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_new_00239_2026-09-20_p22_pi03
+  type: page_integrity
+  severity: critical
+  page: 22
+  eval_on: md
+  rule: exactly_once
+  target: Cash generated from operations
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_new_00239_2026-09-20_p22_am01
+  type: amount
+  severity: critical
+  page: 22
+  eval_on: md
+  rule: exactly_once
+  target: 50,100
+  forbid:
+  - 50,10
+  - '50100'
+  status: draft
+  context: 50,100
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_new_00239_2026-09-20_p22_am02
+  type: amount
+  severity: critical
+  page: 22
+  eval_on: md
+  rule: exactly_once
+  target: 64,050
+  forbid:
+  - 64,05
+  - '64050'
+  status: draft
+  context: 64,050
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_new_00239_2026-09-20_p22_am03
+  type: amount
+  severity: critical
+  page: 22
+  eval_on: md
+  rule: exactly_once
+  target: 2,294
+  forbid:
+  - '2294'
+  status: draft
+  context: 2,294
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_new_00239_2026-09-20_p22_am04
+  type: amount
+  severity: critical
+  page: 22
+  eval_on: md
+  rule: exactly_once
+  target: 3,262
+  forbid:
+  - '3262'
+  status: draft
+  context: 3,262
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_new_00239_2026-09-20_p22_uc01
+  type: unit_currency
+  severity: critical
+  page: 22
+  eval_on: md
+  rule: exactly_once
+  target: HK$
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: hk_interim_new_00239_2026-09-20_p30_pi01
+  type: page_integrity
+  severity: critical
+  page: 30
+  eval_on: md
+  rule: exactly_once
+  target: DIVIDENDS (CONTINUED)
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_new_00239_2026-09-20_p30_pi02
+  type: page_integrity
+  severity: critical
+  page: 30
+  eval_on: md
+  rule: exactly_once
+  target: Dividends attributable to the period (Continued)
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_new_00239_2026-09-20_p30_pi03
+  type: page_integrity
+  severity: critical
+  page: 30
+  eval_on: md
+  rule: exactly_once
+  target: On 20 August 2026, the directors declared for the six months ended 30 June 2026 an interim
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_interim_new_00239_2026-09-20_p30_am01
+  type: amount
+  severity: critical
+  page: 30
+  eval_on: md
+  rule: exactly_once
+  target: 28,047,000
+  forbid:
+  - 28,047,00
+  - 28047,000
+  - '28047000'
+  status: draft
+  context: 'of HK6.0 cents per share (2025: HK5.0 cents per share) totalling HK$28,047,000 ('
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_new_00239_2026-09-20_p30_am02
+  type: amount
+  severity: critical
+  page: 30
+  eval_on: md
+  rule: exactly_once
+  target: 24,931,000
+  forbid:
+  - 24,931,00
+  - 24931,000
+  - '24931000'
+  status: draft
+  context: HK$24,931,000 declared on 21 August 2025), which will be payable to shareholders
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_new_00239_2026-09-20_p30_am03
+  type: amount
+  severity: critical
+  page: 30
+  eval_on: md
+  rule: exactly_once
+  target: 47,352,000
+  forbid:
+  - 47,352,00
+  - 47352,000
+  - '47352000'
+  status: draft
+  context: 'to owners of the Company for the period of HK$47,352,000 (2025: HK$39,743,000) a'
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_new_00239_2026-09-20_p30_am04
+  type: amount
+  severity: critical
+  page: 30
+  eval_on: md
+  rule: exactly_once
+  target: 39,743,000)
+  forbid:
+  - 39,743,00
+  - 39743,000
+  - '39743000'
+  status: draft
+  context: 'to owners of the Company for the period of HK$47,352,000 (2025: HK$39,743,000) a'
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: hk_interim_new_00239_2026-09-20_p30_uc01
+  type: unit_currency
+  severity: critical
+  page: 30
+  eval_on: md
+  rule: exactly_once
+  target: HK$
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算

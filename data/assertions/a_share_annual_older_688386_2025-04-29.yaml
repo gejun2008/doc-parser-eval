@@ -1,0 +1,374 @@
+doc_id: a_share_annual_older_688386_2025-04-29
+family: a_share_annual
+window: older
+source_url: http://static.cninfo.com.cn/finalpage/2025-04-30/1223452204.pdf
+disclosed_at: '2025-04-29'
+local_path: data/corpus/a_share_annual/a_share_annual_older_688386_2025-04-29.pdf
+pages_selected:
+- 34
+- 39
+- 197
+- 216
+generated_utc: '2026-09-21T01:41:50+00:00'
+generator: tools/make_assertions.py
+review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
+assertions:
+- id: a_share_annual_older_688386_2025-04-29_p34_pi01
+  type: page_integrity
+  severity: critical
+  page: 34
+  eval_on: md
+  rule: exactly_once
+  target: 10,272,240.00
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_annual_older_688386_2025-04-29_p34_pi02
+  type: page_integrity
+  severity: critical
+  page: 34
+  eval_on: md
+  rule: exactly_once
+  target: 9,501,472.53
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_annual_older_688386_2025-04-29_p34_pi03
+  type: page_integrity
+  severity: critical
+  page: 34
+  eval_on: md
+  rule: exactly_once
+  target: 490,289,683.11 269,053,479.24
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_annual_older_688386_2025-04-29_p34_am01
+  type: amount
+  severity: critical
+  page: 34
+  eval_on: md
+  rule: exactly_once
+  target: 59,565,261.79
+  forbid:
+  - 59,565,261.7
+  - 59565,261.79
+  - '59565261.79'
+  status: draft
+  context: 59,565,261.79
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_annual_older_688386_2025-04-29_p34_am02
+  type: amount
+  severity: critical
+  page: 34
+  eval_on: md
+  rule: exactly_once
+  target: 19,406,982.34
+  forbid:
+  - 19,406,982.3
+  - 19406,982.34
+  - '19406982.34'
+  status: draft
+  context: 19,406,982.34
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_annual_older_688386_2025-04-29_p34_am03
+  type: amount
+  severity: critical
+  page: 34
+  eval_on: md
+  rule: exactly_once
+  target: 10,272,240.00
+  forbid:
+  - 10,272,240.0
+  - 10272,240.00
+  - '10272240.00'
+  status: draft
+  context: 10,272,240.00
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_annual_older_688386_2025-04-29_p34_am04
+  type: amount
+  severity: critical
+  page: 34
+  eval_on: md
+  rule: exactly_once
+  target: 9,501,472.53
+  forbid:
+  - 9,501,472.5
+  - 9501,472.53
+  - '9501472.53'
+  status: draft
+  context: 9,501,472.53
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_annual_older_688386_2025-04-29_p39_pi01
+  type: page_integrity
+  severity: critical
+  page: 39
+  eval_on: md
+  rule: exactly_once
+  target: (三) 资产、负债情况分析
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_annual_older_688386_2025-04-29_p39_pi02
+  type: page_integrity
+  severity: critical
+  page: 39
+  eval_on: md
+  rule: exactly_once
+  target: -52.91 主要系本期分配股利、购买理财产品、支付税金、
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_annual_older_688386_2025-04-29_p39_pi03
+  type: page_integrity
+  severity: critical
+  page: 39
+  eval_on: md
+  rule: exactly_once
+  target: 支付工程款以及购买设备所致。
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_annual_older_688386_2025-04-29_p39_am01
+  type: amount
+  severity: critical
+  page: 39
+  eval_on: md
+  rule: exactly_once
+  target: 27,593,494.46
+  forbid:
+  - 27,593,494.4
+  - 27593,494.46
+  - '27593494.46'
+  status: draft
+  context: 27,593,494.46
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_annual_older_688386_2025-04-29_p39_am02
+  type: amount
+  severity: critical
+  page: 39
+  eval_on: md
+  rule: exactly_once
+  target: 58,603,363.60
+  forbid:
+  - 58,603,363.6
+  - 58603,363.60
+  - '58603363.60'
+  status: draft
+  context: 58,603,363.60
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_annual_older_688386_2025-04-29_p39_am03
+  type: amount
+  severity: critical
+  page: 39
+  eval_on: md
+  rule: exactly_once
+  target: 57,056,142.33
+  forbid:
+  - 57,056,142.3
+  - 57056,142.33
+  - '57056142.33'
+  status: draft
+  context: 57,056,142.33
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_annual_older_688386_2025-04-29_p39_am04
+  type: amount
+  severity: critical
+  page: 39
+  eval_on: md
+  rule: exactly_once
+  target: 29,126,808.83
+  forbid:
+  - 29,126,808.8
+  - 29126,808.83
+  - '29126808.83'
+  status: draft
+  context: 29,126,808.83
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_annual_older_688386_2025-04-29_p39_uc01
+  type: unit_currency
+  severity: critical
+  page: 39
+  eval_on: md
+  rule: exactly_once
+  target: 单位：元
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: a_share_annual_older_688386_2025-04-29_p197_pi01
+  type: page_integrity
+  severity: critical
+  page: 197
+  eval_on: md
+  rule: exactly_once
+  target: 5、其他调整合计影响期初未分配利润0 元。
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_annual_older_688386_2025-04-29_p197_pi02
+  type: page_integrity
+  severity: critical
+  page: 197
+  eval_on: md
+  rule: exactly_once
+  target: 512,846,504.09
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_annual_older_688386_2025-04-29_p197_pi03
+  type: page_integrity
+  severity: critical
+  page: 197
+  eval_on: md
+  rule: exactly_once
+  target: 271,910,948.57
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_annual_older_688386_2025-04-29_p197_am01
+  type: amount
+  severity: critical
+  page: 197
+  eval_on: md
+  rule: exactly_once
+  target: 512,846,504.09
+  forbid:
+  - 512,846,504.0
+  - 512846,504.09
+  - '512846504.09'
+  status: draft
+  context: 512,846,504.09
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_annual_older_688386_2025-04-29_p197_am02
+  type: amount
+  severity: critical
+  page: 197
+  eval_on: md
+  rule: exactly_once
+  target: 271,910,948.57
+  forbid:
+  - 271,910,948.5
+  - 271910,948.57
+  - '271910948.57'
+  status: draft
+  context: 271,910,948.57
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_annual_older_688386_2025-04-29_p197_am03
+  type: amount
+  severity: critical
+  page: 197
+  eval_on: md
+  rule: exactly_once
+  target: 408,430,635.31
+  forbid:
+  - 408,430,635.3
+  - 408430,635.31
+  - '408430635.31'
+  status: draft
+  context: 408,430,635.31
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_annual_older_688386_2025-04-29_p197_am04
+  type: amount
+  severity: critical
+  page: 197
+  eval_on: md
+  rule: exactly_once
+  target: 221,223,037.49
+  forbid:
+  - 221,223,037.4
+  - 221223,037.49
+  - '221223037.49'
+  status: draft
+  context: 221,223,037.49
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_annual_older_688386_2025-04-29_p197_uc01
+  type: unit_currency
+  severity: critical
+  page: 197
+  eval_on: md
+  rule: exactly_once
+  target: 元
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算
+- id: a_share_annual_older_688386_2025-04-29_p216_pi01
+  type: page_integrity
+  severity: critical
+  page: 216
+  eval_on: md
+  rule: exactly_once
+  target: (3). 重要联营企业的主要财务信息
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_annual_older_688386_2025-04-29_p216_pi02
+  type: page_integrity
+  severity: critical
+  page: 216
+  eval_on: md
+  rule: exactly_once
+  target: 42,604,332.40 161,157,070.78 118,924,780.33 155,726,702.69
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_annual_older_688386_2025-04-29_p216_pi03
+  type: page_integrity
+  severity: critical
+  page: 216
+  eval_on: md
+  rule: exactly_once
+  target: 404,521,363.52 209,574,101.40 285,878,272.15
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: a_share_annual_older_688386_2025-04-29_p216_am01
+  type: amount
+  severity: critical
+  page: 216
+  eval_on: md
+  rule: exactly_once
+  target: 42,604,332.40
+  forbid:
+  - 42,604,332.4
+  - 42604,332.40
+  - '42604332.40'
+  status: draft
+  context: 42,604,332.40 161,157,070.78 118,924,780.33 155,726,702.69
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_annual_older_688386_2025-04-29_p216_am02
+  type: amount
+  severity: critical
+  page: 216
+  eval_on: md
+  rule: exactly_once
+  target: 161,157,070.78
+  forbid:
+  - 161,157,070.7
+  - 161157,070.78
+  - '161157070.78'
+  status: draft
+  context: 42,604,332.40 161,157,070.78 118,924,780.33 155,726,702.69
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_annual_older_688386_2025-04-29_p216_am03
+  type: amount
+  severity: critical
+  page: 216
+  eval_on: md
+  rule: exactly_once
+  target: 118,924,780.33
+  forbid:
+  - 118,924,780.3
+  - 118924,780.33
+  - '118924780.33'
+  status: draft
+  context: 42,604,332.40 161,157,070.78 118,924,780.33 155,726,702.69
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_annual_older_688386_2025-04-29_p216_am04
+  type: amount
+  severity: critical
+  page: 216
+  eval_on: md
+  rule: exactly_once
+  target: 155,726,702.69
+  forbid:
+  - 155,726,702.6
+  - 155726,702.69
+  - '155726702.69'
+  status: draft
+  context: 42,604,332.40 161,157,070.78 118,924,780.33 155,726,702.69
+  note: 草稿：必须对照渲染页人工确认该金额及其所属科目
+- id: a_share_annual_older_688386_2025-04-29_p216_uc01
+  type: unit_currency
+  severity: critical
+  page: 216
+  eval_on: md
+  rule: exactly_once
+  target: 单位：元 币种：人民币
+  status: draft
+  note: 草稿：确认单位/币种表头是否确实出现在该页且未被换算

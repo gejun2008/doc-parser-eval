@@ -1,0 +1,67 @@
+doc_id: hk_kyc_old_01661_2025-09-19
+family: hk_kyc
+window: old
+source_url: https://www1.hkexnews.hk/listedco/listconews/sehk/2025/0919/2025091901612.pdf
+disclosed_at: '2025-09-19'
+local_path: data/corpus/hk_kyc/hk_kyc_old_01661_2025-09-19.pdf
+pages_selected:
+- 1
+- 2
+generated_utc: '2026-09-21T01:41:57+00:00'
+generator: tools/make_assertions.py
+review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
+assertions:
+- id: hk_kyc_old_01661_2025-09-19_p1_pi01
+  type: page_integrity
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: Hong Kong Exchanges and Clearing Limited and The Stock Exchange of Hong Kong Limited take
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_kyc_old_01661_2025-09-19_p1_pi02
+  type: page_integrity
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: no responsibility for the contents of this announcement, make no representation as to its accuracy
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_kyc_old_01661_2025-09-19_p1_pi03
+  type: page_integrity
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: or completeness and expressly disclaim any liability whatsoever for any loss howsoever arising
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_kyc_old_01661_2025-09-19_p2_pi01
+  type: page_integrity
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: Nomination Committee
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_kyc_old_01661_2025-09-19_p2_pi02
+  type: page_integrity
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: Hong Kong, 19 September 2025
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_kyc_old_01661_2025-09-19_p2_pi03
+  type: page_integrity
+  severity: critical
+  page: 2
+  eval_on: md
+  rule: exactly_once
+  target: As at the date of this announcement, the executive Directors of the Company are Ms. Ren Song,
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测

@@ -1,0 +1,39 @@
+doc_id: hk_kyc_old_00472_2025-09-19
+family: hk_kyc
+window: old
+source_url: https://www1.hkexnews.hk/listedco/listconews/sehk/2025/0919/2025091901704.pdf
+disclosed_at: '2025-09-19'
+local_path: data/corpus/hk_kyc/hk_kyc_old_00472_2025-09-19.pdf
+pages_selected:
+- 1
+generated_utc: '2026-09-21T01:41:57+00:00'
+generator: tools/make_assertions.py
+review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
+assertions:
+- id: hk_kyc_old_00472_2025-09-19_p1_pi01
+  type: page_integrity
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: '(Stock Code: 472)'
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_kyc_old_00472_2025-09-19_p1_pi02
+  type: page_integrity
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: (Incorporated in Bermuda with limited liability)
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
+- id: hk_kyc_old_00472_2025-09-19_p1_pi03
+  type: page_integrity
+  severity: critical
+  page: 1
+  eval_on: md
+  rule: exactly_once
+  target: LIST OF DIRECTORS AND THEIR ROLE AND FUNCTION
+  status: auto
+  note: 文本层唯一锚点，自动生成，用于漏页与幻觉检测
