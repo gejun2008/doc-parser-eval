@@ -43,6 +43,33 @@ import requests
 sys.path.insert(0, str(Path(__file__).parent))
 from probe import render_page, smart_resize  # noqa: E402  同口径栅格化，不重复实现
 
+IMAGE_EXT = {".png", ".jpg", ".jpeg", ".webp", ".bmp", ".tif", ".tiff"}
+
+
+def render_image(path):
+    """图片输入。逐字对齐 SDK 的 encode_image_to_base64（utils/image.py）：
+    smart_resize(factor=32, min_pixels=2048, max_pixels=16777216) 后存 PNG。
+
+    扰动组（T2）必须走这条路——降源 PDF 的 DPI 会被 300 DPI 重栅格化抵消，
+    只有直接送图片才能真正测到低分辨率输入（sdk-findings.md §6）。
+    """
+    import base64
+    import hashlib
+    import io as _io
+    from PIL import Image
+    img = Image.open(path)
+    h, w = smart_resize(img.size[1], img.size[0])
+    img = img.resize((w, h))
+    if img.mode != "RGB":
+        img = img.convert("RGB")
+    buf = _io.BytesIO()
+    img.save(buf, format="PNG")
+    data = buf.getvalue()
+    meta = {"image": str(path), "sent_w": w, "sent_h": h, "sent_pixels": w * h,
+            "png_bytes": len(data), "png_sha256": hashlib.sha256(data).hexdigest()[:16],
+            "input_kind": "image"}
+    return base64.b64encode(data).decode(), meta
+
 API_URL = os.environ.get("INFINITY_PARSER2_API_URL", "")
 API_KEY = os.environ.get("INFINITY_PARSER2_API_KEY", "")
 MODEL = os.environ.get("INFINITY_PARSER2_MODEL", "inf-mllm")
@@ -131,8 +158,11 @@ def process(job, cfg):
         except json.JSONDecodeError:
             pass  # 文件损坏就重跑
 
-    pdf_path = cfg["pdf_root"] / pdf_rel
-    b64, meta = render_page(pdf_path, page, dpi=cfg["dpi"])
+    src = cfg["pdf_root"] / pdf_rel
+    if src.suffix.lower() in IMAGE_EXT:
+        b64, meta = render_image(src)
+    else:
+        b64, meta = render_page(src, page, dpi=cfg["dpi"])
     payload = {
         "model": MODEL,
         "messages": [{"role": "user", "content": [
@@ -179,7 +209,7 @@ def process(job, cfg):
 def load_jobs(manifest, pdf_root, limit):
     rows = list(csv.DictReader(open(manifest, encoding="utf-8")))
     jobs = [(r["pdf"], int(r.get("page") or 1)) for r in rows]
-    missing = [p for p, _ in jobs if not (pdf_root / p).exists()]
+    missing = [p for p, _ in jobs if not (pdf_root / p).exists()]  # noqa: E501
     if missing:
         sys.exit(f"{len(missing)} 个 PDF 不存在，例如 {missing[:3]}")
     return jobs[:limit] if limit else jobs
