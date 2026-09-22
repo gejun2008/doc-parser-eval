@@ -17,7 +17,9 @@
 约 166 MB（olmOCR-Bench 120 份 + 自建集 53 份），不进 git——
 PDF 无法增量存储，会永久留在历史里。两种取法：
 
-1. **GitHub Release 附件**下载 `inf-eval-corpus.zip`
+1. **GitHub Release 附件**：
+   https://github.com/gejun2008/doc-parser-eval/releases/tag/v0.1-interim
+   下载 `inf-eval-corpus.zip`（174.6 MB）
 2. 网络可达时按清单重新下载，**seed 固定必得同一批**：
    ```bash
    python tools/fetch_olmocr_bench.py

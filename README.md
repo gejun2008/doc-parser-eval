@@ -36,8 +36,8 @@ T8 重复一致性（210 页 × 3 次）。约 900 次调用，原始响应全�
 ```bash
 uv venv --python 3.12 .venv
 uv pip install --python .venv/bin/python -r requirements.txt
-# olmOCR-Bench 判定另需：
-uv pip install --python .venv/bin/python fuzzysearch rapidfuzz beautifulsoup4 numpy tqdm lxml playwright
+# 判定与扰动组另需：
+uv pip install --python .venv/bin/python -r requirements-scoring.txt
 .venv/bin/python -m playwright install chromium     # math 类断言要 KaTeX 渲染
 cp .env.example .env                                 # 填凭证，.env 不入库
 ```
@@ -74,12 +74,17 @@ set -a && source .env && set +a
 
 ## 不入库的目录
 
-`data/corpus/`、`data/olmocr_bench/`、`data/perturbed/`、`runs/`、`probe_out/`、
-`review/`、`.venv/`、`.env`。
+`data/corpus/`、`data/olmocr_bench/`、`data/perturbed/` 的图片与 PDF、
+`runs/`、`probe_out/`、`review/`、`.venv/`、`.env`。
 
-语料按 `manifest.csv` 里的 `source_url` 可重新下载；
-评测产物用 `make_handoff.py` 打包迁移。**断言 `data/assertions/*.yaml` 入库**——
-那是评测的 GT。
+例外：`data/perturbed/*.csv` 强制入库——扰动组判定要用它把扰动图映射回原页
+（`check.py --alias`），没有它就得重跑 perturb.py 才能复算。
+
+语料按 `manifest.csv` 里的 `source_url` 可重新下载，也可从
+[Release v0.1-interim](https://github.com/gejun2008/doc-parser-eval/releases/tag/v0.1-interim)
+下载 `inf-eval-corpus.zip`（174.6 MB）。
+评测证据在 `dist/evidence_20260921.zip`（2.6 MB，含全部原始响应）。
+**断言 `data/assertions/*.yaml` 入库**——那是评测的 GT。
 
 ## 三条最容易违反的纪律
 

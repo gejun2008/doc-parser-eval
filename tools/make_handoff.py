@@ -275,6 +275,9 @@ def main():
         shutil.copy2(f, cm / f.name)
     for f in Path("data/corpus").glob("*.json"):
         shutil.copy2(f, cm / f.name)
+    # 扰动组清单：判定时靠它把扰动图映射回原页（check.py --alias）
+    for f in Path("data/perturbed").glob("*.csv"):
+        shutil.copy2(f, cm / f"perturbed_{f.name}")
 
     n_data = 0
     if a.with_data:
