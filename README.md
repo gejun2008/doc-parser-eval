@@ -16,6 +16,7 @@
 | 写报告 | `docs/report-outline.md`（逐节对照数据文件） |
 | 向厂商提问 | `docs/vendor-questions.md` |
 | 改代码前 | `CLAUDE.md`（工程约定与硬约束） |
+| 用 AI 助手接手本项目 | `docs/ai-assistant-prompt.md`（起始 prompt，含口径纪律） |
 
 ## 当前状态（2026-09-21）
 
