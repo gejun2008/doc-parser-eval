@@ -46,8 +46,25 @@ def show_status():
         print(f"！还有 {tot['draft']} 条草稿未审核，判定器会跳过它们")
 
 
+def apply_many(path):
+    """审核页「导出全部」产生的汇总文件：{reviewed_at, docs: {doc_id: decisions}}。"""
+    data = json.loads(Path(path).read_text(encoding="utf-8"))
+    tot = Counter()
+    for doc_id, decisions in (data.get("docs") or {}).items():
+        tot.update(apply_payload({"doc_id": doc_id,
+                                  "reviewed_at": data.get("reviewed_at"),
+                                  "decisions": decisions}, path))
+    return tot
+
+
 def apply_one(path):
     data = json.loads(Path(path).read_text(encoding="utf-8"))
+    if "docs" in data and "doc_id" not in data:
+        return apply_many(path)
+    return apply_payload(data, path)
+
+
+def apply_payload(data, path):
     doc_id = data["doc_id"]
     yml = ASSERT_DIR / f"{doc_id}.yaml"
     if not yml.exists():

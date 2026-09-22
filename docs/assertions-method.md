@@ -83,6 +83,42 @@ python tools/review_assertions.py --audit 60
 结论会变成「该产品金额识别能力极差」，而真相是判定器写错了。
 反过来，如果某个数字高得反常，同样要查——错误不会只朝一个方向。
 
+## 人工审核怎么做（公司电脑上）
+
+**不需要起服务器。** 审核页是自包含 HTML，页面图以 base64 内嵌，
+双击用浏览器打开即可。
+
+```bash
+python tools/review_assertions.py --audit 60      # 生成 review/，约 39 MB
+```
+
+打开 `review/index.html`，表里「草稿」列非 0 的才需要处理。
+**53 份文档里只有 17 份有待审条目**，其余 36 份可以跳过：
+
+| 待审条数 | 文档数 |
+|---|---|
+| 0 | 36 |
+| 1–5 | 16 |
+| 32 | 1 |
+
+逐条看页面图确认后点「通过」或「删除」，金额抽错可直接改输入框里的值。
+全部看完点 **「导出全部」**——它会把所有已审文档汇成一个 `review_all.json`，
+不必逐份下载 53 次。然后：
+
+```bash
+python tools/apply_review.py ~/Downloads/review_all.json
+python tools/apply_review.py --status            # 看进度
+```
+
+### 两个坑
+
+1. **`file://` 下部分浏览器（Safari 尤其）拒绝 localStorage**。
+   审核页已做容错：拒绝时退回内存态并在页面顶部显示橙色警告条——
+   **看到警告条就必须当场导出，关页面即丢失**。
+   稳妥做法是用 Chrome，或用本地服务打开：`python -m http.server 8765`
+2. **不要混用打开方式**。`file://` 与 `http://localhost` 是不同的源，
+   localStorage 不互通，中途切换会看不到之前的审核结果。
+
 ## 复现
 
 ```bash
