@@ -1,0 +1,15 @@
+# 判定与扰动组所需的额外依赖。核心 runner 不需要这些。
+#
+# score_olmocr.py 走 vendor 的官方 bench 模块（tools/vendor/olmocr），
+# 它依赖下面前六项；math 类断言要 KaTeX 渲染，需 playwright + chromium：
+#   python -m playwright install chromium
+# 公司网络装不上 playwright 时，判定加 --skip-math，该类记为未评（不可算作失败）。
+#
+# perturb.py 的高斯噪声需要 numpy。
+fuzzysearch>=0.7
+rapidfuzz>=3.0
+beautifulsoup4>=4.12
+numpy>=1.26
+tqdm>=4.66
+lxml>=5.0
+playwright>=1.40
