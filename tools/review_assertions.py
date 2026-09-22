@@ -77,7 +77,8 @@ input[type=text] {{ font:13px ui-monospace,Menlo,monospace; padding:3px 6px; fle
   <h1>{doc_id}</h1>
   <span class="meta">{family} · {window} · 披露 {disclosed_at}</span>
   <span id="bar"></span>
-  <button class="primary" onclick="exportJSON()">导出 JSON</button>
+  <button class="primary" onclick="exportAll()">导出全部</button>
+  <button onclick="exportJSON()">仅导出本篇</button>
   <button onclick="confirmAllVisible()">全部通过</button>
   <span class="meta">仅 draft 需要处理；auto 类为自动生成，只读</span>
 </header>
@@ -85,7 +86,16 @@ input[type=text] {{ font:13px ui-monospace,Menlo,monospace; padding:3px 6px; fle
 <script>
 const DOC_ID = {doc_id_json};
 const KEY = "review:" + DOC_ID;
-let state = JSON.parse(localStorage.getItem(KEY) || "{{}}");
+
+// file:// 下部分浏览器（Safari 尤其）会拒绝 localStorage 并抛异常。
+// 不兜住的话整页按钮全失效，所以失败时退回内存态并提示——
+// 内存态关页面就丢，必须当场导出。
+let LS_OK = true;
+function lsGet(k) {{ try {{ return localStorage.getItem(k); }} catch (e) {{ LS_OK = false; return null; }} }}
+function lsSet(k, v) {{ try {{ localStorage.setItem(k, v); }} catch (e) {{ LS_OK = false; }} }}
+function lsKeys() {{ try {{ return Object.keys(localStorage); }} catch (e) {{ LS_OK = false; return []; }} }}
+
+let state = JSON.parse(lsGet(KEY) || "{{}}");
 
 function render(id) {{
   const el = document.getElementById("a_" + id);
@@ -97,7 +107,7 @@ function render(id) {{
 function setStatus(id, status) {{
   const inp = document.getElementById("t_" + id);
   state[id] = {{status: status, target: inp ? inp.value : null}};
-  localStorage.setItem(KEY, JSON.stringify(state));
+  lsSet(KEY, JSON.stringify(state));
   render(id); bar();
 }}
 function confirmAllVisible() {{
@@ -113,16 +123,38 @@ function bar() {{
   document.getElementById("bar").textContent =
     "草稿 " + total + " 条，已处理 " + done + " 条";
 }}
-function exportJSON() {{
-  const blob = new Blob([JSON.stringify(
-    {{doc_id: DOC_ID, reviewed_at: new Date().toISOString(), decisions: state}},
-    null, 1)], {{type: "application/json"}});
+function download(name, obj) {{
+  const blob = new Blob([JSON.stringify(obj, null, 1)], {{type: "application/json"}});
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = "review_" + DOC_ID + ".json";
+  a.download = name;
   a.click();
 }}
+function exportJSON() {{
+  download("review_" + DOC_ID + ".json",
+           {{doc_id: DOC_ID, reviewed_at: new Date().toISOString(), decisions: state}});
+}}
+function exportAll() {{
+  // 把所有已审文档汇成一个文件，省掉 53 次下载。
+  // 同源前提：全部页面都用 file:// 打开，或都用同一个本地服务打开，不要混用。
+  const docs = {{}};
+  lsKeys().filter(k => k.indexOf("review:") === 0).forEach(k => {{
+    try {{ docs[k.slice(7)] = JSON.parse(lsGet(k) || "{{}}"); }} catch (e) {{}}
+  }});
+  docs[DOC_ID] = state;
+  const n = Object.values(docs).reduce((a, d) => a + Object.keys(d).length, 0);
+  if (!confirm("导出 " + Object.keys(docs).length + " 份文档、共 " + n + " 条决定？")) return;
+  download("review_all.json", {{reviewed_at: new Date().toISOString(), docs: docs}});
+}}
 Object.keys(state).forEach(render); bar();
+if (!LS_OK) {{
+  const w = document.createElement("div");
+  w.style.cssText = "background:#b45309;color:#fff;padding:6px 16px;font-size:13px";
+  w.textContent = "浏览器拒绝了本地存储：审核结果只存在内存里，关闭页面即丢失。"
+    + "请在离开本页前点「仅导出本篇」，或改用 Chrome，或用本地服务打开"
+    + "（python -m http.server 8765）。";
+  document.body.insertBefore(w, document.body.firstChild);
+}}
 </script></body></html>"""
 
 
