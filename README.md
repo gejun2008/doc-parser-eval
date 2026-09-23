@@ -11,7 +11,8 @@
 | 你要做什么 | 读这个 |
 |---|---|
 | 了解项目范围与设计 | `docs/research-plan.md`（权威范围文档） |
-| 看目前测出了什么 | `docs/interim-brief.md`（中期简报） |
+| **看结论** | **`docs/evaluation-report.md`（技术评估报告）** |
+| 看目前测出了什么 | `docs/interim-brief.md`（中期简报，已被报告取代） |
 | 在公司电脑跑 Azure DI 基线 | `docs/azure-di-baseline.md` |
 | 写报告 | `docs/report-outline.md`（逐节对照数据文件） |
 | 向厂商提问 | `docs/vendor-questions.md` |
@@ -20,6 +21,7 @@
 | 无 git 环境下同步新版仓库 | `docs/sync-prompt.md`（让 AI 助手比对新旧目录、判断要重跑什么） |
 | 导出成文所需数据 | `docs/export-prompt.md`（运行导出脚本、原样输出，不让 AI 转述数字） |
 | 数据只能拍照带出时 | `docs/photo-numbers-prompt.md`（汇成整数表、带校验和，便于拍照与核对） |
+| 查报告里 Azure 数字的出处 | `docs/report-numbers-20260923.md`（照片转录与逐条裁定） |
 
 ## 当前状态（2026-09-21）
 
@@ -67,6 +69,8 @@ cp .env.example .env                                 # 填凭证，.env 不入�
 | `compare_systems.py` | 两系统配对对照（McNemar） |
 | `make_handoff.py` | 交接包打包（扫描凭证后才允许出包） |
 | `export_for_report.py` | 导出成文数据：两边配对对照、失败模式、差异样例，自动脱敏与过期检查 |
+| `amount_scan.py` | 全量金额扫描：页上每个金额都与文本层对账，不抽样（抓整表遗漏） |
+| `relaxed_recheck.py` | 宽松口径复判：区分真实缺失与标点/字形差异，两边对称 |
 
 ## 典型流程
 
@@ -96,5 +100,5 @@ set -a && source .env && set +a
 1. **不合成加权总分。** 按文档族、按类型分层出数；样本不足就写「样本不足，不下结论」
 2. **异常值必须查到底再报。** 本项目出现过一次判定器 bug 让通过率假性显示 9.9%
    （真实 97.9%）。错误不会只朝一个方向
-3. **对自己结论不利的因素要主动写出来。** 例如 Azure 可利用整份文档上下文这一点
-   对 Azure 有利——评测的独立性靠的就是这个
+3. **对自己结论不利的因素要主动写出来。** 例如 Azure 收到保留文本层的单页 PDF、
+   而 GT 取自文本层，这一点可能对 Azure 有利——评测的独立性靠的就是这个

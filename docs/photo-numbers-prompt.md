@@ -60,3 +60,67 @@
 - 表 5 用来逐条判断失败是否构成**业务错误**：字符串对不上不等于业务出错，
   例如全角 `（2）` 与半角 `(2)` 不一致是字符串失败但不是业务错误。
   逐条归类后才能给出关键错误率——这正是助手说「关键错误率为空」的原因
+
+---
+
+# 第二轮（2026-09-23）：全量金额扫描与宽松复判
+
+第一轮的数字已写进 `docs/evaluation-report.md`。报告里还有 4 个未决项要靠公司电脑补数，
+都**不调 API**，几分钟跑完。
+
+## 先更新两个文件
+
+从 GitHub 下载新版 ZIP，**只把这两个文件**复制到工作目录的 `tools\` 下，其他文件不用动
+（断言与判定器没有变化，不需要重跑 check.py）：
+
+```
+tools\amount_scan.py
+tools\relaxed_recheck.py
+```
+
+## 复制以下内容给 Copilot
+
+```
+请在仓库根目录运行下面两条命令。不要修改任何文件，不要调用任何 API，
+不要运行 runner.py 或任何 Azure 调用脚本。环境 Windows PowerShell，
+Python 用 .venv\Scripts\python。
+
+<AZ> 指金融层 Azure 结果目录：runs\ 下含 raw\ 子目录和 results.csv 的
+那个 Azure 目录（210 页、191 页成功的那一次）。
+
+1. .venv\Scripts\python tools\amount_scan.py runs\inf-mllm_doc2md_20260921T013924Z runs\<AZ>
+2. .venv\Scripts\python tools\relaxed_recheck.py runs\inf-mllm_doc2md_20260921T013924Z runs\<AZ>
+
+如果报 KeyError 或找不到字段：停下，只告诉我 <AZ>\raw\ 下任意一个 json
+的顶层字段名列表（不要输出字段值），不要自己改脚本。
+
+然后生成新文件 report-numbers-round2.md，只包含：
+
+第一部分：两条命令的终端输出原样照录，包括校验和行。不改写、不总结、
+不重新排版。
+
+第二部分：打开 <AZ>\raw\ 下 a_share_notice_new_605011_2026-09-18 第 1 页
+的原始响应，在 content 里找到「20,005,000.00」，原样摘录它前面 30 个字符
+和后面 10 个字符。只摘这一处。
+
+第三部分：之前的配对对照把 unit_currency 整类排除了，理由写的是
+「空格匹配问题」。说明这个排除是在哪个文件的哪一行做的（文件名+行号，
+不写完整路径），以及排除的具体判断条件，原样引用那几行代码。
+
+不写任何路径中的用户名、资源名、端点。
+```
+
+## 拍照与回传
+
+- 第一部分每条命令的输出各拍一张；第二、三部分合拍一张
+- 接收方用每张表的「校验和」行核对
+
+## 接收方怎么用
+
+| 输出 | 用来回答报告里的哪个未决项 |
+|---|---|
+| `amount_scan` | §2.4：Azure 在同一批 A 股页上有没有整表遗漏。若 Azure 缺失为 0、Infinity 3 页里有页不在配对集，会在输出里直接看到 |
+| `relaxed_recheck` 的 page_integrity 两行 | §2.5：宽松口径下 99 : 15 缩成多少。缩没了＝差距是标点造成的；还在＝有真实内容差异 |
+| `relaxed_recheck` 的 unit_currency 两行 | §2.1：单位/币种字段能否恢复进对照 |
+| 第二部分摘录 | §2.3：lp02 那条 Azure 失败是不是括号全/半角 |
+| 第三部分 | §2.1：unit_currency 的排除理由是否成立 |

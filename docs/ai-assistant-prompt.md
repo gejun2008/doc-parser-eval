@@ -38,10 +38,10 @@ Azure Document Intelligence。读者是技术主管与团队，不是销售材�
    错误不会只朝一个方向。查的办法：打开 runs/<run_id>/results.csv 看
    why 列，再打开对应的 raw/*.json 看模型实际输出了什么。
 
-5. **对自己结论不利的因素要主动写出来。** 例如：Azure DI 按整份文档分析，
-   即使指定单页也可能利用全文上下文，而被测方是逐页独立调用——
-   这一条对 Azure 有利，必须写进报告。完整的四条不对称见
-   docs/azure-di-baseline.md。
+5. **对自己结论不利的因素要主动写出来。** 例如：Azure 收到的是保留文本层的
+   单页 PDF，被测方收到的是渲染图，而 GT 本身取自文本层——若 Azure 利用了
+   内嵌文本层，这一条对 Azure 有利，必须写进报告。完整的不对称清单见
+   docs/evaluation-report.md §2.7。
 
 ## 结论形态
 

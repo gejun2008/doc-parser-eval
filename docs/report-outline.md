@@ -1,5 +1,7 @@
 # 报告成文对照表
 
+**已成文：`evaluation-report.md`（2026-09-23）。** 本文件保留作成文对照。
+
 结构依 `research-plan.md` §7。本文件把每一节对应到**具体数据文件**、
 **当前状态**、**必须写进去的口径提醒**，供在公司电脑上成文时逐节对照。
 
@@ -81,7 +83,8 @@
 | ROI 重算 | — | ⛔ 计费口径未知（问题 A2） |
 
 **跑完后必须声明的四条不对称**（`azure-di-baseline.md`）：
-1. Azure 按整份文档分析，可能利用全文上下文，Infinity 逐页独立——**对 Azure 有利**
+1. ~~Azure 按整份文档分析，可能利用全文上下文~~——**已撤回**：网关传的是单页 PDF。
+   改为：Azure 收到保留文本层的单页 PDF，Infinity 收到渲染图，GT 取自文本层——**可能对 Azure 有利**
 2. 两边 markdown 风格不同，`formatting` 类不可跨系统比较
 3. Azure 异步 API，耗时含轮询，延迟不可比
 4. Azure 有 span 级 confidence，Infinity 没有，置信度只能单边报
