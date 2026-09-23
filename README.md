@@ -19,6 +19,7 @@
 | 用 AI 助手接手本项目 | `docs/ai-assistant-prompt.md`（起始 prompt，含口径纪律） |
 | 无 git 环境下同步新版仓库 | `docs/sync-prompt.md`（让 AI 助手比对新旧目录、判断要重跑什么） |
 | 导出成文所需数据 | `docs/export-prompt.md`（运行导出脚本、原样输出，不让 AI 转述数字） |
+| 数据只能拍照带出时 | `docs/photo-numbers-prompt.md`（汇成整数表、带校验和，便于拍照与核对） |
 
 ## 当前状态（2026-09-21）
 
