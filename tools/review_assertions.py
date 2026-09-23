@@ -198,6 +198,28 @@ def main():
 
     OUT.mkdir(exist_ok=True)
     files = sorted(ASSERT_DIR.glob("*.yaml"))
+    if not files:
+        raise SystemExit(f"！{ASSERT_DIR} 下没有断言文件。断言 YAML 是入库的，"
+                         "确认你在仓库根目录运行。")
+
+    # 审核页要从 PDF 渲染页面图，缺语料就生成不了。
+    # review/ 不入库，clone 后必须本地生成，而语料需先解压——
+    # 这两步的先后关系容易漏，所以在这里给出可操作的提示而不是 traceback。
+    missing = []
+    for f in files:
+        d0 = yaml.safe_load(f.read_text(encoding="utf-8"))
+        if a.doc_id and d0["doc_id"] not in a.doc_id:
+            continue          # 只检查这次要生成的那些
+        if not Path(d0["local_path"]).exists():
+            missing.append(d0["local_path"])
+    if missing:
+        raise SystemExit(
+            f"！{len(missing)} 份语料 PDF 不存在，例如 {missing[0]}\n"
+            "  审核页需要从 PDF 渲染页面图。先取语料再重试：\n"
+            "    从 Release 下载 inf-eval-corpus.zip 后，在仓库根目录解压：\n"
+            "      unzip -o inf-eval-corpus.zip -d .\n"
+            "    或按清单重新下载（seed 固定，必得同一批）：\n"
+            "      python tools/fetch_corpus.py --per-family 4 && python tools/select_pages.py")
 
     # 审计抽样：文本层派生的 GT 也可能错，抽一小批人工复核以给出错误率上界。
     # 固定 seed，报告附录要能复现抽了哪些。
