@@ -71,7 +71,7 @@ research-plan.md §5 的同口径陷阱：Azure DI 原生输出自有 JSON，
 
 | # | 不对称 | 对谁有利 |
 |---|---|---|
-| 1 | Azure 按整份文档分析，即使指定 `pages=N` 也可能利用全文上下文；Infinity-Parser2 逐页独立调用，页间零上下文（sdk-findings.md §2） | **Azure 有利** |
+| 1 | ~~Azure 按整份文档分析，可能利用全文上下文~~ **已撤回（2026-09-23）**：公司网关实际传给 Azure 的是抽出的单页 PDF，两边都无跨页上下文。仍存在的差异：Azure 收到保留文本层的 PDF，Infinity 收到 300 DPI 渲染图；若 Azure 利用内嵌文本层，而 GT 又取自文本层 | 可能 **Azure 有利** |
 | 2 | 两边 markdown 风格由各自厂商决定，表格标记与标题层级不同。我们的断言判「文字/金额在不在输出里」，对风格不敏感，但 `formatting` 类断言不可跨系统比较 | 中性 |
 | 3 | Azure 是异步 API，耗时含轮询等待，与同步调用不完全可比 | 延迟不可比 |
 | 4 | Azure 返回 span 级 confidence，Infinity-Parser2 没有（t0-findings.md §7）。置信度只能单边报 | 不可比 |
