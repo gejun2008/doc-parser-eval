@@ -18,6 +18,7 @@
 | 改代码前 | `CLAUDE.md`（工程约定与硬约束） |
 | 用 AI 助手接手本项目 | `docs/ai-assistant-prompt.md`（起始 prompt，含口径纪律） |
 | 无 git 环境下同步新版仓库 | `docs/sync-prompt.md`（让 AI 助手比对新旧目录、判断要重跑什么） |
+| 导出成文所需数据 | `docs/export-prompt.md`（运行导出脚本、原样输出，不让 AI 转述数字） |
 
 ## 当前状态（2026-09-21）
 
@@ -64,6 +65,7 @@ cp .env.example .env                                 # 填凭证，.env 不入�
 | `azure_di_runner.py` | Azure DI 基线 runner |
 | `compare_systems.py` | 两系统配对对照（McNemar） |
 | `make_handoff.py` | 交接包打包（扫描凭证后才允许出包） |
+| `export_for_report.py` | 导出成文数据：两边配对对照、失败模式、差异样例，自动脱敏与过期检查 |
 
 ## 典型流程
 
