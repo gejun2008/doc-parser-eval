@@ -11,7 +11,17 @@ Infinity 与 Azure DI 跑的是同一批页，只比较双方都成功的 191 �
 但 A 股年报、中报中「页首是上一页续表」的页，Infinity 会**静默丢掉整段表格**，调用照常返回、没有报错；Azure 在同样的页上完整保留。
 另外 Infinity **不提供置信度**，没法只把可疑字段挑出来复核。
 
-## 哪些文档能处理，哪些不能
+## 支持的文件格式
+
+| | PDF | 图片 | Office（Word / Excel / PPT） | HTML |
+|---|---|---|---|---|
+| Azure DI | ✅ | ✅ JPG · PNG · BMP · TIFF · HEIF | ✅ | ✅ |
+| Infinity-Parser2 | ✅ | ✅ PNG · JPG · BMP · TIFF · WEBP | ❌ | ❌ |
+
+Infinity 的 Office 文档要先转成 PDF 或图片才能处理，转换后原生的文字和结构会丢失。
+出处：厂商 SDK `infinity_parser2==0.4.0`，`utils/file.py` 中的支持格式白名单。
+
+## 哪些 PDF 文档能处理，哪些不能
 
 | 文档类型 | 判断 | 依据 |
 |---|---|---|
