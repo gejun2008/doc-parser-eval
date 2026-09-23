@@ -19,7 +19,7 @@ body{margin:0;background:var(--bg);color:var(--ink);
 .kicker{font-size:14px;color:var(--muted);letter-spacing:.06em}
 h1{font-size:30px;margin:6px 0 4px;color:var(--navy)}
 h2{font-size:17px;margin:0 0 10px;color:var(--navy)}
-.lede{font-size:18px;line-height:1.55;margin:6px 0 18px;padding:12px 16px;border-left:4px solid var(--navy);background:#f5f8fb}
+.lede{font-size:16.5px;line-height:1.5;margin:4px 0 10px;padding:12px 16px;border-left:4px solid var(--navy);background:#f5f8fb}
 .foot{position:absolute;left:56px;right:56px;bottom:14px;font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between}
 table{border-collapse:collapse;width:100%;font-size:14.5px}
 th,td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
@@ -39,7 +39,10 @@ th{font-size:13px;color:var(--muted);font-weight:600;background:#f7f9fb}
 .legend span{display:inline-block;width:10px;height:10px;border-radius:2px;margin:0 4px 0 12px;vertical-align:middle}
 ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
 .num{font-variant-numeric:tabular-nums}
-.t1{font-size:16.5px}.t1 td,.t1 th{padding:12px 12px}.t1 .pill{font-size:14px}
+.t1{font-size:15px}.t1 td,.t1 th{padding:8px 12px}.t1 .pill{font-size:13.5px}
+.fmt{border:1px solid var(--line);border-radius:8px;padding:8px 14px;margin:0 0 12px}
+.fmt-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 0}
+.fmt-name{width:140px;font-weight:700;font-size:14.5px}
 @media print{body{background:#fff}.slide{margin:0;box-shadow:none;page-break-after:always}}
 @media (max-width:1320px){.slide{transform-origin:top left}}
 </style>
@@ -55,8 +58,18 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
     但 A 股年报、中报里<b>「页首是上一页续表」的页</b>，Infinity 会<b>静默丢掉整段表格</b>，没有任何报错；
     同样的页上 Azure 完整保留。它也<b>不提供置信度</b>，没法只把可疑字段送去人工复核。
   </div>
+  <h2 style="margin:0 0 6px">支持的文件格式</h2>
+  <div class="fmt">
+    <div class="fmt-row"><span class="fmt-name">Azure DI</span>
+      <span class="pill go">PDF</span><span class="pill go">图片 JPG · PNG · BMP · TIFF · HEIF</span>
+      <span class="pill go">Office Word · Excel · PPT</span><span class="pill go">HTML</span></div>
+    <div class="fmt-row"><span class="fmt-name">Infinity-Parser2</span>
+      <span class="pill go">PDF</span><span class="pill go">图片 PNG · JPG · BMP · TIFF · WEBP</span>
+      <span class="pill no">Office ✗</span><span class="pill no">HTML ✗</span>
+      <span class="small">Word / Excel / PPT 必须先转成 PDF 或图片，原生的文字和结构会丢失</span></div>
+  </div>
   <table class="t1">
-    <tr><th style="width:24%">文档类型</th><th style="width:17%">判断</th><th>依据（同一批页配对比较）</th></tr>
+    <tr><th style="width:24%">文档类型（PDF）</th><th style="width:17%">判断</th><th>依据（同一批页配对比较）</th></tr>
     <tr><td>港股年报 / 中报 / 招股书</td><td><span class="pill go">可替代候选 · 进 POC</span></td>
         <td>金额与科目归属断言两边都没有失败；正文完整性：未观察到显著差异</td></tr>
     <tr><td>A 股临时公告</td><td><span class="pill go">可替代候选 · 进 POC</span></td>
