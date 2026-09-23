@@ -84,6 +84,29 @@ def anchors(page_text, doc_text, n=3, min_len=12, min_words=8):
 
 LABEL_RE = re.compile(r"^[一-鿿A-Za-z][一-鿿A-Za-z（）()、/\s]{2,28}")
 
+# 表格单元格窄时，金额会在版面上折行，PDF 文本层也就成了两行甚至三行：
+#     181,801,7 / 31.11        ->  实际是 181,801,731.11
+#     317,1 / 38,41 / 4.87     ->  实际是 317,138,414.87
+# 逐行扫描只能匹配到 "181,801"，**断言的目标值本身就是错的**，
+# 而 amount 类是 auto_textlayer、不经人工，等于把错的 GT 直接用上。
+# 实测 645 条金额类断言里 37 条（5.7%）中招。
+#
+# 判据：完整的千分位数字绝不会以「逗号 + 1~2 位数字」结尾。
+# 行尾出现这种形态且下一行以数字开头，就说明数字被折断了，拼接即可。
+INCOMPLETE_TAIL = re.compile(r"\d,\d{1,2}$")
+
+
+def join_wrapped_numbers(text):
+    """把在版面上折行的数字拼回一行。反复执行直到稳定（可能折三行）。"""
+    lines = text.splitlines()
+    out = []
+    for ln in lines:
+        if out and INCOMPLETE_TAIL.search(out[-1].rstrip()) and ln.lstrip()[:1].isdigit():
+            out[-1] = out[-1].rstrip() + ln.lstrip()
+        else:
+            out.append(ln)
+    return "\n".join(out)
+
 
 def nows(t):
     return re.sub(r"\s+", "", t or "")
@@ -98,10 +121,15 @@ def amount_drafts(page_text, limit=6):
     """
     page_n = nows(page_text)
     seen, out = set(), []
-    for line in page_text.splitlines():
+    for line in join_wrapped_numbers(page_text).splitlines():
         for m in AMOUNT_RE.finditer(line):
             v = m.group(0)
             if v in seen or len(v.replace(",", "").replace(".", "").strip("()-")) < 4:
+                continue
+            # 保守兜底：拼接后若匹配结尾仍紧跟逗号或数字，说明仍不完整，
+            # 宁可不出这条断言，也不产出一个截断的 GT
+            if line[m.end():m.end() + 1] in (",", "0", "1", "2", "3", "4",
+                                              "5", "6", "7", "8", "9"):
                 continue
             seen.add(v)
             clean = re.sub(r"\s+", " ", line).strip()

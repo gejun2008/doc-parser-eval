@@ -13,7 +13,7 @@ pages_selected:
 - 104
 - 105
 - 148
-generated_utc: '2026-09-21T04:20:26+00:00'
+generated_utc: '2026-09-23T03:42:40+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -113,20 +113,8 @@ assertions:
   forbid:
   - '4000'
   status: auto_textlayer
-  context: HKD4,0001
+  context: 1 HKD4,000 is payable to the Trustee and HKD1,000 is payable to the Service Agen
   note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
-- id: hk_prospectus_old_03132_2025-08-15_p54_lp01
-  type: amount_label
-  severity: critical
-  page: 54
-  eval_on: md
-  rule: label_proximity
-  max_gap: 120
-  target: 4,000
-  label: HKD
-  status: draft
-  context: HKD4,0001
-  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
 - id: hk_prospectus_old_03132_2025-08-15_p54_am02
   type: amount
   severity: critical
@@ -138,20 +126,8 @@ assertions:
   forbid:
   - '1000'
   status: auto_textlayer
-  context: HKD1,0001
+  context: 1 HKD4,000 is payable to the Trustee and HKD1,000 is payable to the Service Agen
   note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
-- id: hk_prospectus_old_03132_2025-08-15_p54_lp02
-  type: amount_label
-  severity: critical
-  page: 54
-  eval_on: md
-  rule: label_proximity
-  max_gap: 120
-  target: 1,000
-  label: HKD
-  status: draft
-  context: HKD1,0001
-  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
 - id: hk_prospectus_old_03132_2025-08-15_p54_am03
   type: amount
   severity: critical
@@ -163,20 +139,8 @@ assertions:
   forbid:
   - '4700'
   status: auto_textlayer
-  context: HKD4,7009
+  context: 9 HKD4,700 is payable to the Trustee and HKD1,000 is payable to the Service Agen
   note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
-- id: hk_prospectus_old_03132_2025-08-15_p54_lp03
-  type: amount_label
-  severity: critical
-  page: 54
-  eval_on: md
-  rule: label_proximity
-  max_gap: 120
-  target: 4,700
-  label: HKD
-  status: draft
-  context: HKD4,7009
-  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
 - id: hk_prospectus_old_03132_2025-08-15_p56_pi01
   type: page_integrity
   severity: critical

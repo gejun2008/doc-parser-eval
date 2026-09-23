@@ -9,7 +9,7 @@ pages_selected:
 - 204
 - 243
 - 274
-generated_utc: '2026-09-21T04:20:15+00:00'
+generated_utc: '2026-09-23T03:42:30+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -86,11 +86,12 @@ assertions:
   eval_on: md
   rule: exactly_n
   n: 2
-  target: 181,801
+  target: 181,801,731.11
   forbid:
-  - '181801'
+  - 181,801,73.111
+  - '181801731.11'
   status: auto_textlayer
-  context: 181,801,7
+  context: 181,801,731.11
   note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688152_2025-04-29_p204_am02
   type: amount
@@ -99,11 +100,12 @@ assertions:
   eval_on: md
   rule: exactly_n
   n: 2
-  target: 15,715
+  target: 15,715,476.08
   forbid:
-  - '15715'
+  - 15,715,47.608
+  - '15715476.08'
   status: auto_textlayer
-  context: 15,715,4
+  context: 15,715,476.08
   note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688152_2025-04-29_p204_am03
   type: amount
@@ -112,11 +114,12 @@ assertions:
   eval_on: md
   rule: exactly_n
   n: 1
-  target: 166,086
+  target: 166,086,255.03
   forbid:
-  - '166086'
+  - 166,086,25.503
+  - '166086255.03'
   status: auto_textlayer
-  context: 166,086,2
+  context: 166,086,255.03
   note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688152_2025-04-29_p204_am04
   type: amount
@@ -125,11 +128,12 @@ assertions:
   eval_on: md
   rule: exactly_n
   n: 1
-  target: 355,939
+  target: 355,939,019.18
   forbid:
-  - '355939'
+  - 355,939,01.918
+  - '355939019.18'
   status: auto_textlayer
-  context: 355,939,0
+  context: 355,939,019.18
   note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688152_2025-04-29_p204_uc01
   type: unit_currency
@@ -241,11 +245,12 @@ assertions:
   eval_on: md
   rule: exactly_n
   n: 2
-  target: 180,028
+  target: 180,028,664.39
   forbid:
-  - '180028'
+  - 180,028,66.439
+  - '180028664.39'
   status: auto_textlayer
-  context: 180,028,6
+  context: 180,028,664.39
   note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688152_2025-04-29_p274_am02
   type: amount
@@ -254,11 +259,12 @@ assertions:
   eval_on: md
   rule: exactly_n
   n: 2
-  target: 15,626
+  target: 15,626,822.74
   forbid:
-  - '15626'
+  - 15,626,82.274
+  - '15626822.74'
   status: auto_textlayer
-  context: 15,626,8
+  context: 15,626,822.74
   note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688152_2025-04-29_p274_am03
   type: amount
@@ -267,11 +273,12 @@ assertions:
   eval_on: md
   rule: exactly_n
   n: 1
-  target: 164,401
+  target: 38,678,864.69
   forbid:
-  - '164401'
+  - 38,678,86.469
+  - '38678864.69'
   status: auto_textlayer
-  context: 164,401,
+  context: 38,678,864.69
   note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688152_2025-04-29_p274_am04
   type: amount
@@ -280,11 +287,12 @@ assertions:
   eval_on: md
   rule: exactly_n
   n: 1
-  target: 353,519
+  target: 403,754,495.88
   forbid:
-  - '353519'
+  - 403,754,49.588
+  - '403754495.88'
   status: auto_textlayer
-  context: 353,519,
+  context: 403,754,495.88
   note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_annual_older_688152_2025-04-29_p274_uc01
   type: unit_currency

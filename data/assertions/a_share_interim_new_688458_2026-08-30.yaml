@@ -9,7 +9,7 @@ pages_selected:
 - 70
 - 72
 - 80
-generated_utc: '2026-09-21T04:20:16+00:00'
+generated_utc: '2026-09-23T03:42:31+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -232,11 +232,12 @@ assertions:
   eval_on: md
   rule: exactly_n
   n: 2
-  target: 1,866,822
+  target: 1,866,822,700.73
   forbid:
-  - '1866822'
+  - 1,866,822,70.073
+  - '1866822700.73'
   status: auto_textlayer
-  context: 1,866,822,7
+  context: 1,866,822,700.73
   note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
 - id: a_share_interim_new_688458_2026-08-30_p80_am03
   type: amount
