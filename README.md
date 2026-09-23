@@ -17,6 +17,7 @@
 | 向厂商提问 | `docs/vendor-questions.md` |
 | 改代码前 | `CLAUDE.md`（工程约定与硬约束） |
 | 用 AI 助手接手本项目 | `docs/ai-assistant-prompt.md`（起始 prompt，含口径纪律） |
+| 无 git 环境下同步新版仓库 | `docs/sync-prompt.md`（让 AI 助手比对新旧目录、判断要重跑什么） |
 
 ## 当前状态（2026-09-21）
 
