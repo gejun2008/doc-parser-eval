@@ -11,7 +11,8 @@
 | 你要做什么 | 读这个 |
 |---|---|
 | 了解项目范围与设计 | `docs/research-plan.md`（权威范围文档） |
-| **看结论** | **`docs/evaluation-report.md`（技术评估报告）** |
+| **看结论（2 页）** | **`docs/executive-summary.md`；幻灯片 `docs/briefing-deck.html`（浏览器打开）** |
+| 看完整报告 | `docs/evaluation-report.md` |
 | 看目前测出了什么 | `docs/interim-brief.md`（中期简报，已被报告取代） |
 | 在公司电脑跑 Azure DI 基线 | `docs/azure-di-baseline.md` |
 | 写报告 | `docs/report-outline.md`（逐节对照数据文件） |

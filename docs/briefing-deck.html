@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Infinity-Parser2 评估简报</title>
+<style>
+:root{
+  --ink:#1b2430; --muted:#5b6675; --line:#dde3ea; --bg:#eef1f5; --paper:#ffffff;
+  --navy:#16324f; --go:#1f7a4d; --go-bg:#e4f4ea; --no:#b3261e; --no-bg:#fbe7e5;
+  --warn:#9a6700; --warn-bg:#fff4d6; --gray-bg:#eef0f3;
+  --inf:#3d6fb6; --az:#8a94a3;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Helvetica Neue",Arial,sans-serif}
+.slide{width:1280px;height:720px;margin:24px auto;background:var(--paper);position:relative;
+  padding:40px 56px 36px;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden;display:flex;flex-direction:column}
+.kicker{font-size:14px;color:var(--muted);letter-spacing:.06em}
+h1{font-size:30px;margin:6px 0 4px;color:var(--navy)}
+h2{font-size:17px;margin:0 0 10px;color:var(--navy)}
+.lede{font-size:18px;line-height:1.55;margin:6px 0 18px;padding:12px 16px;border-left:4px solid var(--navy);background:#f5f8fb}
+.foot{position:absolute;left:56px;right:56px;bottom:14px;font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{font-size:13px;color:var(--muted);font-weight:600;background:#f7f9fb}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13px;font-weight:600;white-space:nowrap}
+.go{background:var(--go-bg);color:var(--go)} .no{background:var(--no-bg);color:var(--no)}
+.warn{background:var(--warn-bg);color:var(--warn)} .gray{background:var(--gray-bg);color:var(--muted)}
+.cols{display:grid;grid-template-columns:1.25fr 1fr;gap:28px;flex:1;min-height:0}
+.card{border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.alert{border:1.5px solid var(--no);background:#fffafa}
+.big{font-size:34px;font-weight:700;line-height:1}
+.small{font-size:13px;color:var(--muted);line-height:1.5}
+.metric{display:grid;grid-template-columns:150px 1fr 70px;align-items:center;gap:10px;margin:5px 0;font-size:14px}
+.bar{height:14px;background:#f0f2f5;border-radius:3px;position:relative}
+.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:3px}
+.inf i{background:var(--inf)} .az i{background:var(--az)}
+.legend span{display:inline-block;width:10px;height:10px;border-radius:2px;margin:0 4px 0 12px;vertical-align:middle}
+ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
+.num{font-variant-numeric:tabular-nums}
+.t1{font-size:16.5px}.t1 td,.t1 th{padding:12px 12px}.t1 .pill{font-size:14px}
+@media print{body{background:#fff}.slide{margin:0;box-shadow:none;page-break-after:always}}
+@media (max-width:1320px){.slide{transform-origin:top left}}
+</style>
+</head>
+<body>
+
+<!-- ============ 第 1 页：结论与文档类型 ============ -->
+<section class="slide">
+  <div class="kicker">INFINITY-PARSER2 vs AZURE DOCUMENT INTELLIGENCE · 技术评估简报 · 2026-09-23</div>
+  <h1>哪些文档能交给 Infinity-Parser2，哪些不能</h1>
+  <div class="lede">
+    <b>一句话：</b>港股披露文件和 A 股公告可以进入 POC，其中金额类断言两边都没有失败。
+    但 A 股年报、中报里<b>「页首是上一页续表」的页</b>，Infinity 会<b>静默丢掉整段表格</b>，没有任何报错；
+    同样的页上 Azure 完整保留。它也<b>不提供置信度</b>，没法只把可疑字段送去人工复核。
+  </div>
+  <table class="t1">
+    <tr><th style="width:24%">文档类型</th><th style="width:17%">判断</th><th>依据（同一批页配对比较）</th></tr>
+    <tr><td>港股年报 / 中报 / 招股书</td><td><span class="pill go">可替代候选 · 进 POC</span></td>
+        <td>金额与科目归属断言两边都没有失败；正文完整性：未观察到显著差异</td></tr>
+    <tr><td>A 股临时公告</td><td><span class="pill go">可替代候选 · 进 POC</span></td>
+        <td>金额断言两边都没有失败；正文完整性 Infinity 通过更多（差距尚未排除标点差异）</td></tr>
+    <tr><td>A 股年报 / 中报（报表附注页）</td><td><span class="pill no">现阶段不可替代</span></td>
+        <td>3 页确定性丢表（共 27 个金额），都发生在页首续表；Azure 在配对的 2 页上完整保留</td></tr>
+    <tr><td>需要按置信度分流复核的流程</td><td><span class="pill no">不可替代（结构性）</span></td>
+        <td>API 不返回任何置信度，请求 <code>logprobs</code> 会被静默忽略</td></tr>
+    <tr><td>港股 KYC 类文件</td><td><span class="pill warn">证据不足</span></td>
+        <td>只有 39 条正文完整性断言，没有金额断言</td></tr>
+    <tr><td>扫描件 / 倾斜件</td><td><span class="pill warn">未与 Azure 对照</span></td>
+        <td>仅测了 Infinity：倾斜 2° 的页出现无限复读，打满 32k token，输出作废</td></tr>
+    <tr><td>贸易金融单证</td><td><span class="pill gray">未覆盖</span></td>
+        <td>没有合规的公开样本，现有结论不能外推</td></tr>
+  </table>
+  <div class="foot"><span>样本：53 份公开披露文档 → 210 页 → 1,229 条断言；配对页 191 页（Azure 19 页因网关超时失败）</span><span>1 / 3</span></div>
+</section>
+
+<!-- ============ 第 2 页：效果数据 ============ -->
+<section class="slide">
+  <div class="kicker">PDF 处理效果 · 同一批 191 页、同一套断言配对比较</div>
+  <h1>金额 Azure 更稳，正文完整性 Infinity 领先（待确认）</h1>
+  <div class="cols">
+    <div>
+      <h2>断言通过率 <span class="legend small"><span style="background:var(--inf)"></span>Infinity<span style="background:var(--az)"></span>Azure DI</span></h2>
+
+      <div class="card" style="margin-bottom:12px">
+        <b>金额</b> <span class="small">· 数值是否原样出现、出现次数是否正确 · n = 486</span>
+        <div class="metric inf"><span>Infinity</span><div class="bar"><i style="width:97.5%"></i></div><span class="num">97.5%</span></div>
+        <div class="metric az"><span>Azure DI</span><div class="bar"><i style="width:100%"></i></div><span class="num">100%</span></div>
+        <div class="small">差异显著（0 : 12，p = 0.0005）。Infinity 的 12 条失败逐条核对后：<b>8 条是真实遗漏</b>，另外 4 条只是减号字形不同。</div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <b>金额与科目同行</b> <span class="small">· 数字有没有挂错行 · 人工确认 · n = 76</span>
+        <div class="metric inf"><span>Infinity</span><div class="bar"><i style="width:100%"></i></div><span class="num">100%</span></div>
+        <div class="metric az"><span>Azure DI</span><div class="bar"><i style="width:98.7%"></i></div><span class="num">98.7%</span></div>
+        <div class="small">未观察到显著差异（1 : 0）</div>
+      </div>
+
+      <div class="card">
+        <b>正文完整性</b> <span class="small">· 每页抽 3 行正文，查是否原样输出 · n = 448</span>
+        <div class="metric inf"><span>Infinity</span><div class="bar"><i style="width:91.3%"></i></div><span class="num">91.3%</span></div>
+        <div class="metric az"><span>Azure DI</span><div class="bar"><i style="width:72.5%"></i></div><span class="num">72.5%</span></div>
+        <div class="small">差异显著（99 : 15），但比对时没有统一全角/半角标点，<b>差距可能部分来自标点，不能读成「Azure 丢内容」</b>。正在复判。</div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card alert">
+        <h2 style="color:var(--no)">最要紧的发现：静默丢表</h2>
+        <div style="display:flex;gap:22px;margin:4px 0 8px">
+          <div><div class="big num" style="color:var(--no)">3 页</div><div class="small">73 页 A 股金额页中</div></div>
+          <div><div class="big num" style="color:var(--no)">27 个</div><div class="small">金额缺失</div></div>
+          <div><div class="big num">0</div><div class="small">Azure 在配对 2 页上<br>（全量扫描待跑）</div></div>
+        </div>
+        <ul style="font-size:13.5px">
+          <li>三页的共同点：页首是上一页表格的续表</li>
+          <li>其中一页，整张「分季度主要财务指标」表不见了，标题还被挂到了别的表上</li>
+          <li>调用照常「正常结束」，没有任何报错；重复调用 3 次，缺的完全一样</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>服务与成本（只作参考，两边口径不同，不比优劣）</h2>
+        <table style="font-size:13px">
+          <tr><th></th><th>Infinity（测试端点）</th><th>Azure DI（公司网关）</th></tr>
+          <tr><td>成功率</td><td class="num">210 / 210</td><td class="num">191 / 210</td></tr>
+          <tr><td>单页延迟 P50</td><td class="num">22.5 s（并发 2）</td><td class="num">17 s（并发 4，含轮询）</td></tr>
+          <tr><td>吞吐</td><td>1.6–5.6 页/分，加并发无效</td><td>—</td></tr>
+          <tr><td>价格</td><td>未报价</td><td>牌价 $10 / 千页</td></tr>
+        </table>
+        <div class="small" style="margin-top:6px">每页约 9.6k token。若按 token 计费，输入单价要低于 <b>≈ $1.13 / 百万 token</b> 才能与 Azure 牌价持平。</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>检验方法：McNemar 配对检验；不合成总分；n &lt; 30 的分层不下结论</span><span>2 / 3</span></div>
+</section>
+
+<!-- ============ 第 3 页：模型对比 + POC ============ -->
+<section class="slide">
+  <div class="kicker">模型基本对比 · 下一步</div>
+  <h1>两类技术出错的方式不同：OCR 会「报不确定」，VLM 会「照常交付」</h1>
+  <div class="cols" style="grid-template-columns:1.35fr 1fr">
+    <div>
+      <table style="font-size:13.5px">
+        <tr><th style="width:22%"></th><th>Infinity-Parser2</th><th>Azure DI（prebuilt-layout）</th></tr>
+        <tr><td>技术路线</td><td>视觉语言模型（VLM），一次生成整页 markdown</td><td>OCR + 版面分析流水线</td></tr>
+        <tr><td>输入</td><td>整页渲染成 300 DPI 图像，逐页独立处理</td><td>PDF（本次为单页 PDF）</td></tr>
+        <tr><td>置信度</td><td><span class="pill no">无</span></td><td><span class="pill go">每个文本片段都有</span></td></tr>
+        <tr><td>确定性</td><td>同一页调用 3 次，99.0% 逐字相同（金额零变化）</td><td>确定性</td></tr>
+        <tr><td>认不出时</td><td>可能漏掉或生成内容，调用照常正常结束</td><td>给低置信度或留空</td></tr>
+        <tr><td>特有失败</td><td>无限复读、打满 token 上限（观测到 2 次）</td><td>—</td></tr>
+        <tr><td>坐标框</td><td>由模型生成</td><td>几何检测得出</td></tr>
+        <tr><td>版本</td><td>只看得到别名 <code>inf-mllm</code>，型号与版本不可知</td><td>有 API 版本号，可指定</td></tr>
+        <tr><td>模型</td><td>开源权重（Apache-2.0）；自称基于 Qwen3.5（待证实）</td><td>闭源托管服务</td></tr>
+      </table>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card">
+        <h2>POC 建议范围</h2>
+        <ul>
+          <li>港股年报、中报、招股书 + A 股公告，只用电子版 PDF，每族 ≥ 300 页</li>
+          <li><b>定向测试 ≥ 50 页「页首续表」</b>，测丢表的发生频率</li>
+          <li>强制护栏：金额与 PDF 文本层逐个对账；<code>finish_reason=length</code> 一律转人工</li>
+          <li>开测前厂商须答复：型号与版本锁定、计费方式、置信度、生产 SLA</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>退出标准（任一触发即停）</h2>
+        <ul>
+          <li>丢失或替换金额的页，显著多于 Azure</li>
+          <li>不能锁定版本，也不承诺变更前通知</li>
+          <li>按合同价计入人工复核后，单页成本高于 Azure</li>
+          <li>生产吞吐达不到业务峰值；复读退化率超过阈值</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>完整报告：docs/evaluation-report.md · 数据出处：docs/report-numbers-20260923.md</span><span>3 / 3</span></div>
+</section>
+
+<script>
+// 窄窗口里按比例缩小整页，保持 16:9 版式不换行
+function fit(){var s=Math.min(1,(window.innerWidth-24)/1280);document.body.style.zoom=s;}
+window.addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>
