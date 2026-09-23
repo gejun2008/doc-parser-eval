@@ -8,3 +8,4 @@ __pycache__/
 .venv/
 data/olmocr_bench/
 review/
+report_input.md
