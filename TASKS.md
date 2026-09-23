@@ -9,7 +9,7 @@
 | T0 端点探针 | ✅ | `docs/t0-findings.md`、`probe_out/` |
 | T1 语料与选页 | ✅ 53 份 / 6,978 页 → 选 210 页 | `docs/corpus-method.md`、`data/corpus/` |
 | T2 扰动组 | ✅ 42 页 × 5 种 | `runs/inf-mllm_doc2md_20260921T031242Z` |
-| T3 断言 | ⚠️ 生成 1,236 条；**141 条待人工核对** | `data/assertions/`、`docs/assertions-method.md` |
+| T3 断言 | ⚠️ 生成 1,229 条；**136 条待人工核对** | `data/assertions/`、`docs/assertions-method.md` |
 | T4 runner | ✅ | `tools/runner.py` |
 | T5 判定器 | ✅ | `tools/check.py` |
 | T6 指标汇总 | ⚠️ 分层已出；**critical error rate 缺** | `runs/*/results_summary.json` |

@@ -27,7 +27,7 @@ T8 重复一致性（210 页 × 3 次）。约 900 次调用，原始响应全�
 **三件事阻塞报告成文**：
 
 1. **Azure DI 基线未跑**——没有基线，绝对分数按约定不能报（在公司电脑跑，约 $3.30）
-2. **141 条人工核对未做**——`critical error rate` 主指标出不来
+2. **136 条人工核对未做**——`critical error rate` 主指标出不来
 3. **厂商六条必答未回**——版本标注、计费口径、置信度、生产 SLA
 
 已声明的缺口：贸易融资单证未覆盖（找不到合规公开源，排除过程见 `corpus-method.md`）。
@@ -84,7 +84,7 @@ set -a && source .env && set +a
 语料按 `manifest.csv` 里的 `source_url` 可重新下载，也可从
 [Release v0.1-interim](https://github.com/gejun2008/doc-parser-eval/releases/tag/v0.1-interim)
 下载 `inf-eval-corpus.zip`（174.6 MB）。
-评测证据在 `dist/evidence_20260921.zip`（2.6 MB，含全部原始响应）。
+评测证据在 `dist/evidence_20260923.zip`（约 2 MB，含全部原始响应与判定结果）。
 **断言 `data/assertions/*.yaml` 入库**——那是评测的 GT。
 
 ## 三条最容易违反的纪律

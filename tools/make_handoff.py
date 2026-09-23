@@ -51,22 +51,14 @@ HANDOFF_MD = """# 交接包 · Infinity-Parser2 评测
 
 | 内容 | 说明 |
 |---|---|
-| `repo.bundle` | 完整 git 仓库（代码、文档、断言 YAML、提交历史） |
-| `runs/` | 每次评测的逐页原始响应与逐条判定，报告附录的复现依据 |
+{bundle_row}| `runs/` | 每次评测的逐页原始响应与逐条判定，报告附录的复现依据 |
 | `probe_out/` | T0 端点探针证据 |
 | `corpus_manifest/` | 语料与选页清单（含 source_url 与 sha256） |
 | `data/` | {data_note} |
 
 **不含** `.env` 与任何凭证。公司电脑上需自行填 Azure 凭证。
 
-## 一、恢复仓库
-
-```bash
-git clone repo.bundle inf-eval
-cd inf-eval
-git log --oneline | head        # 应看到完整历史
-```
-
+{restore_section}
 ## 二、建环境
 
 ```bash
@@ -74,10 +66,10 @@ uv venv --python 3.12 .venv
 uv pip install --python .venv/bin/python -r requirements.txt
 ```
 
-跑 olmOCR-Bench 判定还需要官方评分依赖（已 vendor 在 `tools/vendor/olmocr`）：
+判定与扰动组还需要额外依赖（olmOCR 官方评分模块已 vendor 在 `tools/vendor/olmocr`）：
 
 ```bash
-uv pip install --python .venv/bin/python fuzzysearch rapidfuzz beautifulsoup4 numpy tqdm lxml playwright
+uv pip install --python .venv/bin/python -r requirements-scoring.txt
 .venv/bin/python -m playwright install chromium     # math 类断言要 KaTeX 渲染
 ```
 
@@ -244,6 +236,10 @@ def main():
     ap.add_argument("--with-data", action="store_true",
                     help="包含语料 PDF（约 190MB）。公司内网访问不了源站时必须带")
     ap.add_argument("--out", default="")
+    ap.add_argument("--no-bundle", action="store_true",
+                    help="不放 repo.bundle。打进仓库 dist/ 的证据包必须用它——"
+                         "仓库历史里已有上一版证据包，bundle 会把它包进去，"
+                         "再提交回仓库就会逐版递归膨胀")
     a = ap.parse_args()
 
     if Path(".env").exists() and not Path(".git").exists():
@@ -264,8 +260,9 @@ def main():
         for line in dirty.splitlines()[:8]:
             print("   ", line)
 
-    subprocess.run(["git", "bundle", "create", str(out / "repo.bundle"), "--all"],
-                   check=True, capture_output=True)
+    if not a.no_bundle:
+        subprocess.run(["git", "bundle", "create", str(out / "repo.bundle"), "--all"],
+                       check=True, capture_output=True)
 
     n_runs = copytree("runs", out / "runs")
     n_probe = copytree("probe_out", out / "probe_out")
@@ -297,6 +294,15 @@ def main():
 
     (out / "HANDOFF.md").write_text(HANDOFF_MD.format(
         ts=ts.isoformat(timespec="seconds"), commit=commit or "(未知)",
+        bundle_row=("" if a.no_bundle else
+                    "| `repo.bundle` | 完整 git 仓库（代码、文档、断言 YAML、提交历史） |\n"),
+        restore_section=(
+            "## 一、取得仓库\n\n"
+            "本包不含仓库快照。代码与文档从仓库获取：\n\n"
+            "```bash\ngit clone https://github.com/gejun2008/doc-parser-eval.git inf-eval\n```\n"
+            if a.no_bundle else
+            "## 一、恢复仓库\n\n```bash\ngit clone repo.bundle inf-eval\n"
+            "cd inf-eval\ngit log --oneline | head        # 应看到完整历史\n```\n"),
         data_note=("语料 PDF（olmOCR-Bench 120 份 + 自建集 53 份）"
                    if a.with_data else "未包含语料 PDF，需在公司电脑按 manifest 重新下载"),
         data_restore=("cp -R data/olmocr_bench inf-eval/data/\n"

@@ -9,7 +9,7 @@ pages_selected:
 - 209
 - 222
 - 241
-generated_utc: '2026-09-21T04:20:20+00:00'
+generated_utc: '2026-09-23T03:42:34+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:

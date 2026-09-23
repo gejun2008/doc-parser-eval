@@ -9,7 +9,7 @@ pages_selected:
 - 116
 - 122
 - 135
-generated_utc: '2026-09-21T04:20:18+00:00'
+generated_utc: '2026-09-23T03:42:32+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -161,38 +161,13 @@ assertions:
   eval_on: md
   rule: exactly_n
   n: 1
-  target: 67,643,000)
-  forbid:
-  - '67643000'
-  status: auto_textlayer
-  context: presented as a non-current liability as the repayment date is deferred to 30 Sep
-  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
-- id: hk_annual_new_00159_2026-09-16_p116_lp02
-  type: amount_label
-  severity: critical
-  page: 116
-  eval_on: md
-  rule: label_proximity
-  max_gap: 120
-  target: 67,643,000)
-  label: presented as a non
-  status: draft
-  context: presented as a non-current liability as the repayment date is deferred to 30 Sep
-  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
-- id: hk_annual_new_00159_2026-09-16_p116_am03
-  type: amount
-  severity: critical
-  page: 116
-  eval_on: md
-  rule: exactly_n
-  n: 1
   target: 6,101,000
   forbid:
   - '6101000'
   status: auto_textlayer
   context: 'HK$6,101,000 carried at cost presented as a current liability (2025: HK$4,238,00'
   note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
-- id: hk_annual_new_00159_2026-09-16_p116_am04
+- id: hk_annual_new_00159_2026-09-16_p116_am03
   type: amount
   severity: critical
   page: 116

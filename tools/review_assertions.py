@@ -31,6 +31,23 @@ import yaml
 ASSERT_DIR = Path("data/assertions")
 OUT = Path("review")
 
+
+def review_gen(doc):
+    """断言内容的指纹。审核状态按它隔离。
+
+    断言重新生成后 ID 会错位（同页内序号按抽取顺序编号），而审核决定按 ID 存。
+    不加指纹的话，旧决定会**悄无声息地挂到内容不同的新断言上**。
+    指纹覆盖全部断言的 id / 原始 target / label，重新生成即失效。
+    """
+    import hashlib
+    # 只看内容，不看 status：应用审核后 draft 变 confirmed，若把状态算进来，
+    # 同一份审核再次导出会被误判为过期。人工改过的值用 original_target，
+    # 保证改值也不让指纹漂移——指纹只在断言被**重新生成**时变化。
+    items = [(i["id"], str(i.get("original_target", i.get("target"))),
+              str(i.get("label", "")))
+             for i in doc["assertions"]]
+    return hashlib.sha256(json.dumps(items, ensure_ascii=False).encode()).hexdigest()[:10]
+
 PAGE_TPL = """<!DOCTYPE html>
 <html lang="zh"><head><meta charset="utf-8">
 <title>断言审核 · {doc_id}</title>
@@ -85,7 +102,9 @@ input[type=text] {{ font:13px ui-monospace,Menlo,monospace; padding:3px 6px; fle
 {pages}
 <script>
 const DOC_ID = {doc_id_json};
-const KEY = "review:" + DOC_ID;
+const GEN = {gen_json};
+// 断言重新生成后指纹会变，旧决定自动隔离，不会挂到新断言上
+const KEY = "review:" + DOC_ID + ":" + GEN;
 
 // file:// 下部分浏览器（Safari 尤其）会拒绝 localStorage 并抛异常。
 // 不兜住的话整页按钮全失效，所以失败时退回内存态并提示——
@@ -132,19 +151,25 @@ function download(name, obj) {{
 }}
 function exportJSON() {{
   download("review_" + DOC_ID + ".json",
-           {{doc_id: DOC_ID, reviewed_at: new Date().toISOString(), decisions: state}});
+           {{doc_id: DOC_ID, gen: GEN, reviewed_at: new Date().toISOString(), decisions: state}});
 }}
 function exportAll() {{
   // 把所有已审文档汇成一个文件，省掉 53 次下载。
   // 同源前提：全部页面都用 file:// 打开，或都用同一个本地服务打开，不要混用。
-  const docs = {{}};
+  // 键形如 review:<doc_id>:<gen>。同一文档可能残留旧版本的键，
+  // 全部带指纹导出，由 apply_review 只采纳与当前断言指纹一致的那份。
+  const entries = [];
   lsKeys().filter(k => k.indexOf("review:") === 0).forEach(k => {{
-    try {{ docs[k.slice(7)] = JSON.parse(lsGet(k) || "{{}}"); }} catch (e) {{}}
+    const parts = k.slice(7).split(":");
+    const gen = parts.length > 1 ? parts.pop() : "";
+    const doc = parts.join(":");
+    try {{ entries.push({{doc_id: doc, gen: gen, decisions: JSON.parse(lsGet(k) || "{{}}")}}); }} catch (e) {{}}
   }});
-  docs[DOC_ID] = state;
-  const n = Object.values(docs).reduce((a, d) => a + Object.keys(d).length, 0);
-  if (!confirm("导出 " + Object.keys(docs).length + " 份文档、共 " + n + " 条决定？")) return;
-  download("review_all.json", {{reviewed_at: new Date().toISOString(), docs: docs}});
+  if (!entries.some(e => e.doc_id === DOC_ID && e.gen === GEN))
+    entries.push({{doc_id: DOC_ID, gen: GEN, decisions: state}});
+  const n = entries.reduce((a, e) => a + Object.keys(e.decisions).length, 0);
+  if (!confirm("导出 " + entries.length + " 组、共 " + n + " 条决定？")) return;
+  download("review_all.json", {{reviewed_at: new Date().toISOString(), entries: entries}});
 }}
 Object.keys(state).forEach(render); bar();
 if (!LS_OK) {{
@@ -262,6 +287,7 @@ def main():
         out = OUT / f"{d['doc_id']}.html"
         out.write_text(PAGE_TPL.format(
             doc_id=html.escape(d["doc_id"]), doc_id_json=json.dumps(d["doc_id"]),
+            gen_json=json.dumps(review_gen(d)),
             family=html.escape(d["family"]), window=html.escape(d["window"]),
             disclosed_at=html.escape(str(d["disclosed_at"])),
             pages="".join(blocks)), encoding="utf-8")

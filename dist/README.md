@@ -1,13 +1,12 @@
 # dist — 评测证据包
 
-`evidence_<日期>.zip`（约 2.6 MB）含：
+`evidence_<日期>.zip`（约 2 MB）含：
 
 | 内容 | 说明 |
 |---|---|
 | `runs/` | 5 次评测的逐页原始响应、逐条判定、汇总。**不可再生**，是报告附录的复现依据 |
 | `probe_out/` | T0 端点探针证据 |
 | `corpus_manifest/` | 语料与选页清单（含 source_url、sha256） |
-| `repo.bundle` | 仓库快照，作为 clone 之外的备用 |
 | `HANDOFF.md` | 在公司电脑上的操作步骤 |
 
 **不含**：`.env`、`.venv`、语料 PDF。打包前扫描过凭证形态。
@@ -29,4 +28,6 @@ PDF 无法增量存储，会永久留在历史里。两种取法：
    下完核对 `manifest.csv` 里的 sha256，对不上说明源站文件有更新，
    两边跑的不是同一份文档，结果不可比。
 
-重新打包：`python tools/make_handoff.py`（不带数据）或 `--with-data`。
+重新打包：`python tools/make_handoff.py --no-bundle`。**进仓库的这份必须加 `--no-bundle`**——
+仓库历史里已有上一版证据包，bundle 会把它包进去，再提交回来就会逐版递归膨胀。
+带 bundle 的完整包（`--with-data`）只用于仓库之外的传输。

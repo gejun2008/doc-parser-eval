@@ -9,7 +9,7 @@ pages_selected:
 - 80
 - 86
 - 108
-generated_utc: '2026-09-21T04:20:19+00:00'
+generated_utc: '2026-09-23T03:42:34+00:00'
 generator: tools/make_assertions.py
 review_note: status=auto 的 page_integrity 可直接使用；status=draft 的必须人工核对后改为 confirmed，判定器拒绝执行 draft
 assertions:
@@ -91,31 +91,6 @@ assertions:
   label: Other payables include the Gr
   status: draft
   context: Other payables include the Group’s share of the joint operation expenditure of H
-  note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
-- id: hk_annual_old_00159_2025-09-17_p86_am02
-  type: amount
-  severity: critical
-  page: 86
-  eval_on: md
-  rule: exactly_n
-  n: 1
-  target: 57,104,000)
-  forbid:
-  - '57104000'
-  status: auto_textlayer
-  context: presented as a non-current liability as the repayment date is deferred to 30 Sep
-  note: 文本层派生：只验存在性与出现次数，不验科目归属。GT 来源是文本层而非人工，需抽样审计估计其错误率
-- id: hk_annual_old_00159_2025-09-17_p86_lp02
-  type: amount_label
-  severity: critical
-  page: 86
-  eval_on: md
-  rule: label_proximity
-  max_gap: 120
-  target: 57,104,000)
-  label: presented as a non
-  status: draft
-  context: presented as a non-current liability as the repayment date is deferred to 30 Sep
   note: 草稿：对着渲染页确认『该科目』与『该金额』确实同行。文本层跨列拼接会把标签配错，机器验不了这一类
 - id: hk_annual_old_00159_2025-09-17_p108_pi01
   type: page_integrity
