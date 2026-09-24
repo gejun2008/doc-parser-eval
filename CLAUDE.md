@@ -49,9 +49,10 @@ header/footer 默认丢弃、300 DPI 固定等）已经是证据，直接引用�
 
 ```
 README.md                    从哪读起、环境、工具清单
-docs/briefing-deck.html      交付：4 页简报（.pptx 同内容，由 tools/make_briefing_pptx.py 生成）
+docs/briefing-deck.html      交付：4 页简报（.pptx / .md 同内容；pptx 由 tools/make_briefing_pptx.py 生成）
 docs/test-results.md         交付：测试集与测试结果
 docs/evaluation-report.md    交付：分析报告
+docs/en/                     交付文件的英文版，文件名相同（英文 pptx 由 tools/make_briefing_pptx_en.py 生成）
 docs/working/                工作底稿，交付文件从这里引用
 docs/working/research-plan.md        评测设计（权威范围文档）
 docs/working/interim-brief.md        中期简报（面向技术主管）
