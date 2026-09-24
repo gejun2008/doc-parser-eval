@@ -1,0 +1,9 @@
+Hi all,
+The technical evaluation report on INF TECH's Infinity-Parser2 document parsing API is now published and ready for your review:
+🔗 [Report link]
+What it covers
+
+* Whether Infinity-Parser2 can replace our current solution (Azure Document Intelligence) for HSBC financial document scenarios
+* Results for each document family and field type, measured against an Azure DI baseline on a financial document set we built ourselves from public sources: listed-company filings (CNINFO, HKEXnews), credit rating reports, and ICC trade finance document samples
+* Silent-failure behaviour, service-tier observations (latency, concurrency, rate limiting), and the limits of the vendor SDK
+* Which document types it can replace and which it can't, with evidence for each, plus a proposed POC scope and exit criteria
