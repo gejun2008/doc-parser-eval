@@ -51,12 +51,12 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
 
 <!-- ============ 第 1 页：结论与文档类型 ============ -->
 <section class="slide">
-  <div class="kicker">INFINITY-PARSER2 vs AZURE DOCUMENT INTELLIGENCE · 技术评估简报 · 2026-09-23</div>
+  <div class="kicker">INFINITY-PARSER2 vs AZURE DOCUMENT INTELLIGENCE · 技术评估简报 · 2026-09-24</div>
   <h1>哪些文档能交给 Infinity-Parser2，哪些不能</h1>
   <div class="lede">
-    <b>一句话：</b>港股披露文件和 A 股公告可以进入 POC，其中金额类断言两边都没有失败。
-    但 A 股年报、中报里<b>「页首是上一页续表」的页</b>，Infinity 会<b>静默丢掉整段表格</b>，没有任何报错；
-    同样的页上 Azure 完整保留。它也<b>不提供置信度</b>，没法只把可疑字段送去人工复核。
+    <b>一句话：</b>统一标点后，<b>解析质量上 Azure 每项都持平或更好</b>。港股披露文件、A 股公告的关键字段没看到差异，可以进 POC；
+    但 A 股年报、中报「页首是续表」的页，Infinity 会<b>静默丢掉整段表格</b>。它还<b>不提供置信度</b>、<b>只收 PDF 和图片</b>。
+    替代理由只能来自成本或私有化部署。
   </div>
   <h2 style="margin:0 0 6px">支持的文件格式</h2>
   <div class="fmt">
@@ -71,11 +71,11 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
   <table class="t1">
     <tr><th style="width:24%">文档类型（PDF）</th><th style="width:17%">判断</th><th>依据（同一批页配对比较）</th></tr>
     <tr><td>港股年报 / 中报 / 招股书</td><td><span class="pill go">可替代候选 · 进 POC</span></td>
-        <td>金额与科目归属断言两边都没有失败；正文完整性：未观察到显著差异</td></tr>
+        <td>金额、科目归属断言两边都没有失败；分族的正文完整性待第三轮</td></tr>
     <tr><td>A 股临时公告</td><td><span class="pill go">可替代候选 · 进 POC</span></td>
-        <td>金额断言两边都没有失败；正文完整性 Infinity 通过更多（差距尚未排除标点差异）</td></tr>
+        <td>金额断言两边都没有失败；第一轮 Infinity 的领先已查明是标点造成的</td></tr>
     <tr><td>A 股年报 / 中报（报表附注页）</td><td><span class="pill no">现阶段不可替代</span></td>
-        <td>3 页确定性丢表（共 27 个金额），都发生在页首续表；Azure 在配对的 2 页上完整保留</td></tr>
+        <td>Infinity 3 页确定性丢表（共 27 个金额），都在页首续表页，没有报错；Azure 也缺了 6 个，原因待查</td></tr>
     <tr><td>需要按置信度分流复核的流程</td><td><span class="pill no">不可替代（结构性）</span></td>
         <td>API 不返回任何置信度，请求 <code>logprobs</code> 会被静默忽略</td></tr>
     <tr><td>港股 KYC 类文件</td><td><span class="pill warn">证据不足</span></td>
@@ -91,7 +91,7 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
 <!-- ============ 第 2 页：效果数据 ============ -->
 <section class="slide">
   <div class="kicker">PDF 处理效果 · 同一批 191 页、同一套断言配对比较</div>
-  <h1>金额 Azure 更稳，正文完整性 Infinity 领先（待确认）</h1>
+  <h1>统一标点后，Azure 在各项指标上持平或更好</h1>
   <div class="cols">
     <div>
       <h2>断言通过率 <span class="legend small"><span style="background:var(--inf)"></span>Infinity<span style="background:var(--az)"></span>Azure DI</span></h2>
@@ -104,32 +104,32 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
       </div>
 
       <div class="card" style="margin-bottom:12px">
-        <b>金额与科目同行</b> <span class="small">· 数字有没有挂错行 · 人工确认 · n = 76</span>
-        <div class="metric inf"><span>Infinity</span><div class="bar"><i style="width:100%"></i></div><span class="num">100%</span></div>
-        <div class="metric az"><span>Azure DI</span><div class="bar"><i style="width:98.7%"></i></div><span class="num">98.7%</span></div>
-        <div class="small">未观察到显著差异（1 : 0）</div>
+        <b>正文完整性（统一标点后）</b> <span class="small">· 每页抽 3 行正文，查是否原样输出 · n = 448</span>
+        <div class="metric inf"><span>Infinity</span><div class="bar"><i style="width:93.1%"></i></div><span class="num">93.1%</span></div>
+        <div class="metric az"><span>Azure DI</span><div class="bar"><i style="width:97.1%"></i></div><span class="num">97.1%</span></div>
+        <div class="small">差异显著（2 : 20，p = 0.0001）。<b>第一轮的 91.3% 对 72.5% 作废</b>：那是 Azure 把全角标点转成半角造成的。</div>
       </div>
 
       <div class="card">
-        <b>正文完整性</b> <span class="small">· 每页抽 3 行正文，查是否原样输出 · n = 448</span>
-        <div class="metric inf"><span>Infinity</span><div class="bar"><i style="width:91.3%"></i></div><span class="num">91.3%</span></div>
-        <div class="metric az"><span>Azure DI</span><div class="bar"><i style="width:72.5%"></i></div><span class="num">72.5%</span></div>
-        <div class="small">差异显著（99 : 15），但比对时没有统一全角/半角标点，<b>差距可能部分来自标点，不能读成「Azure 丢内容」</b>。正在复判。</div>
+        <b>单位与币种（统一标点后）</b> <span class="small">· 表头「单位：元」等是否保留 · n = 93</span>
+        <div class="metric inf"><span>Infinity</span><div class="bar"><i style="width:98.9%"></i></div><span class="num">98.9%</span></div>
+        <div class="metric az"><span>Azure DI</span><div class="bar"><i style="width:100%"></i></div><span class="num">100%</span></div>
+        <div class="small">未观察到显著差异（0 : 1）。金额与科目同行（n = 76）：Infinity 100%，Azure 98.7%，同样未观察到显著差异。</div>
       </div>
     </div>
 
     <div style="display:flex;flex-direction:column;gap:12px">
       <div class="card alert">
-        <h2 style="color:var(--no)">最要紧的发现：静默丢表</h2>
-        <div style="display:flex;gap:22px;margin:4px 0 8px">
-          <div><div class="big num" style="color:var(--no)">3 页</div><div class="small">73 页 A 股金额页中</div></div>
-          <div><div class="big num" style="color:var(--no)">27 个</div><div class="small">金额缺失</div></div>
-          <div><div class="big num">0</div><div class="small">Azure 在配对 2 页上<br>（全量扫描待跑）</div></div>
+        <h2 style="color:var(--no)">全量金额扫描：两边都会缺，性质不同</h2>
+        <div class="small" style="margin-bottom:4px">配对 54 页 A 股金额页，1,544 个金额</div>
+        <div style="display:flex;gap:30px;margin:4px 0 8px">
+          <div><div class="big num" style="color:var(--no)">11 个</div><div class="small">Infinity 缺失 · 2 页</div></div>
+          <div><div class="big num">6 个</div><div class="small">Azure 缺失 · 2 页</div></div>
         </div>
         <ul style="font-size:13.5px">
-          <li>三页的共同点：页首是上一页表格的续表</li>
-          <li>其中一页，整张「分季度主要财务指标」表不见了，标题还被挂到了别的表上</li>
-          <li>调用照常「正常结束」，没有任何报错；重复调用 3 次，缺的完全一样</li>
+          <li><b>Infinity 已查实</b>：页首续表整段没输出；调用照常「正常结束」，重复 3 次缺的完全一样</li>
+          <li>配对集外还有一页：<b>整张 16 个金额的表</b>不见了（Azure 在该页网关失败，无法对比）</li>
+          <li>Azure 缺的 6 个原因待查（第三轮）；页级比较未观察到显著差异</li>
         </ul>
       </div>
       <div class="card">
@@ -160,6 +160,7 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
         <tr><td>输入</td><td>整页渲染成 300 DPI 图像，逐页独立处理</td><td>PDF（本次为单页 PDF）</td></tr>
         <tr><td>置信度</td><td><span class="pill no">无</span></td><td><span class="pill go">每个文本片段都有</span></td></tr>
         <tr><td>确定性</td><td>同一页调用 3 次，99.0% 逐字相同（金额零变化）</td><td>确定性</td></tr>
+        <tr><td>标点</td><td>保留原文全角</td><td>全角转半角，下游需要归一化</td></tr>
         <tr><td>认不出时</td><td>可能漏掉或生成内容，调用照常正常结束</td><td>给低置信度或留空</td></tr>
         <tr><td>特有失败</td><td>无限复读、打满 token 上限（观测到 2 次）</td><td>—</td></tr>
         <tr><td>坐标框</td><td>由模型生成</td><td>几何检测得出</td></tr>
@@ -171,6 +172,7 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
       <div class="card">
         <h2>POC 建议范围</h2>
         <ul>
+          <li><b>先决条件：有成本或私有化部署上的动因</b>，解析质量本身不构成动因</li>
           <li>港股年报、中报、招股书 + A 股公告，只用电子版 PDF，每族 ≥ 300 页</li>
           <li><b>定向测试 ≥ 50 页「页首续表」</b>，测丢表的发生频率</li>
           <li>强制护栏：金额与 PDF 文本层逐个对账；<code>finish_reason=length</code> 一律转人工</li>
