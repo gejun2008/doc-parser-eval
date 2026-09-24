@@ -61,7 +61,7 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
   <div class="kicker">INFINITY-PARSER2 vs AZURE DOCUMENT INTELLIGENCE · 技术评估简报 · 2026-09-24</div>
   <h1>文档类型适用性评估：Infinity-Parser2 替代 Azure DI 的范围</h1>
   <div class="lede">
-    <b>一句话：</b>统一标点后，<b>解析质量上 Azure 每项都持平或更好</b>。港股披露文件、A 股公告的关键字段没看到差异，可以进 POC；
+    <b>一句话：解析质量上 Azure 每项都持平或更好</b>。港股披露文件、A 股公告的关键字段没看到差异，可以进 POC；
     但 A 股年报、中报「页首是续表」的页，Infinity 会<b>静默丢掉整段表格</b>。它还<b>不提供置信度</b>、<b>只收 PDF 和图片</b>。
     替代理由只能来自成本或私有化部署。
   </div>
@@ -97,7 +97,7 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
 
 <!-- ============ 第 2 页：效果数据 ============ -->
 <section class="slide">
-  <div class="kicker">统一标点后，Azure 在各项指标上持平或更好 · 同一批 191 页、同一套断言配对比较</div>
+  <div class="kicker">Azure 在各项指标上持平或更好 · 同一批 191 页、同一套断言配对比较</div>
   <h1>解析质量对比：Azure DI vs Infinity-Parser2</h1>
   <div class="cols">
     <div>
@@ -111,14 +111,14 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
       </div>
 
       <div class="card" style="margin-bottom:12px">
-        <b>正文完整性（统一标点后）</b> <span class="small">· 每页抽 3 行正文，查是否原样输出 · n = 448</span>
+        <b>正文完整性</b> <span class="small">· 每页抽 3 行正文，查是否原样输出 · n = 448</span>
         <div class="metric inf"><span>Infinity</span><div class="bar"><i style="width:93.1%"></i></div><span class="num">93.1%</span></div>
         <div class="metric az"><span>Azure DI</span><div class="bar"><i style="width:97.1%"></i></div><span class="num">97.1%</span></div>
         <div class="small">差异显著（2 : 20，p = 0.0001）。<b>第一轮的 91.3% 对 72.5% 作废</b>：那是 Azure 把全角标点转成半角造成的。</div>
       </div>
 
       <div class="card">
-        <b>单位与币种（统一标点后）</b> <span class="small">· 表头「单位：元」等是否保留 · n = 93</span>
+        <b>单位与币种</b> <span class="small">· 表头「单位：元」等是否保留 · n = 93</span>
         <div class="metric inf"><span>Infinity</span><div class="bar"><i style="width:98.9%"></i></div><span class="num">98.9%</span></div>
         <div class="metric az"><span>Azure DI</span><div class="bar"><i style="width:100%"></i></div><span class="num">100%</span></div>
         <div class="small">未观察到显著差异（0 : 1）。金额与科目同行（n = 76）：Infinity 100%，Azure 98.7%，同样未观察到显著差异。</div>
