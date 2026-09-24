@@ -124,3 +124,48 @@ Python 用 .venv\Scripts\python。
 | `relaxed_recheck` 的 unit_currency 两行 | §2.1：单位/币种字段能否恢复进对照 |
 | 第二部分摘录 | §2.3：lp02 那条 Azure 失败是不是括号全/半角 |
 | 第三部分 | §2.1：unit_currency 的排除理由是否成立 |
+
+---
+
+# 第三轮（2026-09-24）：查清 Azure 缺的金额与分族结果
+
+第二轮的结果已写进报告。还剩两个问题：Azure 在配对集里缺的 6 次金额是什么性质；
+按宽松口径分族后，各族正文完整性的差距在哪里。
+
+## 先更新两个文件
+
+从 GitHub 下载新版 ZIP，**只把这两个文件**复制到工作目录的 `tools\` 下，覆盖旧版：
+
+```
+tools\amount_scan.py
+tools\relaxed_recheck.py
+```
+
+## 复制以下内容给 Copilot
+
+```
+请在仓库根目录运行下面两条命令。不要修改任何文件，不要调用任何 API。
+环境 Windows PowerShell，Python 用 .venv\Scripts\python。
+
+1. .venv\Scripts\python tools\amount_scan.py runs\inf-mllm_doc2md_20260921T013924Z runs\azure_gateway_corpus_20260922 --show-missing
+2. .venv\Scripts\python tools\relaxed_recheck.py runs\inf-mllm_doc2md_20260921T013924Z runs\azure_gateway_corpus_20260922 --by-family
+
+然后生成新文件 report-numbers-round3.md，只包含：
+
+第一部分：两条命令的终端输出原样照录，包括校验和行与「缺失明细」段落。
+不改写、不总结、不重新排版。
+
+第二部分：对「缺失明细」里 Azure 那一方缺的每个金额，在 Azure 原始响应
+的 content 里搜索它的数字部分（去掉逗号后的数字串），原样摘录搜到的位置
+前后各 20 个字符；搜不到就写「未找到」。只摘这些位置。
+
+不写任何路径中的用户名、资源名、端点。
+```
+
+## 接收方怎么用
+
+| 输出 | 回答的问题 |
+|---|---|
+| `--show-missing` 明细 | Azure 缺的 6 次，是整行或整表没了（业务错误），还是写法不同（比如拆成两个单元格、括号表示负数） |
+| 第二部分摘录 | 同上，直接看 Azure 把这些数字写成了什么样 |
+| `--by-family` | 各族正文完整性的宽松口径对比，用来更新报告里「港股、公告可以进 POC」的依据 |
