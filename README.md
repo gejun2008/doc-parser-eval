@@ -11,7 +11,7 @@
 | 你要做什么 | 读这个 |
 |---|---|
 | 了解项目范围与设计 | `docs/research-plan.md`（权威范围文档） |
-| **看结论（2 页）** | **`docs/executive-summary.md`；幻灯片 `docs/briefing-deck.html`（浏览器打开）** |
+| **看结论（2 页）** | **`docs/executive-summary.md`；幻灯片 `docs/briefing-deck.pptx`（PowerPoint）或 `docs/briefing-deck.html`（浏览器）** |
 | 看完整报告 | `docs/evaluation-report.md` |
 | 看目前测出了什么 | `docs/interim-brief.md`（中期简报，已被报告取代） |
 | 在公司电脑跑 Azure DI 基线 | `docs/azure-di-baseline.md` |
@@ -71,6 +71,7 @@ cp .env.example .env                                 # 填凭证，.env 不入�
 | `make_handoff.py` | 交接包打包（扫描凭证后才允许出包） |
 | `export_for_report.py` | 导出成文数据：两边配对对照、失败模式、差异样例，自动脱敏与过期检查 |
 | `amount_scan.py` | 全量金额扫描：页上每个金额都与文本层对账，不抽样（抓整表遗漏） |
+| `make_briefing_pptx.py` | 生成 3 页幻灯片 PPTX（需 python-pptx） |
 | `relaxed_recheck.py` | 宽松口径复判：区分真实缺失与标点/字形差异，两边对称 |
 
 ## 典型流程
