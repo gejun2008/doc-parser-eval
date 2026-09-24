@@ -43,6 +43,13 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
 .fmt{border:1px solid var(--line);border-radius:8px;padding:8px 14px;margin:0 0 12px}
 .fmt-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 0}
 .fmt-name{width:140px;font-weight:700;font-size:14.5px}
+.foot a{color:var(--inf);text-decoration:none}
+.sum{display:grid;grid-template-columns:120px 1fr;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.sum>div{padding:16px 20px;border-bottom:1px solid var(--line);font-size:16px;line-height:1.65}
+.sum>div:nth-last-child(-n+2){border-bottom:0}
+.sum .lv{background:#f5f8fb;font-weight:700;color:var(--navy);font-size:17px}
+.src{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+.src a{color:var(--inf);text-decoration:none;font-weight:700;font-size:15px}
 @media print{body{background:#fff}.slide{margin:0;box-shadow:none;page-break-after:always}}
 @media (max-width:1320px){.slide{transform-origin:top left}}
 </style>
@@ -85,7 +92,7 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
     <tr><td>贸易金融单证</td><td><span class="pill gray">未覆盖</span></td>
         <td>没有合规的公开样本，现有结论不能外推</td></tr>
   </table>
-  <div class="foot"><span>样本：53 份公开披露文档 → 210 页 → 1,229 条断言；配对页 191 页（Azure 19 页因网关超时失败）</span><span>1 / 3</span></div>
+  <div class="foot"><span>样本：53 份公开披露文档 → 210 页 → 1,229 条断言；配对页 191 页（Azure 19 页因网关超时失败）　·　出处：<a href="https://github.com/gejun2008/doc-parser-eval/blob/v1.0-report/docs/evaluation-report.md">evaluation-report.md</a></span><span>1 / 4</span></div>
 </section>
 
 <!-- ============ 第 2 页：效果数据 ============ -->
@@ -145,7 +152,7 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
       </div>
     </div>
   </div>
-  <div class="foot"><span>检验方法：McNemar 配对检验；不合成总分；n &lt; 30 的分层不下结论</span><span>2 / 3</span></div>
+  <div class="foot"><span>检验方法：McNemar 配对检验；不合成总分；n &lt; 30 的分层不下结论　·　出处：<a href="https://github.com/gejun2008/doc-parser-eval/blob/v1.0-report/docs/test-results.md">test-results.md</a></span><span>2 / 4</span></div>
 </section>
 
 <!-- ============ 第 3 页：模型对比 + POC ============ -->
@@ -190,7 +197,37 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
       </div>
     </div>
   </div>
-  <div class="foot"><span>完整报告：docs/evaluation-report.md · 数据出处：docs/report-numbers-20260923.md</span><span>3 / 3</span></div>
+  <div class="foot"><span>出处：<a href="https://github.com/gejun2008/doc-parser-eval/blob/v1.0-report/docs/evaluation-report.md">evaluation-report.md</a></span><span>3 / 4</span></div>
+</section>
+
+<!-- ============ 第 4 页：总结 ============ -->
+<section class="slide">
+  <div class="kicker">评测总结</div>
+  <h1>评测总结：结论、方法与数据</h1>
+  <div class="sum" style="margin-top:8px">
+    <div class="lv">结论</div>
+    <div>Azure 在<b>金额</b>、<b>正文完整性</b>两项上显著更好，<b>单位币种</b>、<b>金额科目归属</b>两项差异不显著，没有一项 Infinity 更好。
+      Infinity 另有两个结构性缺陷：<b>不返回置信度</b>；页首是续表的页会<b>静默丢表</b>。</div>
+
+    <div class="lv">详细</div>
+    <div>各项指标见第 2 页；按文档类型的替代判断见第 1 页；模型差异、POC 范围与退出标准见第 3 页。</div>
+
+    <div class="lv">方法</div>
+    <div>两边都通过调用 API 解析同一批页，各自输出 markdown，我方不做转换；输出与同一套 GT（断言）逐条比对，
+      只比两边都成功的页，用配对检验判断差异是否显著，不合成总分。</div>
+
+    <div class="lv">数据集</div>
+    <div>自建金融集：53 份公开披露文档（巨潮资讯网、HKEX 披露易）→ 210 页 → 1,229 条断言，配对 191 页。
+      GT 以 PDF 文本层自动提取为主，76 条科目归属人工逐条确认。<br>
+      公共基准 olmOCR-Bench：跑了 41 页。</div>
+  </div>
+  <div class="src">
+    <div class="card"><a href="https://github.com/gejun2008/doc-parser-eval/blob/v1.0-report/docs/test-results.md">test-results.md</a>
+      <div class="small">测试集与测试结果：测试集构成、GT 来源、各项指标与逐条失败明细、服务数据、数字出处</div></div>
+    <div class="card"><a href="https://github.com/gejun2008/doc-parser-eval/blob/v1.0-report/docs/evaluation-report.md">evaluation-report.md</a>
+      <div class="small">分析报告：结论与依据、按文档类型的判断、结构性差异、POC 范围与退出标准、评测方法（附录 C）</div></div>
+  </div>
+  <div class="foot"><span>出处：<a href="https://github.com/gejun2008/doc-parser-eval/blob/v1.0-report/docs/test-results.md">test-results.md</a>　·　<a href="https://github.com/gejun2008/doc-parser-eval/blob/v1.0-report/docs/evaluation-report.md">evaluation-report.md</a></span><span>4 / 4</span></div>
 </section>
 
 <script>
