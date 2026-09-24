@@ -16,6 +16,7 @@ page_integrity 与 unit_currency 的一部分失败可能只是标点差异。
 
 用法:
   python tools/relaxed_recheck.py runs/<A目录> runs/<B目录>
+  python tools/relaxed_recheck.py runs/<A目录> runs/<B目录> --by-family   # 再按文档族分行
 """
 
 import argparse
@@ -54,11 +55,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("run_a")
     ap.add_argument("run_b")
+    ap.add_argument("--by-family", action="store_true")
     a = ap.parse_args()
     A, B = load(a.run_a), load(a.run_b)
 
     # (类型, 口径) -> [n, A过, B过, 只A, 只B]
     tab = {(t, m): [0] * 5 for t in TYPES for m in ("严格", "宽松")}
+    fam = {}  # (族, 类型, 口径) -> [n, A过, B过, 只A, 只B]
     for yf in sorted(ASSERT_DIR.glob("*.yaml")):
         d = yaml.safe_load(yf.read_text(encoding="utf-8"))
         base = slug(d["local_path"])
@@ -75,12 +78,13 @@ def main():
                 pb = judge(item, B[key][idx])[0]
                 if pa is None or pb is None:
                     continue
-                row = tab[(it["type"], mode)]
-                row[0] += 1
-                row[1] += pa
-                row[2] += pb
-                row[3] += pa and not pb
-                row[4] += pb and not pa
+                for row in (tab[(it["type"], mode)],
+                            fam.setdefault((d["family"], it["type"], mode), [0] * 5)):
+                    row[0] += 1
+                    row[1] += pa
+                    row[2] += pb
+                    row[3] += pa and not pb
+                    row[4] += pb and not pa
 
     na, nb = Path(a.run_a).name, Path(a.run_b).name
     print(f"\nA = {na}\nB = {nb}")
@@ -90,6 +94,15 @@ def main():
         ints += r
         print(f"{t} | {m} | " + " | ".join(map(str, r)))
     print(f"\n校验和 = 表内所有整数之和 = {sum(ints)}")
+    if a.by_family:
+        print("\n按文档族（只列 page_integrity 宽松口径）")
+        print("文档族 | n | A通过 | B通过 | 只A对 | 只B对")
+        fints = []
+        for (f, t, m), r in sorted(fam.items()):
+            if t == "page_integrity" and m == "宽松":
+                fints += r
+                print(f"{f} | " + " | ".join(map(str, r)))
+        print(f"校验和 = 表内所有整数之和 = {sum(fints)}")
     print("宽松口径下仍失败的 = n − 通过数，是「真实缺失候选」，需人工抽查确认")
 
 

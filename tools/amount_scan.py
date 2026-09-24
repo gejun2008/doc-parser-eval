@@ -18,7 +18,9 @@
 
 用法:
   python tools/amount_scan.py runs/<A目录> [runs/<B目录>]
+  python tools/amount_scan.py runs/<A目录> runs/<B目录> --show-missing
 给两个目录时只比双方都成功的页（配对口径，与 compare_systems.py 一致）。
+--show-missing 额外列出每页每个系统缺了哪些金额（公开披露数字），用于判断缺失性质。
 输出 <每个目录>/amount_scan.csv，并打印一张带校验和的整数表，便于拍照。
 """
 
@@ -64,17 +66,20 @@ def scan_page(pdf, page, content):
     txt = pymupdf.open(pdf)[page - 1].get_text()
     want = Counter(x.lstrip("-") for x in AMOUNT.findall(join_wrapped(txt)))
     out = norm_out(content)
-    missing = 0
+    missing, detail = 0, []
     for amt, n in want.items():
         got = len(re.findall(r"(?<![\d,.])" + re.escape(amt) + r"(?!\d)", out))
-        missing += max(0, n - got)
-    return sum(want.values()), missing
+        if got < n:
+            missing += n - got
+            detail.append(f"{amt}(应{n}得{got})")
+    return sum(want.values()), missing, detail
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("run_dirs", nargs="+")
     ap.add_argument("--manifest", default="data/corpus/run_manifest.csv")
+    ap.add_argument("--show-missing", action="store_true")
     a = ap.parse_args()
     if len(a.run_dirs) > 2:
         sys.exit("最多两个目录")
@@ -93,13 +98,13 @@ def main():
         if res[0][0] == 0:
             continue
         rows.append((p["doc_id"], p["family"], int(p["page"]), res[0][0],
-                     [m for _, m in res]))
+                     [m for _, m, _ in res], [d for _, _, d in res]))
 
     for i, d in enumerate(runs):
         with (d / "amount_scan.csv").open("w", newline="", encoding="utf-8") as fh:
             w = csv.writer(fh)
             w.writerow(["doc_id", "family", "page", "amounts_in_textlayer", "missing"])
-            for doc, fam, pg, n, ms in rows:
+            for doc, fam, pg, n, ms, _ in rows:
                 w.writerow([doc, fam, pg, n, ms[i]])
 
     names = [d.name for d in runs]
@@ -113,11 +118,17 @@ def main():
         ints += [miss, pg]
         print(f"{nm} | {miss} | {pg}")
     print("\n有缺失的页（ID末20字符 | 页 | 文本层金额数 | 各系统缺失）")
-    for doc, fam, pg, n, ms in rows:
+    for doc, fam, pg, n, ms, _ in rows:
         if any(ms):
             ints += [pg, n, *ms]
             print(f"{doc[-20:]} | {pg} | {n} | " + " | ".join(map(str, ms)))
     print(f"\n校验和 = 以上所有整数之和 = {sum(ints)}（不含 ID 中的数字）")
+    if a.show_missing:
+        print("\n缺失明细（ID末20字符 p页 | 系统 | 金额(应出现次数 得到次数)）")
+        for doc, fam, pg, n, ms, ds in rows:
+            for i, d in enumerate(ds):
+                if d:
+                    print(f"{doc[-20:]} p{pg} | {names[i]} | " + " ".join(d))
 
 
 if __name__ == "__main__":
