@@ -45,7 +45,7 @@ def set_font(run, size, color="ink", bold=False):
 
 
 def fill_tf(tf, paras, size, color="ink", align=None, spacing=None):
-    """paras: list of paragraphs; each paragraph is str or list of (text, bold[, color])."""
+    """paras: list of paragraphs; each paragraph is str or list of (text, bold[, color[, url]])."""
     tf.word_wrap = True
     for i, p in enumerate(paras):
         para = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
@@ -57,6 +57,9 @@ def fill_tf(tf, paras, size, color="ink", align=None, spacing=None):
             r = para.add_run()
             r.text = seg[0]
             set_font(r, size, seg[2] if len(seg) > 2 else color, seg[1])
+            if len(seg) > 3:
+                r.hyperlink.address = seg[3]
+                set_font(r, size, seg[2], seg[1])  # hyperlink 会重置颜色，重设一次
 
 
 def text(slide, x, y, w, h, paras, size, color="ink", align=None, anchor=MSO_ANCHOR.TOP,
@@ -150,13 +153,18 @@ def header(slide, kicker, title, page):
     text(slide, L, 0.32, W, 0.3, [kicker], 11, "muted")
     text(slide, L, 0.58, W, 0.6, [[(title, True, "navy")]], 26)
     text(slide, L, 7.08, W - 1, 0.3, [FOOT[page]], 9, "muted")
-    text(slide, R - 1, 7.08, 1, 0.3, [f"{page} / 3"], 9, "muted", align=PP_ALIGN.RIGHT)
+    text(slide, R - 1, 7.08, 1, 0.3, [f"{page} / 4"], 9, "muted", align=PP_ALIGN.RIGHT)
 
 
+# 每页只引用一个出处文件：测试数据看 test-results.md，分析看 evaluation-report.md
+DOCS = "https://github.com/gejun2008/doc-parser-eval/blob/v1.0-report/docs/"
+TR = ("test-results.md", False, "inf", DOCS + "test-results.md")
+ER = ("evaluation-report.md", False, "inf", DOCS + "evaluation-report.md")
 FOOT = {
-    1: "样本：53 份公开披露文档 → 210 页 → 1,229 条断言；配对页 191 页（Azure 19 页因网关超时失败）",
-    2: "检验方法：McNemar 配对检验；不合成总分；n < 30 的分层不下结论",
-    3: "完整报告：docs/evaluation-report.md · 数据出处：docs/report-numbers-20260923.md",
+    1: [("样本：53 份公开披露文档 → 210 页 → 1,229 条断言；配对页 191 页（Azure 19 页因网关超时失败）　·　出处：", False), ER],
+    2: [("检验方法：McNemar 配对检验；不合成总分；n < 30 的分层不下结论　·　出处：", False), TR],
+    3: [("出处：", False), ER],
+    4: [("出处：", False), TR, ("　·　", False), ER],
 }
 
 # ---------------- 第 1 页 ----------------
@@ -306,6 +314,37 @@ text(s, RX + 0.2, 5.12, RW - 0.4, 1.75, [
     "• 按合同价计入人工复核后，单页成本高于 Azure",
     "• 生产吞吐达不到业务峰值；复读退化率超过阈值",
 ], 11.5, spacing=5)
+
+# ---------------- 第 4 页：总结 ----------------
+s = prs.slides.add_slide(BLANK)
+header(s, "评测总结", "评测总结：结论、方法与数据", 4)
+summary = [
+    ["", ""],
+    ["结论", [("Azure 在", False), ("金额", True), ("、", False), ("正文完整性", True), ("两项上显著更好，", False),
+             ("单位币种", True), ("、", False), ("金额科目归属", True), ("两项差异不显著，没有一项 Infinity 更好。"
+             "Infinity 另有两个结构性缺陷：", False), ("不返回置信度", True), ("；页首是续表的页会", False), ("静默丢表", True), ("。", False)]],
+    ["详细", "各项指标见第 2 页；按文档类型的替代判断见第 1 页；模型差异、POC 范围与退出标准见第 3 页。"],
+    ["方法", "两边都通过调用 API 解析同一批页，各自输出 markdown，我方不做转换；输出与同一套 GT（断言）逐条比对，"
+             "只比两边都成功的页，用配对检验判断差异是否显著，不合成总分。"],
+    ["数据集", "自建金融集：53 份公开披露文档（巨潮资讯网、HKEX 披露易）→ 210 页 → 1,229 条断言，配对 191 页。"
+               "GT 以 PDF 文本层自动提取为主，76 条科目归属人工逐条确认。公共基准 olmOCR-Bench：跑了 41 页。"],
+]
+shp = table(s, L, 1.3, [1.3, W - 1.3], summary, size=13, head_size=6, row_h=0.9,
+            fills={(i, 0): "lede_bg" for i in range(1, 5)}, colors={(i, 0): "navy" for i in range(1, 5)},
+            bolds={(i, 0): True for i in range(1, 5)})
+tbl = shp.table._tbl
+tbl.remove(tbl.tr_lst[0])  # table() 默认首行是表头，这一页不需要
+heights = (0.95, 0.6, 0.95, 0.95)
+for i, h in enumerate(heights):
+    shp.table.rows[i].height = Inches(h)
+shp.height = Inches(sum(heights))
+for i, (doc, desc) in enumerate((
+        (TR, "测试集与测试结果：测试集构成、GT 来源、各项指标与逐条失败明细、服务数据、数字出处"),
+        (ER, "分析报告：结论与依据、按文档类型的判断、结构性差异、POC 范围与退出标准、评测方法（附录 C）"))):
+    cx = L + i * (W / 2 + 0.1)
+    card(s, cx, 5.2, W / 2 - 0.1, 1.1)
+    text(s, cx + 0.2, 5.3, W / 2 - 0.5, 0.3, [[(doc[0], True, "inf", doc[3])]], 13)
+    text(s, cx + 0.2, 5.68, W / 2 - 0.5, 0.55, [desc], 10.5, "muted")
 
 prs.save(sys.argv[1])
 print("saved", sys.argv[1])
