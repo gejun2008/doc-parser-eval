@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Infinity-Parser2 Evaluation Brief</title>
+<style>
+:root{
+  --ink:#1b2430; --muted:#5b6675; --line:#dde3ea; --bg:#eef1f5; --paper:#ffffff;
+  --navy:#16324f; --go:#1f7a4d; --go-bg:#e4f4ea; --no:#b3261e; --no-bg:#fbe7e5;
+  --warn:#9a6700; --warn-bg:#fff4d6; --gray-bg:#eef0f3;
+  --inf:#3d6fb6; --az:#8a94a3;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Segoe UI","Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Helvetica Neue",Arial,sans-serif}
+.slide{width:1280px;height:720px;margin:24px auto;background:var(--paper);position:relative;
+  padding:40px 56px 36px;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden;display:flex;flex-direction:column}
+.kicker{font-size:14px;color:var(--muted);letter-spacing:.06em}
+h1{font-size:30px;margin:6px 0 4px;color:var(--navy)}
+h2{font-size:17px;margin:0 0 10px;color:var(--navy)}
+.lede{font-size:16.5px;line-height:1.5;margin:4px 0 10px;padding:12px 16px;border-left:4px solid var(--navy);background:#f5f8fb}
+.foot{position:absolute;left:56px;right:56px;bottom:14px;font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{font-size:13px;color:var(--muted);font-weight:600;background:#f7f9fb}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13px;font-weight:600;white-space:nowrap}
+.go{background:var(--go-bg);color:var(--go)} .no{background:var(--no-bg);color:var(--no)}
+.warn{background:var(--warn-bg);color:var(--warn)} .gray{background:var(--gray-bg);color:var(--muted)}
+.cols{display:grid;grid-template-columns:1.25fr 1fr;gap:28px;flex:1;min-height:0}
+.card{border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.alert{border:1.5px solid var(--no);background:#fffafa}
+.big{font-size:34px;font-weight:700;line-height:1}
+.small{font-size:13px;color:var(--muted);line-height:1.5}
+.metric{display:grid;grid-template-columns:150px 1fr 70px;align-items:center;gap:10px;margin:5px 0;font-size:14px}
+.bar{height:14px;background:#f0f2f5;border-radius:3px;position:relative}
+.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:3px}
+.inf i{background:var(--inf)} .az i{background:var(--az)}
+.legend span{display:inline-block;width:10px;height:10px;border-radius:2px;margin:0 4px 0 12px;vertical-align:middle}
+ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
+.num{font-variant-numeric:tabular-nums}
+.t1{font-size:15px}.t1 td,.t1 th{padding:8px 12px}.t1 .pill{font-size:13.5px}
+.fmt{border:1px solid var(--line);border-radius:8px;padding:8px 14px;margin:0 0 12px}
+.fmt-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 0}
+.fmt-name{width:140px;font-weight:700;font-size:14.5px}
+.foot a{color:var(--inf);text-decoration:none}
+.sum{display:grid;grid-template-columns:120px 1fr;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.sum>div{padding:16px 20px;border-bottom:1px solid var(--line);font-size:16px;line-height:1.65}
+.sum>div:nth-last-child(-n+2){border-bottom:0}
+.sum .lv{background:#f5f8fb;font-weight:700;color:var(--navy);font-size:17px}
+.src{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+.src a{color:var(--inf);text-decoration:none;font-weight:700;font-size:15px}
+/* English text runs longer than Chinese: tighten slides 1 and 2 */
+.lede{font-size:15px;padding:10px 16px}
+.t1{font-size:13.5px}.t1 td,.t1 th{padding:6px 10px}.t1 .pill{font-size:12.5px}
+.card{padding:12px 16px}.card td:first-child{white-space:nowrap}.card .small{font-size:12.5px}.metric{margin:3px 0}
+@media print{body{background:#fff}.slide{margin:0;box-shadow:none;page-break-after:always}}
+@media (max-width:1320px){.slide{transform-origin:top left}}
+</style>
+</head>
+<body>
+
+<!-- ============ Slide 1: document types ============ -->
+<section class="slide">
+  <div class="kicker">INFINITY-PARSER2 vs AZURE DOCUMENT INTELLIGENCE · TECHNICAL EVALUATION BRIEF · 2026-09-24</div>
+  <h1>Document Type Suitability: Azure DI vs Infinity-Parser2</h1>
+  <div class="lede">
+    <b>In one sentence: on parsing quality Azure is equal or better on every metric.</b> No difference was seen on key fields in HK disclosures and A-share announcements, so these can enter a POC;
+    but on A-share annual and interim report pages that start with a continuation table, Infinity <b>silently drops the whole table segment</b>. It also <b>provides no confidence</b> and <b>accepts only PDF and images</b>.
+    A reason to switch can only come from cost or on-premise deployment.
+  </div>
+  <h2 style="margin:0 0 6px">Supported file formats</h2>
+  <div class="fmt">
+    <div class="fmt-row"><span class="fmt-name">Azure DI</span>
+      <span class="pill go">PDF</span><span class="pill go">Images JPG · PNG · BMP · TIFF · HEIF</span>
+      <span class="pill go">Office Word · Excel · PPT</span><span class="pill go">HTML</span></div>
+    <div class="fmt-row"><span class="fmt-name">Infinity-Parser2</span>
+      <span class="pill go">PDF</span><span class="pill go">Images PNG · JPG · BMP · TIFF · WEBP</span>
+      <span class="pill no">Office ✗</span><span class="pill no">HTML ✗</span>
+      <span class="small">Word / Excel / PPT must first be converted to PDF or images, losing native text and structure</span></div>
+  </div>
+  <table class="t1">
+    <tr><th style="width:24%">Document type (PDF)</th><th style="width:19%">Judgement</th><th>Evidence (same pages, paired comparison)</th></tr>
+    <tr><td>HK annual / interim reports / prospectuses</td><td><span class="pill go">Candidate · enter POC</span></td>
+        <td>Neither system failed any amount or label assertion; per-family text completeness awaits round 3</td></tr>
+    <tr><td>A-share ad-hoc announcements</td><td><span class="pill go">Candidate · enter POC</span></td>
+        <td>Neither system failed any amount assertion; Infinity's round-1 lead was traced to punctuation</td></tr>
+    <tr><td>A-share annual / interim reports (statements &amp; notes)</td><td><span class="pill no">Not replaceable yet</span></td>
+        <td>Infinity deterministically dropped tables on 3 pages (27 amounts), all on continuation pages, with no error; Azure also missed 6, cause unknown</td></tr>
+    <tr><td>Workflows routing review by confidence</td><td><span class="pill no">Not replaceable (structural)</span></td>
+        <td>The API returns no confidence; a <code>logprobs</code> request is silently ignored</td></tr>
+    <tr><td>HK KYC-type documents</td><td><span class="pill warn">Insufficient evidence</span></td>
+        <td>Only 39 text-completeness assertions, no amount assertions</td></tr>
+    <tr><td>Scanned / skewed pages</td><td><span class="pill warn">Not compared with Azure</span></td>
+        <td>Infinity only: a page skewed by 2° fell into endless repetition, hit 32k tokens, output unusable</td></tr>
+    <tr><td>Trade-finance documents</td><td><span class="pill gray">Not covered</span></td>
+        <td>No compliant public samples; current conclusions cannot be extrapolated</td></tr>
+  </table>
+  <div class="foot"><span>Sample: 53 public disclosure documents → 210 pages → 1,229 assertions; 191 paired pages (19 Azure pages failed on gateway timeouts)　·　Source: <a href="https://github.com/gejun2008/doc-parser-eval/blob/v1.1-report/docs/en/evaluation-report.md">evaluation-report.md</a></span><span>1 / 4</span></div>
+</section>
+
+<!-- ============ Slide 2: parsing quality ============ -->
+<section class="slide">
+  <div class="kicker">Azure is equal or better on every metric · same 191 pages, same assertions, paired comparison</div>
+  <h1>Parsing Quality: Azure DI vs Infinity-Parser2</h1>
+  <div class="cols" style="grid-template-columns:1fr 1fr">
+    <div>
+      <h2>Assertion pass rate <span class="legend small"><span style="background:var(--inf)"></span>Infinity<span style="background:var(--az)"></span>Azure DI</span></h2>
+
+      <div class="card" style="margin-bottom:12px">
+        <b>Amounts</b> <span class="small">· value appears verbatim, the correct number of times · n = 486</span>
+        <div class="metric inf"><span>Infinity</span><div class="bar"><i style="width:97.5%"></i></div><span class="num">97.5%</span></div>
+        <div class="metric az"><span>Azure DI</span><div class="bar"><i style="width:100%"></i></div><span class="num">100%</span></div>
+        <div class="small">Significant (0 : 12, p = 0.0005). Of Infinity's 12 failures, checked one by one: <b>8 are real omissions</b>; the other 4 differ only in the minus-sign glyph.</div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <b>Text completeness</b> <span class="small">· 3 text lines sampled per page, must appear verbatim · n = 448</span>
+        <div class="metric inf"><span>Infinity</span><div class="bar"><i style="width:93.1%"></i></div><span class="num">93.1%</span></div>
+        <div class="metric az"><span>Azure DI</span><div class="bar"><i style="width:97.1%"></i></div><span class="num">97.1%</span></div>
+        <div class="small">Significant (2 : 20, p = 0.0001). <b>Round 1's 91.3% vs 72.5% is void</b>: it came from Azure converting full-width punctuation to half-width.</div>
+      </div>
+
+      <div class="card">
+        <b>Unit &amp; currency</b> <span class="small">· headers such as "unit: yuan" are kept · n = 93</span>
+        <div class="metric inf"><span>Infinity</span><div class="bar"><i style="width:98.9%"></i></div><span class="num">98.9%</span></div>
+        <div class="metric az"><span>Azure DI</span><div class="bar"><i style="width:100%"></i></div><span class="num">100%</span></div>
+        <div class="small">No significant difference (0 : 1). Amount next to its label (n = 76): Infinity 100%, Azure 98.7%, also no significant difference.</div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card alert">
+        <h2 style="color:var(--no)">Full amount scan: both miss, for different reasons</h2>
+        <div class="small" style="margin-bottom:4px">54 paired A-share pages with amounts, 1,544 amounts</div>
+        <div style="display:flex;gap:30px;margin:4px 0 8px">
+          <div><div class="big num" style="color:var(--no)">11</div><div class="small">missed by Infinity · 2 pages</div></div>
+          <div><div class="big num">6</div><div class="small">missed by Azure · 2 pages</div></div>
+        </div>
+        <ul style="font-size:13.5px">
+          <li><b>Infinity, confirmed</b>: the continuation table at page top was not output; the call still "ended normally", and 3 repeats missed exactly the same</li>
+          <li>One more page outside the paired set: <b>a whole table of 16 amounts</b> vanished (Azure failed at the gateway on that page, no comparison)</li>
+          <li>Cause of Azure's 6 misses to be investigated (round 3); no significant difference at page level</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Service &amp; cost (reference only; bases differ, not ranked)</h2>
+        <table style="font-size:13px">
+          <tr><th></th><th>Infinity (test endpoint)</th><th>Azure DI (gateway)</th></tr>
+          <tr><td>Success rate</td><td class="num">210 / 210</td><td class="num">191 / 210</td></tr>
+          <tr><td>Latency P50</td><td class="num">22.5 s (concurrency 2)</td><td class="num">17 s (concurrency 4, incl. polling)</td></tr>
+          <tr><td>Throughput</td><td>1.6–5.6 pages/min, more concurrency no help</td><td>—</td></tr>
+          <tr><td>Price</td><td>Not quoted</td><td>List $10 / 1,000 pages</td></tr>
+        </table>
+        <div class="small" style="margin-top:6px">About 9.6k tokens per page. If billed per token, the input price must be below <b>≈ $1.13 / million tokens</b> to match Azure's list price.</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Test: McNemar paired test; no composite score; no conclusion for strata with n &lt; 30　·　Source: <a href="https://github.com/gejun2008/doc-parser-eval/blob/v1.1-report/docs/en/test-results.md">test-results.md</a></span><span>2 / 4</span></div>
+</section>
+
+<!-- ============ Slide 3: technical approach ============ -->
+<section class="slide">
+  <div class="kicker">When OCR fails it reports uncertainty; when a VLM fails it delivers anyway · next: POC scope and exit criteria</div>
+  <h1>Technical Approach: Azure DI (OCR Pipeline) vs Infinity-Parser2 (VLM)</h1>
+  <div class="cols" style="grid-template-columns:1.35fr 1fr">
+    <div>
+      <table style="font-size:13px">
+        <tr><th style="width:20%"></th><th>Infinity-Parser2</th><th>Azure DI (prebuilt-layout)</th></tr>
+        <tr><td>Approach</td><td>Vision-language model (VLM), generates the whole page as markdown in one pass</td><td>OCR + layout-analysis pipeline</td></tr>
+        <tr><td>Input</td><td>Each page rendered to a 300 DPI image, processed independently</td><td>PDF (single-page PDFs in this test)</td></tr>
+        <tr><td>Confidence</td><td><span class="pill no">None</span></td><td><span class="pill go">For every text span</span></td></tr>
+        <tr><td>Determinism</td><td>Same page called 3 times: 99.0% character-identical (zero change in amounts)</td><td>Deterministic</td></tr>
+        <tr><td>Punctuation</td><td>Keeps original full-width punctuation</td><td>Converts full-width to half-width; downstream normalisation needed</td></tr>
+        <tr><td>When unsure</td><td>May omit or generate content; the call still ends normally</td><td>Low confidence or left blank</td></tr>
+        <tr><td>Unique failure</td><td>Endless repetition hitting the token limit (seen twice)</td><td>—</td></tr>
+        <tr><td>Bounding boxes</td><td>Generated by the model</td><td>Geometric detection</td></tr>
+        <tr><td>Version</td><td>Only the alias <code>inf-mllm</code> is visible; model and version unknown</td><td>API version, can be pinned</td></tr>
+        <tr><td>Model</td><td>Open weights (Apache-2.0); claims to be based on Qwen3.5 (unverified)</td><td>Closed, hosted service</td></tr>
+      </table>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card">
+        <h2>Recommended POC scope</h2>
+        <ul style="font-size:14px">
+          <li><b>Precondition: a cost or on-premise reason</b>; parsing quality alone is not a reason</li>
+          <li>HK annual / interim reports and prospectuses + A-share announcements, electronic PDFs only, ≥ 300 pages per family</li>
+          <li><b>Targeted test on ≥ 50 "continuation table at page top" pages</b> to measure how often tables are dropped</li>
+          <li>Mandatory guardrails: reconcile every amount against the PDF text layer; route every <code>finish_reason=length</code> to a human</li>
+          <li>Before testing, the vendor must answer: model and version locking, billing, confidence, production SLA</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Exit criteria (stop if any is triggered)</h2>
+        <ul style="font-size:14px">
+          <li>Significantly more pages with missing or substituted amounts than Azure</li>
+          <li>No version locking and no advance notice of changes</li>
+          <li>Per-page cost above Azure at contract price, including human review</li>
+          <li>Production throughput below business peak; repetition-degeneration rate above threshold</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Source: <a href="https://github.com/gejun2008/doc-parser-eval/blob/v1.1-report/docs/en/evaluation-report.md">evaluation-report.md</a></span><span>3 / 4</span></div>
+</section>
+
+<!-- ============ Slide 4: summary ============ -->
+<section class="slide">
+  <div class="kicker">Conclusion · Details · Method · Data sets</div>
+  <h1>Evaluation Summary</h1>
+  <div class="sum" style="margin-top:8px;grid-template-columns:130px 1fr">
+    <div class="lv">Conclusion</div>
+    <div>Azure is significantly better on <b>amounts</b> and <b>text completeness</b>; on <b>unit &amp; currency</b> and <b>amount–label pairing</b> there is no significant difference; Infinity is better on none.
+      Infinity also has two structural gaps: it <b>returns no confidence</b>, and on pages starting with a continuation table it <b>silently drops the table</b>.</div>
+
+    <div class="lv">Details</div>
+    <div>Test result data: see test-results.md; analysis and findings: see evaluation-report.md</div>
+
+    <div class="lv">Method</div>
+    <div>Both systems parse the same pages through their APIs and output markdown, with no conversion on our side; outputs are checked assertion by assertion against the same GT,
+      only pages where both succeeded are compared, a paired test decides significance, and no composite score is computed.</div>
+
+    <div class="lv">Data sets</div>
+    <div>Self-built financial set: 53 public disclosure documents (CNINFO, HKEXnews) → 210 pages → 1,229 assertions, 191 paired pages.
+      GT is mainly extracted automatically from the PDF text layer; 76 label pairings were confirmed by a human one by one.<br>
+      Public benchmark olmOCR-Bench: 41 pages run.</div>
+  </div>
+  <div class="src">
+    <div class="card"><a href="https://github.com/gejun2008/doc-parser-eval/blob/v1.1-report/docs/en/test-results.md">test-results.md</a>
+      <div class="small">Test sets and results: composition, GT sources, every metric and failure detail, service data, sources of numbers</div></div>
+    <div class="card"><a href="https://github.com/gejun2008/doc-parser-eval/blob/v1.1-report/docs/en/evaluation-report.md">evaluation-report.md</a>
+      <div class="small">Analysis report: conclusions and evidence, judgement by document type, structural differences, POC scope and exit criteria, method (Appendix C)</div></div>
+  </div>
+  <div class="foot"><span>Sources: <a href="https://github.com/gejun2008/doc-parser-eval/blob/v1.1-report/docs/en/test-results.md">test-results.md</a>　·　<a href="https://github.com/gejun2008/doc-parser-eval/blob/v1.1-report/docs/en/evaluation-report.md">evaluation-report.md</a></span><span>4 / 4</span></div>
+</section>
+
+<script>
+// Scale the whole slide down in narrow windows to keep the 16:9 layout
+function fit(){var s=Math.min(1,(window.innerWidth-24)/1280);document.body.style.zoom=s;}
+window.addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

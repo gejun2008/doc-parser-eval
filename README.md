@@ -8,12 +8,13 @@
 
 ## 从哪读起
 
-**评估结论只看 `docs/` 下这 4 个文件：**
+**评估结论只看 `docs/` 下这 5 个文件**（英文版在 `docs/en/`，文件名相同）：
 
 | 文件 | 内容 |
 |---|---|
 | `docs/briefing-deck.html` | 4 页简报，浏览器打开 |
-| `docs/briefing-deck.pptx` | 同一份简报的 PowerPoint 版（由 `tools/make_briefing_pptx.py` 生成） |
+| `docs/briefing-deck.pptx` | 同一份简报的 PowerPoint 版（由 `tools/make_briefing_pptx.py` 生成；英文版用 `tools/make_briefing_pptx_en.py`） |
+| `docs/briefing-deck.md` | 同一份简报的 Markdown 版，GitHub 上直接阅读 |
 | `docs/test-results.md` | 测试集与测试结果：测了什么、测出什么、每个数字的出处 |
 | `docs/evaluation-report.md` | 分析报告：结论与依据、POC 范围、退出标准、评测方法 |
 
