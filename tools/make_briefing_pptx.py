@@ -170,7 +170,7 @@ FOOT = {
 # ---------------- 第 1 页 ----------------
 s = prs.slides.add_slide(BLANK)
 header(s, "INFINITY-PARSER2 vs AZURE DOCUMENT INTELLIGENCE · 技术评估简报 · 2026-09-24",
-       "哪些文档能交给 Infinity-Parser2，哪些不能", 1)
+       "文档类型适用性评估：Infinity-Parser2 替代 Azure DI 的范围", 1)
 rect(s, L, 1.22, W, 0.78, "lede_bg")
 rect(s, L, 1.22, 0.06, 0.78, "navy")
 text(s, L + 0.2, 1.27, W - 0.3, 0.7, [[
@@ -212,8 +212,8 @@ table(s, L, 3.78, [3.0, 2.2, W - 5.2], rows, size=11.5, head_size=10, row_h=0.38
 
 # ---------------- 第 2 页 ----------------
 s = prs.slides.add_slide(BLANK)
-header(s, "PDF 处理效果 · 同一批 191 页、同一套断言配对比较",
-       "统一标点后，Azure 在各项指标上持平或更好", 2)
+header(s, "统一标点后，Azure 在各项指标上持平或更好 · 同一批 191 页、同一套断言配对比较",
+       "解析质量对比：Azure DI vs Infinity-Parser2", 2)
 LW = 6.75
 text(s, L, 1.2, 3, 0.3, [[("断言通过率", True, "navy")]], 13)
 rect(s, L + 1.35, 1.3, 0.13, 0.13, "inf"); text(s, L + 1.52, 1.23, 1, 0.3, ["Infinity"], 10, "muted")
@@ -274,7 +274,7 @@ text(s, RX + 0.2, 6.3, RW - 0.4, 0.6, [[
 
 # ---------------- 第 3 页 ----------------
 s = prs.slides.add_slide(BLANK)
-header(s, "模型基本对比 · 下一步", "两类技术出错的方式不同：OCR 会「报不确定」，VLM 会「照常交付」", 3)
+header(s, "OCR 出错时会报不确定，VLM 出错时照常交付 · 下一步：POC 范围与退出标准", "技术路线对比：Azure DI（OCR 流水线）vs Infinity-Parser2（VLM）", 3)
 cmp_rows = [
     ["", "Infinity-Parser2", "Azure DI（prebuilt-layout）"],
     ["技术路线", "视觉语言模型（VLM），一次生成整页 markdown", "OCR + 版面分析流水线"],
@@ -317,7 +317,7 @@ text(s, RX + 0.2, 5.12, RW - 0.4, 1.75, [
 
 # ---------------- 第 4 页：总结 ----------------
 s = prs.slides.add_slide(BLANK)
-header(s, "评测总结", "评测总结：结论、方法与数据", 4)
+header(s, "结论 · 详细 · 方法 · 数据集", "评测总结", 4)
 summary = [
     ["", ""],
     ["结论", [("Azure 在", False), ("金额", True), ("、", False), ("正文完整性", True), ("两项上显著更好，", False),

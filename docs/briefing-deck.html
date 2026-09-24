@@ -59,7 +59,7 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
 <!-- ============ 第 1 页：结论与文档类型 ============ -->
 <section class="slide">
   <div class="kicker">INFINITY-PARSER2 vs AZURE DOCUMENT INTELLIGENCE · 技术评估简报 · 2026-09-24</div>
-  <h1>哪些文档能交给 Infinity-Parser2，哪些不能</h1>
+  <h1>文档类型适用性评估：Infinity-Parser2 替代 Azure DI 的范围</h1>
   <div class="lede">
     <b>一句话：</b>统一标点后，<b>解析质量上 Azure 每项都持平或更好</b>。港股披露文件、A 股公告的关键字段没看到差异，可以进 POC；
     但 A 股年报、中报「页首是续表」的页，Infinity 会<b>静默丢掉整段表格</b>。它还<b>不提供置信度</b>、<b>只收 PDF 和图片</b>。
@@ -97,8 +97,8 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
 
 <!-- ============ 第 2 页：效果数据 ============ -->
 <section class="slide">
-  <div class="kicker">PDF 处理效果 · 同一批 191 页、同一套断言配对比较</div>
-  <h1>统一标点后，Azure 在各项指标上持平或更好</h1>
+  <div class="kicker">统一标点后，Azure 在各项指标上持平或更好 · 同一批 191 页、同一套断言配对比较</div>
+  <h1>解析质量对比：Azure DI vs Infinity-Parser2</h1>
   <div class="cols">
     <div>
       <h2>断言通过率 <span class="legend small"><span style="background:var(--inf)"></span>Infinity<span style="background:var(--az)"></span>Azure DI</span></h2>
@@ -157,8 +157,8 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
 
 <!-- ============ 第 3 页：模型对比 + POC ============ -->
 <section class="slide">
-  <div class="kicker">模型基本对比 · 下一步</div>
-  <h1>两类技术出错的方式不同：OCR 会「报不确定」，VLM 会「照常交付」</h1>
+  <div class="kicker">OCR 出错时会报不确定，VLM 出错时照常交付 · 下一步：POC 范围与退出标准</div>
+  <h1>技术路线对比：Azure DI（OCR 流水线）vs Infinity-Parser2（VLM）</h1>
   <div class="cols" style="grid-template-columns:1.35fr 1fr">
     <div>
       <table style="font-size:13.5px">
@@ -202,8 +202,8 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
 
 <!-- ============ 第 4 页：总结 ============ -->
 <section class="slide">
-  <div class="kicker">评测总结</div>
-  <h1>评测总结：结论、方法与数据</h1>
+  <div class="kicker">结论 · 详细 · 方法 · 数据集</div>
+  <h1>评测总结</h1>
   <div class="sum" style="margin-top:8px">
     <div class="lv">结论</div>
     <div>Azure 在<b>金额</b>、<b>正文完整性</b>两项上显著更好，<b>单位币种</b>、<b>金额科目归属</b>两项差异不显著，没有一项 Infinity 更好。
