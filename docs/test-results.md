@@ -17,7 +17,7 @@
 ### 1.1 自建金融场景集（对照用）
 
 53 份公开披露文档，来源为巨潮资讯网（A 股）和 HKEX 披露易（港股），按确定性规则选出 210 页，
-不含随机抽样。选页规则见 [`corpus-method.md`](corpus-method.md)；每份文档的来源 URL 与 sha256 在 `data/corpus/manifest.csv`。
+不含随机抽样。选页规则见 [`working/corpus-method.md`](working/corpus-method.md)；每份文档的来源 URL 与 sha256 在 `data/corpus/manifest.csv`。
 
 | 文档族 | 文档数 | 页数 | 正文完整性 | 金额 | 单位币种 | 金额科目归属 | 断言合计 |
 |---|---|---|---|---|---|---|---|
@@ -43,7 +43,7 @@
 
 ### 1.2 GT（断言）从哪来
 
-每份文档一个 YAML，放在 `data/assertions/`，共 53 份。定义见 [`assertions.md`](assertions.md)，生成与审核流程见 [`assertions-method.md`](assertions-method.md)。
+每份文档一个 YAML，放在 `data/assertions/`，共 53 份。定义见 [`working/assertions.md`](working/assertions.md)，生成与审核流程见 [`working/assertions-method.md`](working/assertions-method.md)。
 
 | GT 来源 | 条数 | 人工参与 |
 |---|---|---|
@@ -109,7 +109,7 @@ Infinity 210 页全部成功。
 | A 股公告 605011 p1 lp02（1 条） | Azure | 标签找不到 | 非业务错误：`元（含税）` 被转成 `元(含税)` |
 
 合计：Infinity 8 条业务错误（集中在 2 页）、4 条格式差异；Azure 0 条业务错误、1 条格式差异。
-完整断言 ID 与两边判定原文见 [`report-numbers-20260923.md` 表 5](report-numbers-20260923.md#表-5-关键字段失败明细)。
+完整断言 ID 与两边判定原文见 [`working/report-numbers-20260923.md` 表 5](working/report-numbers-20260923.md#表-5-关键字段失败明细)。
 
 ### 2.3 全量金额扫描
 
@@ -184,7 +184,7 @@ Infinity token 用量（210 页）：输入中位 8,868 / 页，输出中位 984
 | 生成退化 | 2 次无限复读，打满 32,768 token：一次在密集数字表，一次在倾斜 2° 的页；重试 3 次结果相同 |
 | 扰动（42 页 × 5 种） | 与对照组的 CI 全部重叠；旋转 2° 一组出现 1 次复读退化 |
 | 内容覆盖率 | 中位 0.98，P10 0.94 |
-| olmOCR-Bench 子集（120 页） | 按子集 0.0%（arxiv_math）到 87.5%（long_tiny_text），不合成总分；逐项见 [`olmocr-bench-results.md`](olmocr-bench-results.md) |
+| olmOCR-Bench 子集（120 页） | 按子集 0.0%（arxiv_math）到 87.5%（long_tiny_text），不合成总分；逐项见 [`working/olmocr-bench-results.md`](working/olmocr-bench-results.md) |
 
 ---
 
@@ -196,7 +196,7 @@ Infinity token 用量（210 页）：输入中位 8,868 / 页，输出中位 984
 | Infinity 重复一致性 | `runs/inf-mllm_doc2md_20260921T042333Z/`、`…050222Z/` |
 | Infinity 扰动组 | `runs/inf-mllm_doc2md_20260921T031242Z/` |
 | Infinity olmOCR-Bench | `runs/inf-mllm_doc2md_20260918T065831Z/` |
-| Azure 金融集 | `azure_gateway_corpus_20260922`，在公司电脑上；数字经拍照转录，每张表带校验和，见 [`report-numbers-20260923.md`](report-numbers-20260923.md) |
+| Azure 金融集 | `azure_gateway_corpus_20260922`，在公司电脑上；数字经拍照转录，每张表带校验和，见 [`working/report-numbers-20260923.md`](working/report-numbers-20260923.md) |
 | 断言（GT） | `data/assertions/*.yaml` |
 | 语料清单、来源 URL、sha256 | `data/corpus/manifest.csv`、`pages.csv` |
 

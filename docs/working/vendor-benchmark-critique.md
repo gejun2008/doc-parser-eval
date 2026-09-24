@@ -106,7 +106,7 @@ research-plan.md §3.1 要做的 GT 错误率抽检在这里的杀伤力最大�
 
 单元格大多对，整张表经常错。在金融场景这比明显崩掉更危险——
 **它看起来是对的**。结合 bbox 是生成 token 这一点
-（`docs/architecture-findings.md`），没有任何信号会提示这一页的表结构出了问题。
+（`docs/working/architecture-findings.md`），没有任何信号会提示这一页的表结构出了问题。
 
 ### 2.4 Page Acc 61.59 直接否掉 ROI 模型里的 99.7% 自动化率
 

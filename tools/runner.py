@@ -12,7 +12,7 @@
   请求参数        max_tokens=32768, temperature=0.0, top_p=1.0
 不对齐的地方只有一处：走裸 HTTP 而不是 openai SDK，且全量落盘。
 
-T0 实测对 runner 的三点约束（docs/t0-findings.md）：
+T0 实测对 runner 的三点约束（docs/working/t0-findings.md）：
   §7   logprobs 静默忽略，不必再请求
   §10  静默排队，吞吐 1.6-1.8 页/分且不随并发上升 -> 默认并发 2，超时 900s
   §8   finish_reason=length 必须计为失败，不能当正常结果统计

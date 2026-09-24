@@ -5,7 +5,7 @@
 需人工的是 76 条 `amount_label` 科目归属断言，尚未核对。
 **critical error rate 这个正文主指标还出不来**，它依赖金额类断言。
 
-口径见 `docs/corpus-method.md`。
+口径见 `docs/working/corpus-method.md`。
 
 | 项 | 值 |
 |---|---|

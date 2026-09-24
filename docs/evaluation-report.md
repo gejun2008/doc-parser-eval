@@ -9,7 +9,7 @@
 | 主数据 | 自建金融场景集：53 份公开披露文档，按确定性规则选出 210 页，1,229 条断言 |
 | 对照口径 | **只比双方都成功的页**（Infinity 210/210，Azure 191/210），配对断言 1,103 条，McNemar 检验 |
 | 测试集与结果 | 全部数字汇总在 [`test-results.md`](test-results.md)；本报告只做分析与判断 |
-| 数字出处 | Infinity 侧：本机 `runs/`，原始响应全量落盘。Azure 侧：公司电脑计算，两轮拍照转录，见 [`report-numbers-20260923.md`](report-numbers-20260923.md)（每张表带校验和，已逐一核对） |
+| 数字出处 | Infinity 侧：本机 `runs/`，原始响应全量落盘。Azure 侧：公司电脑计算，两轮拍照转录，见 [`working/report-numbers-20260923.md`](working/report-numbers-20260923.md)（每张表带校验和，已逐一核对） |
 
 本报告不给「推荐 / 不推荐」。给的是：哪类文档可以替代、哪类现阶段不可以、各有什么证据，
 POC 该测什么，什么情况下应该停。
@@ -51,7 +51,7 @@ API 不返回置信度，请求 `logprobs` 会被静默忽略。测试端点从�
 | **A 股年报、中报的财务报表与附注页** | **现阶段不能直接替代** | Infinity 有 3 页确定性的整段丢表（其中一页整张表 16 个金额），没有任何报错信号。Azure 在配对页上也有 2 页缺了 6 次金额，原因待查，所以**不能说 Azure 在这类页上没有问题** | 中：Infinity 的机制已查实、可复现；两边的频率都要靠定向测试 |
 | **要按置信度决定哪些字段送人工复核的流程** | **不能替代（结构性原因）** | Infinity 不提供任何置信度，没法有选择地复核 | 强：API 实测 |
 | **扫描件、倾斜件** | 本轮没和 Azure 对照 | 只测了 Infinity：页面倾斜 2° 时陷入无限复读，打满 32,768 token | 单边观察 |
-| **贸易金融单证** | **未覆盖，现有结论不能外推** | 找不到合规的公开样本，见 `corpus-method.md` | — |
+| **贸易金融单证** | **未覆盖，现有结论不能外推** | 找不到合规的公开样本，见 `working/corpus-method.md` | — |
 
 ### 1.3 POC 范围建议
 
@@ -174,7 +174,7 @@ Azure 不保留全角标点的字形，这是格式差异，下游做归一化�
 
 第一轮的分族、分窗口表是**严格口径**，并且把三类断言混在一起。「只 Inf 对」的 100 条里有 99 条来自 `page_integrity`，
 而第二轮已经证明这部分主要是标点差异。**所以第一轮分族表里 Infinity 的领先不成立**，原表保留在
-`report-numbers-20260923.md`，只作为记录。
+`working/report-numbers-20260923.md`，只作为记录。
 
 宽松口径的分族结果要等第三轮（`relaxed_recheck.py --by-family`）。在那之前，分族只能看金额类断言：
 全部 Infinity 金额失败都出在 A 股年报、中报；港股各族和 A 股公告两边都没有金额失败。
@@ -293,7 +293,7 @@ Infinity 在 olmOCR-Bench 抽样子集上的单边结果放在附录，只用来
 |---|---|---|
 | 扰动（42 页 × 5 种：100/150 DPI、JPEG、复印、旋转 2°） | 与对照组的 CI 全部重叠；旋转 2° 那组出现 1 次确定性复读退化 | 未观察到显著衰减；退化单独列为风险 |
 | 内容覆盖率 | 中位 0.98，P10 0.94 | 描述性 |
-| 公共基准 olmOCR-Bench 子集 | 120 页 / 604 条，分子集结果见 `olmocr-bench-results.md` | 只做口径对齐 |
+| 公共基准 olmOCR-Bench 子集 | 120 页 / 604 条，分子集结果见 `working/olmocr-bench-results.md` | 只做口径对齐 |
 
 ---
 
@@ -312,7 +312,7 @@ Infinity 在 olmOCR-Bench 抽样子集上的单边结果放在附录，只用来
 
 **第二轮已完成**（2026-09-24）：Azure 全量金额扫描、宽松复判、lp02 裁定、`unit_currency` 排除理由核实。
 
-**第三轮：公司电脑上的待办**（都不需要调用 API，见 `photo-numbers-prompt.md` 第三轮）
+**第三轮：公司电脑上的待办**（都不需要调用 API，见 `working/photo-numbers-prompt.md` 第三轮）
 
 | # | 事项 | 工作量 |
 |---|---|---|
@@ -360,17 +360,17 @@ Infinity 在 olmOCR-Bench 抽样子集上的单边结果放在附录，只用来
 | Infinity 金融集 run | `runs/inf-mllm_doc2md_20260921T013924Z/`（原始响应、`results.csv`、`amount_scan.csv`） |
 | Infinity 重复一致性 | `runs/inf-mllm_doc2md_20260921T042333Z/`、`…050222Z/`、`runs/consistency/` |
 | Infinity 扰动组 | `runs/inf-mllm_doc2md_20260921T031242Z/` |
-| Azure 配对数字 | `docs/report-numbers-20260923.md`（照片转录，带校验和） |
+| Azure 配对数字 | `docs/working/report-numbers-20260923.md`（照片转录，带校验和） |
 | 断言（GT，含人工审核回写） | `data/assertions/*.yaml` |
 | 语料清单、来源 URL、sha256 | `data/corpus/manifest.csv` |
-| 端点探针 | `probe_out/`、`docs/t0-findings.md` |
-| SDK 源码核实 | `docs/sdk-findings.md` |
-| 厂商问题清单 | `docs/vendor-questions.md` |
+| 端点探针 | `probe_out/`、`docs/working/t0-findings.md` |
+| SDK 源码核实 | `docs/working/sdk-findings.md` |
+| 厂商问题清单 | `docs/working/vendor-questions.md` |
 
 ## 附录 B 口径文档
 
-`docs/research-plan.md`（范围）、`docs/corpus-method.md`（选页）、`docs/assertions-method.md`（断言分层与审核流程）、
-`docs/metrics-catalog.md`（指标清单）、`docs/azure-di-baseline.md`（Azure 调用口径）、`docs/olmocr-bench-method.md`（公共基准）。
+`docs/working/research-plan.md`（范围）、`docs/working/corpus-method.md`（选页）、`docs/working/assertions-method.md`（断言分层与审核流程）、
+`docs/working/metrics-catalog.md`（指标清单）、`docs/working/azure-di-baseline.md`（Azure 调用口径）、`docs/working/olmocr-bench-method.md`（公共基准）。
 
 ## 附录 C 评测方法：参照是什么、怎么判、测不到什么
 
@@ -379,7 +379,7 @@ Infinity 在 olmOCR-Bench 抽样子集上的单边结果放在附录，只用来
 
 ### C.1 对比流程
 
-1. 两个系统处理**同一批 210 页**。选页规则是确定性的，没有随机性（`docs/corpus-method.md`）；
+1. 两个系统处理**同一批 210 页**。选页规则是确定性的，没有随机性（`docs/working/corpus-method.md`）；
    语料来源 URL 和 sha256 在 `data/corpus/manifest.csv`。
 2. 两边各自输出 markdown，**我方不做任何格式转换**。Azure 调用时带 `outputContentFormat=markdown`，
    直接取 `analyzeResult.content`，由微软自己决定版面怎么转成 markdown。每页原始记录里都写了
@@ -395,7 +395,7 @@ Infinity 在 olmOCR-Bench 抽样子集上的单边结果放在附录，只用来
 出现几次、哪些错误写法不能出现」。每份文档一个 YAML，共 53 份，放在 `data/assertions/<doc_id>.yaml`，入库。
 
 之所以不做全文标准答案：一份年报的全文 GT 要花好几人日，而且会把评测稀释成又一次单页 OCR 测试。
-断言法沿用 olmOCR-bench 的 pass/fail 思路（`docs/assertions.md`）。
+断言法沿用 olmOCR-bench 的 pass/fail 思路（`docs/working/assertions.md`）。
 
 一条真实断言（报告 §2.3 中 Infinity 失败的那条）：
 
@@ -422,7 +422,7 @@ Infinity 在 olmOCR-Bench 抽样子集上的单边结果放在附录，只用来
 | `auto_textlayer`：`amount`、`unit_currency` | 673 | PDF 文本层 | 抽样审计 53 条金额，改值 1 条，GT 错误率估计 1.9% [0.3, 9.9] |
 | `draft` → `confirmed`：`amount_label` 科目归属 | 76 | 脚本给出候选，人工对照渲染页图逐条确认 | 全部人工。确认 76 条，驳回 0 条，改值 1 条 |
 
-合计 1,229 条。人工审核结果见 `report-numbers-20260923.md` 表 4。
+合计 1,229 条。人工审核结果见 `working/report-numbers-20260923.md` 表 4。
 
 **为什么科目归属必须人工**：PDF 文本层对「这串字符在不在这一页」是可靠的，但对**顺序和归属**不可靠。
 跨列拼接可能把隔壁列的标签配给金额，所以脚本给出的标签只能当候选。
@@ -476,9 +476,9 @@ Infinity 在 olmOCR-Bench 抽样子集上的单边结果放在附录，只用来
 ### C.6 可追溯性的现状（如实声明）
 
 - 人工审核在公司电脑上完成，并已回写到公司电脑上的断言文件：`amount_label` **76 条全部 `confirmed`**，
-  驳回 0 条，改值 1 条（`report-numbers-20260923.md` 表 4；回写状态已于 2026-09-24 在公司电脑上再次确认）。
+  驳回 0 条，改值 1 条（`working/report-numbers-20260923.md` 表 4；回写状态已于 2026-09-24 在公司电脑上再次确认）。
   公司环境不允许把文件带出，**所以本机仓库里这 76 条仍是 `draft`**。
   后果：在本机重跑 `check.py`，`amount_label` 会被跳过（`draft` 不参与判定），§2.2 的这一行只能**在公司电脑上复现**。
   其余三类断言（`auto`、`auto_textlayer`）不依赖人工回写，在本机即可完整复现。
-- Azure 侧的数字是在公司电脑上算出、以拍照转录的方式带回的（`report-numbers-20260923.md`，每张表带校验和）。
+- Azure 侧的数字是在公司电脑上算出、以拍照转录的方式带回的（`working/report-numbers-20260923.md`，每张表带校验和）。
   Azure 的原始响应不在本机，这一侧的逐条复核要到公司电脑上做。

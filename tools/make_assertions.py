@@ -2,7 +2,7 @@
 """
 断言草稿生成 (T3 前半段)
 
-schema 见 docs/assertions.md。目标：把人工工作量从「录入」压成「核对」。
+schema 见 docs/working/assertions.md。目标：把人工工作量从「录入」压成「核对」。
 
 三类产出，**可信度完全不同，不要混**：
 

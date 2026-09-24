@@ -35,7 +35,7 @@ python tools/fetch_corpus.py --per-family 4      # 按同样的族与时间窗�
 python tools/select_pages.py                     # 确定性选页，必得同样的 210 页
 ```
 
-选页规则无随机性（`docs/corpus-method.md`），同一批 PDF 必然选出同一批页。
+选页规则无随机性（`docs/working/corpus-method.md`），同一批 PDF 必然选出同一批页。
 若 `sha256_16` 对不上，说明源站文件有更新，**必须记下来**——
 两台机器跑的不是同一份文档，结果不可比。
 
@@ -75,7 +75,7 @@ research-plan.md §5 的同口径陷阱：Azure DI 原生输出自有 JSON，
 | 2 | 两边 markdown 风格由各自厂商决定，表格标记与标题层级不同。我们的断言判「文字/金额在不在输出里」，对风格不敏感，但 `formatting` 类断言不可跨系统比较 | 中性 |
 | 3 | Azure 是异步 API，耗时含轮询等待，与同步调用不完全可比 | 延迟不可比 |
 | 4 | Azure 返回 span 级 confidence，Infinity-Parser2 没有（t0-findings.md §7）。置信度只能单边报 | 不可比 |
-| 5 | 选页刻意偏向财务报表页（docs/corpus-method.md），两边跑同一批页 | 中性，但绝对分数天然偏低 |
+| 5 | 选页刻意偏向财务报表页（docs/working/corpus-method.md），两边跑同一批页 | 中性，但绝对分数天然偏低 |
 
 第 1 条对 Azure 有利，**要主动写在报告里**。评测的独立性靠的就是把对自己结论
 不利的因素也摆出来。

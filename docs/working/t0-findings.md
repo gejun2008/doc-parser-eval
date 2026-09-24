@@ -46,7 +46,7 @@
 
 厂商文档里的服务 ID 第 28 位是 `g`，正确的是 `9`：
 `...dhdjea95cdejgocoa` → `...dhdjea95cdej9ocoa`。
-`docs/vendor-api.md` 原先记的是错的那个，已更正。
+`docs/working/vendor-api.md` 原先记的是错的那个，已更正。
 
 鉴权分三层，报错各不相同，可据此定位问题出在哪一层
 [`conn_test_20260918T035423Z.json`]：

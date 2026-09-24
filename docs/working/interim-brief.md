@@ -3,7 +3,7 @@
 **日期**：2026-09-21　**读者**：技术主管与团队　**状态**：进行中，**尚不能下结论**
 
 本简报只报已经测出来的，并明确标出还不能回答的。
-完整设计见 `docs/research-plan.md`，各项口径见对应方法文档。
+完整设计见 `docs/working/research-plan.md`，各项口径见对应方法文档。
 
 ---
 
@@ -45,7 +45,7 @@ API 调用累计约 900 次，均为裸 HTTP、原始响应全量落盘，可逐
 而「99.7% 自动化率」这类厂商 ROI 假设，本来要靠置信度校准数据来检验。
 剩下的路只有要求厂商在 API 层暴露 confidence，或自建代理指标，成本需重新评估。
 
-证据：`probe_out/04_page_logprobs_raw.json`、`docs/t0-findings.md` §7
+证据：`probe_out/04_page_logprobs_raw.json`、`docs/working/t0-findings.md` §7
 
 ### 2. 并发无效，吞吐还会随时段波动 2–3 倍
 
@@ -74,7 +74,7 @@ API 调用累计约 900 次，均为裸 HTTP、原始响应全量落盘，可逐
 **这些数字不能单独解读**：选页刻意偏向财务报表页，绝对分数天然低于厂商在通用文档上
 报的数字；且**没有基线**，91% 是好是坏取决于 Azure DI 在同一批页上是多少。
 
-证据：`runs/inf-mllm_doc2md_20260921T013924Z/results.csv`、`docs/corpus-results-partial.md`
+证据：`runs/inf-mllm_doc2md_20260921T013924Z/results.csv`、`docs/working/corpus-results-partial.md`
 
 ### 4. 泄漏对照：在现有指标上未观察到
 
@@ -166,11 +166,11 @@ API 调用累计约 900 次，均为裸 HTTP、原始响应全量落盘，可逐
 
 ## 需要决策或推动的事
 
-1. **Azure DI 凭证**——在公司电脑上跑，步骤见 `docs/azure-di-baseline.md`，约 $2.10。
+1. **Azure DI 凭证**——在公司电脑上跑，步骤见 `docs/working/azure-di-baseline.md`，约 $2.10。
    **这是报告能否成文的前提**
 2. **136 条人工核对**——审核页 `review/index.html`，约 1 小时，可多人分工。
    解锁主指标
-3. **向厂商追问**（已列 7 项，见 `docs/vendor-api.md`）：`inf-mllm` 的档位与版本号、
+3. **向厂商追问**（已列 7 项，见 `docs/working/vendor-api.md`）：`inf-mllm` 的档位与版本号、
    计费口径、生产环境吞吐与 SLA、API 层能否暴露 confidence、临时端点有效期
 4. **贸易融资单证补测**——需业务线提供银行对外公开发布的单证样本页 10–20 页，
    拿到后约 1 小时出定性观察。第 5 类评级报告建议不补，结构与已测族重合

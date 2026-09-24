@@ -12,9 +12,9 @@
 不要跳过：
 
   README.md                   项目概览与当前状态
-  docs/report-outline.md      报告逐节对照表——每节用哪些数据文件、还缺什么
-  docs/interim-brief.md       中期简报，已有结论都在这里
-  docs/azure-di-baseline.md   我接下来要跑的基线，以及必须声明的不对称
+  docs/working/report-outline.md      报告逐节对照表——每节用哪些数据文件、还缺什么
+  docs/working/interim-brief.md       中期简报，已有结论都在这里
+  docs/working/azure-di-baseline.md   我接下来要跑的基线，以及必须声明的不对称
 
 项目背景：评测厂商 Infinity-Parser2 文档解析 API，判断能否替代现状方案
 Azure Document Intelligence。读者是技术主管与团队，不是销售材料。
@@ -56,7 +56,7 @@ Azure Document Intelligence。读者是技术主管与团队，不是销售材�
 ## 已知的、必须在报告里声明的缺口
 
 - 贸易融资单证未覆盖——找不到合规公开源，五类来源的排除过程见
-  docs/corpus-method.md。该场景与已测文档族结构差异大，**现有结论不可外推**
+  docs/working/corpus-method.md。该场景与已测文档族结构差异大，**现有结论不可外推**
 - critical error rate 依赖 136 条人工核对，未做完则该指标为空，
   不要用其他指标替代它
 - 置信度校准做不了——端点不返回 logprobs 且静默忽略该参数
@@ -65,9 +65,9 @@ Azure Document Intelligence。读者是技术主管与团队，不是销售材�
 
 ## 现在要做的事
 
-1. 按 docs/azure-di-baseline.md 跑 Azure DI 基线（两层，约 $3.30）
+1. 按 docs/working/azure-di-baseline.md 跑 Azure DI 基线（两层，约 $3.30）
 2. 跑 tools/compare_systems.py 得到分层对照表
-3. 按 docs/report-outline.md 逐节成文，正文 10 页内，结论先行
+3. 按 docs/working/report-outline.md 逐节成文，正文 10 页内，结论先行
 4. 成文前对照 report-outline.md 末尾的九条自检清单
 
 先告诉我你读完那四份文件后的理解，以及你认为现在最缺的是什么，
