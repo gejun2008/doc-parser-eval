@@ -59,7 +59,7 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
 <!-- ============ 第 1 页：结论与文档类型 ============ -->
 <section class="slide">
   <div class="kicker">INFINITY-PARSER2 vs AZURE DOCUMENT INTELLIGENCE · 技术评估简报 · 2026-09-24</div>
-  <h1>文档类型适用性评估：Infinity-Parser2 替代 Azure DI 的范围</h1>
+  <h1>文档类型适用性对比：Azure DI vs Infinity-Parser2</h1>
   <div class="lede">
     <b>一句话：解析质量上 Azure 每项都持平或更好</b>。港股披露文件、A 股公告的关键字段没看到差异，可以进 POC；
     但 A 股年报、中报「页首是续表」的页，Infinity 会<b>静默丢掉整段表格</b>。它还<b>不提供置信度</b>、<b>只收 PDF 和图片</b>。
@@ -210,7 +210,7 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
       Infinity 另有两个结构性缺陷：<b>不返回置信度</b>；页首是续表的页会<b>静默丢表</b>。</div>
 
     <div class="lv">详细</div>
-    <div>各项指标见第 2 页；按文档类型的替代判断见第 1 页；模型差异、POC 范围与退出标准见第 3 页。</div>
+    <div>测试结果数据：参考 test-results.md；分析报告查询信息：参考 evaluation-report.md</div>
 
     <div class="lv">方法</div>
     <div>两边都通过调用 API 解析同一批页，各自输出 markdown，我方不做转换；输出与同一套 GT（断言）逐条比对，

@@ -170,7 +170,7 @@ FOOT = {
 # ---------------- 第 1 页 ----------------
 s = prs.slides.add_slide(BLANK)
 header(s, "INFINITY-PARSER2 vs AZURE DOCUMENT INTELLIGENCE · 技术评估简报 · 2026-09-24",
-       "文档类型适用性评估：Infinity-Parser2 替代 Azure DI 的范围", 1)
+       "文档类型适用性对比：Azure DI vs Infinity-Parser2", 1)
 rect(s, L, 1.22, W, 0.78, "lede_bg")
 rect(s, L, 1.22, 0.06, 0.78, "navy")
 text(s, L + 0.2, 1.27, W - 0.3, 0.7, [[
@@ -323,7 +323,7 @@ summary = [
     ["结论", [("Azure 在", False), ("金额", True), ("、", False), ("正文完整性", True), ("两项上显著更好，", False),
              ("单位币种", True), ("、", False), ("金额科目归属", True), ("两项差异不显著，没有一项 Infinity 更好。"
              "Infinity 另有两个结构性缺陷：", False), ("不返回置信度", True), ("；页首是续表的页会", False), ("静默丢表", True), ("。", False)]],
-    ["详细", "各项指标见第 2 页；按文档类型的替代判断见第 1 页；模型差异、POC 范围与退出标准见第 3 页。"],
+    ["详细", "测试结果数据：参考 test-results.md；分析报告查询信息：参考 evaluation-report.md"],
     ["方法", "两边都通过调用 API 解析同一批页，各自输出 markdown，我方不做转换；输出与同一套 GT（断言）逐条比对，"
              "只比两边都成功的页，用配对检验判断差异是否显著，不合成总分。"],
     ["数据集", "自建金融集：53 份公开披露文档（巨潮资讯网、HKEX 披露易）→ 210 页 → 1,229 条断言，配对 191 页。"
