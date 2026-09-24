@@ -6,17 +6,17 @@
 
 | 任务 | 状态 | 产物 |
 |---|---|---|
-| T0 端点探针 | ✅ | `docs/t0-findings.md`、`probe_out/` |
-| T1 语料与选页 | ✅ 53 份 / 6,978 页 → 选 210 页 | `docs/corpus-method.md`、`data/corpus/` |
+| T0 端点探针 | ✅ | `docs/working/t0-findings.md`、`probe_out/` |
+| T1 语料与选页 | ✅ 53 份 / 6,978 页 → 选 210 页 | `docs/working/corpus-method.md`、`data/corpus/` |
 | T2 扰动组 | ✅ 42 页 × 5 种 | `runs/inf-mllm_doc2md_20260921T031242Z` |
-| T3 断言 | ⚠️ 生成 1,229 条；**136 条待人工核对** | `data/assertions/`、`docs/assertions-method.md` |
+| T3 断言 | ⚠️ 生成 1,229 条；**136 条待人工核对** | `data/assertions/`、`docs/working/assertions-method.md` |
 | T4 runner | ✅ | `tools/runner.py` |
 | T5 判定器 | ✅ | `tools/check.py` |
 | T6 指标汇总 | ⚠️ 分层已出；**critical error rate 缺** | `runs/*/results_summary.json` |
-| T7 对照基线 | ⛔ **Azure DI 待公司电脑跑** | `docs/azure-di-baseline.md`、脚手架已就绪 |
+| T7 对照基线 | ⛔ **Azure DI 待公司电脑跑** | `docs/working/azure-di-baseline.md`、脚手架已就绪 |
 | T8 专项 | ⚠️ 一致性 ✅、泄漏对照 ✅、扰动 ✅；**置信度校准做不了**（端点不给 logprobs） | `runs/consistency/` |
-| T9 成文 | ⛔ 等 T7 | `docs/report-outline.md` 逐节对照 |
-| 第二层 olmOCR-Bench | ✅ 120 页 / 604 断言 | `docs/olmocr-bench-results.md` |
+| T9 成文 | ⛔ 等 T7 | `docs/working/report-outline.md` 逐节对照 |
+| 第二层 olmOCR-Bench | ✅ 120 页 / 604 断言 | `docs/working/olmocr-bench-results.md` |
 | 第一层 厂商数据集复现 | ⛔ 厂商未提供数据集 | — |
 
 **缺口**：贸易融资单证未覆盖（找不到合规公开源）；第 5 类评级报告建议不补。
@@ -27,7 +27,7 @@
 
 ## T0 · 端点探针 ✅ 已完成 2026-09-18
 
-**结果见 `docs/t0-findings.md`**，五个验收问题都有答案，原始响应在 `probe_out/`。
+**结果见 `docs/working/t0-findings.md`**，五个验收问题都有答案，原始响应在 `probe_out/`。
 样本页用的是 olmOCR-Bench 的 `long_tiny_text/11_pg146_pg1.pdf`，不是财报页——
 金融文档族的数字要等第三层自建集。下面保留原始说明供复现。
 
@@ -80,7 +80,7 @@ JPEG 高压缩、±2° 旋转、高斯噪声。断言文件直接复用原文档
 
 ## T3 · 断言标注
 
-schema 见 `docs/assertions.md`。约 200 条，2–3 人日。
+schema 见 `docs/working/assertions.md`。约 200 条，2–3 人日。
 
 `page_integrity` 类由脚本从 PDF 文本层批量生成，不手写。
 

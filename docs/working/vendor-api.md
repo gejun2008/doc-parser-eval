@@ -21,7 +21,7 @@
 **端点更正（2026-09-18）**：厂商 User Guide 里的服务 ID 第 28 位写作 `g`，实际为 `9`
 （`...cdejgocoa` → `...cdej9ocoa`）。用错误 ID 会得到
 `403 invalid inference serving id: record not found`，与 key 无关。
-上表已更正为可用的地址。实测过程见 `docs/t0-findings.md`。
+上表已更正为可用的地址。实测过程见 `docs/working/t0-findings.md`。
 
 ## 安全状态
 
@@ -44,7 +44,7 @@
 | 9 | **Infinity-Parser2-Fin 的权重是否开源** | 若否，research-plan.md §1.4「权重 Apache-2.0 公开」这条谈判杠杆对真正被宣传的那个模型不成立 | 擂台页只列 Fin，HF 上只有 Pro/Flash。需厂商答复 |
 | 10 | **Financial Benchmark 的文档族构成**：只有 HK/MY/US 上市公司财报？有无 UK/EU、KYC、贸易融资 | 决定这张表与 HSBC 场景的相关性，目前看约只对应 §3.3 八族中的一族 | 已列入待问；见 vendor-benchmark-critique.md §2.7 |
 
-第 6、7 项自测即可，不必等厂商，但都需要样本 PDF，见 `docs/t0-findings.md` 的进度表。
+第 6、7 项自测即可，不必等厂商，但都需要样本 PDF，见 `docs/working/t0-findings.md` 的进度表。
 
 ## 暂不询问的（等技术评测出结论后单独走采购流程）
 

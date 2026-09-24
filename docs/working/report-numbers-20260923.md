@@ -1,6 +1,6 @@
 # 公司电脑配对数字转录（2026-09-23）
 
-**来源**：公司电脑上由 AI 助手按 `docs/photo-numbers-prompt.md` 从
+**来源**：公司电脑上由 AI 助手按 `docs/working/photo-numbers-prompt.md` 从
 `results.csv`、`comparison_success_only/summary.json`、`data/assertions/*.yaml`
 直接计算生成 `report-numbers-for-photo.md`，拍照转出，本文件逐字转录。
 公司侧数据不能上传或用 U 盘带出，**本文件是报告中 Azure 对照数字的唯一出处**。

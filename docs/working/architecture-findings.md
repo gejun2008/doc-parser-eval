@@ -1,7 +1,7 @@
 # 架构判定：这是 VLM 推理端点，不是 OCR 流水线
 
 写于 2026-09-21。材料来自已有证据，未新增 API 调用。
-出处：`docs/sdk-findings.md`（SDK 源码核实）、`docs/t0-findings.md`（T0 端点实测）、
+出处：`docs/working/sdk-findings.md`（SDK 源码核实）、`docs/working/t0-findings.md`（T0 端点实测）、
 `probe_out/`（原始响应）、`infinity_parser2==0.4.0` 源码。
 
 ## 结论

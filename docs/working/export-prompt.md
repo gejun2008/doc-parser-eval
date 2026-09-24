@@ -7,7 +7,7 @@ Azure 基线跑完后，用这段 prompt 让 Copilot 等助手导出写报告所
 把「未观察到显著差异」改写成「持平」。本项目的可信度建立在「每个数字都能追溯到文件」上，
 中间不能过一道 AI 的手。`tools/export_for_report.py` 只读文件、只做确定性计算。
 
-前提：公司电脑已同步到包含 `tools/export_for_report.py` 的版本（见 `docs/sync-prompt.md`）。
+前提：公司电脑已同步到包含 `tools/export_for_report.py` 的版本（见 `docs/working/sync-prompt.md`）。
 
 ---
 

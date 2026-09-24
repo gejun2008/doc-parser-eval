@@ -1,6 +1,6 @@
 # 断言生成与人工核对：分层口径
 
-schema 见 `docs/assertions.md`。本文件记的是**实际实现的分层**：
+schema 见 `docs/working/assertions.md`。本文件记的是**实际实现的分层**：
 哪些断言机器就能验、哪些必须人眼过、以及为什么这么分。
 
 ## 核心区分

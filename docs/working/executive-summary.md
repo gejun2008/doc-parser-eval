@@ -1,6 +1,6 @@
 # Infinity-Parser2 替代 Azure DI：评估简报
 
-2026-09-24（已并入第二轮数据）· 读者：技术主管 · 完整报告见 [`evaluation-report.md`](evaluation-report.md)，幻灯片见 `briefing-deck.pptx` / `briefing-deck.html`
+2026-09-24（已并入第二轮数据）· 读者：技术主管 · 完整报告见 [`../evaluation-report.md`](../evaluation-report.md)，幻灯片见 `../briefing-deck.pptx` / `../briefing-deck.html`
 
 **测了什么**：53 份公开的 A 股、港股披露文档，按规则选出 210 页，共 1,229 条自动可判的断言。
 Infinity 和 Azure DI 跑同一批页，只比较双方都成功的 191 页（Azure 有 19 页因公司网关超时失败）。

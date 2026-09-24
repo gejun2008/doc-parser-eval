@@ -1,6 +1,6 @@
 # olmOCR-Bench 抽样子集结果
 
-口径见 `docs/olmocr-bench-method.md`，不在此复述。**先读那一份再读这些数字。**
+口径见 `docs/working/olmocr-bench-method.md`，不在此复述。**先读那一份再读这些数字。**
 
 | 项 | 值 |
 |---|---|

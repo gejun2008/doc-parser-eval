@@ -166,12 +166,12 @@ Infinity-Parser2 的对应结果已在包里，两边跑的是同一批页、同
 - Azure 返回 span 级 confidence，Infinity-Parser2 没有，置信度只能单边报
 - 选页刻意偏向财务报表页，两边同批页，但绝对分数天然低于通用文档
 
-完整清单见 `docs/azure-di-baseline.md`。
+完整清单见 `docs/working/azure-di-baseline.md`。
 
 ## 注意
 
 - Azure DI 按整份文档分析，即使指定 `pages=N` 也可能用到全文上下文，
-  **这一点对 Azure 有利，报告里要主动写明**（见 `docs/azure-di-baseline.md`）
+  **这一点对 Azure 有利，报告里要主动写明**（见 `docs/working/azure-di-baseline.md`）
 - 转换由微软做（`outputContentFormat=markdown`），我们不碰转换规则，
   落盘记录里 `"conversion_by_us": false` 是证据
 - 若语料是在公司电脑重新下载的，**核对 `manifest.csv` 里的 sha256**。

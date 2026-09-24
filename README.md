@@ -8,22 +8,32 @@
 
 ## 从哪读起
 
+**评估结论只看 `docs/` 下这 4 个文件：**
+
+| 文件 | 内容 |
+|---|---|
+| `docs/briefing-deck.html` | 4 页简报，浏览器打开 |
+| `docs/briefing-deck.pptx` | 同一份简报的 PowerPoint 版（由 `tools/make_briefing_pptx.py` 生成） |
+| `docs/test-results.md` | 测试集与测试结果：测了什么、测出什么、每个数字的出处 |
+| `docs/evaluation-report.md` | 分析报告：结论与依据、POC 范围、退出标准、评测方法 |
+
+`docs/working/` 是工作底稿，上面两份 md 从这里引用方法与原始转录，不单独阅读：
+
 | 你要做什么 | 读这个 |
 |---|---|
-| 了解项目范围与设计 | `docs/research-plan.md`（权威范围文档） |
-| **看结论（2 页）** | **`docs/executive-summary.md`；幻灯片 `docs/briefing-deck.pptx`（PowerPoint）或 `docs/briefing-deck.html`（浏览器）** |
-| 看完整报告 | `docs/evaluation-report.md` |
-| **看测试集与全部测试结果** | **`docs/test-results.md`**（deck 引用的两个出处之一，另一个是评估报告） |
-| 看目前测出了什么 | `docs/interim-brief.md`（中期简报，已被报告取代） |
-| 在公司电脑跑 Azure DI 基线 | `docs/azure-di-baseline.md` |
-| 写报告 | `docs/report-outline.md`（逐节对照数据文件） |
-| 向厂商提问 | `docs/vendor-questions.md` |
+| 了解项目范围与设计 | `docs/working/research-plan.md`（权威范围文档） |
+| 查报告里 Azure 数字的出处 | `docs/working/report-numbers-20260923.md`（照片转录与逐条裁定，Azure 数字的唯一出处） |
+| 看语料、断言、指标的口径 | `docs/working/corpus-method.md`、`assertions.md`、`assertions-method.md`、`metrics-catalog.md` |
+| 在公司电脑跑 Azure DI 基线 | `docs/working/azure-di-baseline.md` |
+| 向厂商提问 | `docs/working/vendor-questions.md` |
 | 改代码前 | `CLAUDE.md`（工程约定与硬约束） |
-| 用 AI 助手接手本项目 | `docs/ai-assistant-prompt.md`（起始 prompt，含口径纪律） |
-| 无 git 环境下同步新版仓库 | `docs/sync-prompt.md`（让 AI 助手比对新旧目录、判断要重跑什么） |
-| 导出成文所需数据 | `docs/export-prompt.md`（运行导出脚本、原样输出，不让 AI 转述数字） |
-| 数据只能拍照带出时 | `docs/photo-numbers-prompt.md`（汇成整数表、带校验和，便于拍照与核对） |
-| 查报告里 Azure 数字的出处 | `docs/report-numbers-20260923.md`（照片转录与逐条裁定） |
+| 用 AI 助手接手本项目 | `docs/working/ai-assistant-prompt.md`（起始 prompt，含口径纪律） |
+| 无 git 环境下同步新版仓库 | `docs/working/sync-prompt.md`（让 AI 助手比对新旧目录、判断要重跑什么） |
+| 导出成文所需数据 | `docs/working/export-prompt.md`（运行导出脚本、原样输出，不让 AI 转述数字） |
+| 数据只能拍照带出时 | `docs/working/photo-numbers-prompt.md`（汇成整数表、带校验和，便于拍照与核对） |
+
+已被取代、只作记录：`docs/working/executive-summary.md`（deck 的文字版）、`interim-brief.md`（中期简报）、
+`report-outline.md`（成文对照表）、`corpus-results-partial.md`（第三层部分结果）。
 
 ## 当前状态（2026-09-21）
 

@@ -8,7 +8,7 @@ Claude Code 每次进入本仓库先读这份文件。
 判断能否在 HSBC 金融文档场景下替代现状方案（Azure Document Intelligence）。
 产出一份内部技术评估报告，读者是技术主管与团队。
 
-完整评测设计见 `docs/research-plan.md`，那是权威范围文档，本文件不复述它。
+完整评测设计见 `docs/working/research-plan.md`，那是权威范围文档，本文件不复述它。
 
 **报告的说服力不来自分数高低，来自评测过程的独立性可被验证。**
 每个数字都要能追溯到：谁产生的、用什么数据、什么口径、什么时候跑的、模型版本号是什么。
@@ -22,12 +22,12 @@ Claude Code 每次进入本仓库先读这份文件。
 
 ## 已经确定的事实，不要重新推导
 
-`docs/sdk-findings.md` 是对 PyPI 上 `infinity_parser2==0.4.0` 源码的逐文件核实结果，
+`docs/working/sdk-findings.md` 是对 PyPI 上 `infinity_parser2==0.4.0` 源码的逐文件核实结果，
 带文件名和函数名。里面的结论（逐页独立调用、无置信度字段、客户端静默截断、
 header/footer 默认丢弃、300 DPI 固定等）已经是证据，直接引用即可。
 需要复核时再拉源码，不要凭记忆改写这些结论。
 
-`docs/vendor-api.md` 是厂商给的信息 + 仍然未知的项 + 已发出的问题清单。
+`docs/working/vendor-api.md` 是厂商给的信息 + 仍然未知的项 + 已发出的问题清单。
 
 ## 工程约定
 
@@ -49,22 +49,26 @@ header/footer 默认丢弃、300 DPI 固定等）已经是证据，直接引用�
 
 ```
 README.md                    从哪读起、环境、工具清单
-docs/research-plan.md        评测设计（权威范围文档）
-docs/interim-brief.md        中期简报（面向技术主管）
-docs/report-outline.md       成文对照表：每节对应哪些数据文件
-docs/sdk-findings.md         SDK 源码核实结果（证据）
-docs/vendor-api.md           厂商信息 + 未知项
-docs/vendor-questions.md     待厂商答复清单，标了优先级
-docs/assertions.md           断言 schema 与七类定义
-docs/assertions-method.md    实际实现的分层口径（auto / auto_textlayer / draft）
-docs/t0-findings.md          T0 端点探针结果
-docs/olmocr-bench-method.md  第二层口径
-docs/olmocr-bench-results.md 第二层结果
-docs/corpus-method.md        第三层语料与选页口径
-docs/corpus-results-partial.md 第三层结果（部分指标）
-docs/azure-di-baseline.md    在公司电脑跑基线的步骤
-docs/ai-assistant-prompt.md  给 AI 助手的起始 prompt
-docs/sync-prompt.md          无 git 环境下同步新版仓库的 prompt
+docs/briefing-deck.html      交付：4 页简报（.pptx 同内容，由 tools/make_briefing_pptx.py 生成）
+docs/test-results.md         交付：测试集与测试结果
+docs/evaluation-report.md    交付：分析报告
+docs/working/                工作底稿，交付文件从这里引用
+docs/working/research-plan.md        评测设计（权威范围文档）
+docs/working/interim-brief.md        中期简报（面向技术主管）
+docs/working/report-outline.md       成文对照表：每节对应哪些数据文件
+docs/working/sdk-findings.md         SDK 源码核实结果（证据）
+docs/working/vendor-api.md           厂商信息 + 未知项
+docs/working/vendor-questions.md     待厂商答复清单，标了优先级
+docs/working/assertions.md           断言 schema 与七类定义
+docs/working/assertions-method.md    实际实现的分层口径（auto / auto_textlayer / draft）
+docs/working/t0-findings.md          T0 端点探针结果
+docs/working/olmocr-bench-method.md  第二层口径
+docs/working/olmocr-bench-results.md 第二层结果
+docs/working/corpus-method.md        第三层语料与选页口径
+docs/working/corpus-results-partial.md 第三层结果（部分指标）
+docs/working/azure-di-baseline.md    在公司电脑跑基线的步骤
+docs/working/ai-assistant-prompt.md  给 AI 助手的起始 prompt
+docs/working/sync-prompt.md          无 git 环境下同步新版仓库的 prompt
 tools/                       见 README 的工具表
 data/corpus/                 下载的公开文档（不入库）
 data/assertions/             断言文件，每份文档一个 YAML（入库，这是 GT）
@@ -81,16 +85,16 @@ T2 扰动组（42 页 × 5 种）、T3 断言生成（1,229 条）、T4/T5 runne
 
 1. **Azure DI 基线未跑**——在公司电脑跑，约 $3.30。没有基线，绝对分数按约定不能报
 2. **136 条人工核对未做**——`critical error rate` 主指标出不来
-3. **厂商六条必答未回**——见 `docs/vendor-questions.md` 顶部
+3. **厂商六条必答未回**——见 `docs/working/vendor-questions.md` 顶部
 
 **已声明缺口**：贸易融资单证未覆盖（找不到合规公开源，五类来源排除过程见
-`docs/corpus-method.md`）；第 5 类评级报告建议不补，结构与已测族重合。
+`docs/working/corpus-method.md`）；第 5 类评级报告建议不补，结构与已测族重合。
 
 端点关键行为（决定 runner 形状，已固化进代码）：
 logprobs 静默忽略；限流是静默排队无 429；吞吐 1.6–5.6 页/分且不随并发上升、
 随时段波动 2–3 倍；`temperature: 0` 下输出非确定性。
 
-成文对照见 `docs/report-outline.md`，进度见 `TASKS.md`。
+成文对照见 `docs/working/report-outline.md`，进度见 `TASKS.md`。
 
 ## 不要做的事
 
