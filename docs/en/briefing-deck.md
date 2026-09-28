@@ -98,7 +98,7 @@ flowchart LR
 ### What it cannot measure
 
 Layout coordinates (assertions carry no coordinates), trade-finance documents (no compliant public samples), a two-sided comparison on scanned pages.
-The public benchmark olmOCR-Bench was also run on 41 pages as a reference; it is not part of the main conclusions.
+Public benchmark olmOCR-Bench: a sample of 120 pages and 604 official tests; Infinity completed all of them, Azure succeeded on only 41 pages, so no pairing was possible, and the pages are not financial documents. The results are only used to align with the vendor's published metric and are not part of the comparison (see [test-results.md](test-results.md) §1.4).
 
 *Sources: [evaluation-report.md](evaluation-report.md) Appendix C　·　[test-results.md](test-results.md)*
 
