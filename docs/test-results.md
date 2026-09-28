@@ -5,7 +5,7 @@
 | 项 | 内容 |
 |---|---|
 | 日期 | 2026-09-24（含第二轮数据） |
-| 被测 | INF TECH Infinity-Parser2 API，测试端点，服务端回显模型别名 `inf-mllm` |
+| 被测 | INF TECH infinity-OCR API，测试端点，服务端回显模型别名 `inf-mllm` |
 | 基线 | Azure Document Intelligence `prebuilt-layout`，经公司内部网关，`outputContentFormat=markdown` |
 | 调用方式 | 两边都调用 API 解析同一批页，各自输出 markdown，我方不做格式转换。Infinity 走裸 HTTP，不经厂商 SDK |
 | 判定方式 | 输出与同一套断言（GT）逐条比对，只比两边都成功的页，McNemar 配对检验；不合成总分 |

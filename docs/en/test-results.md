@@ -7,7 +7,7 @@ This file contains only **what was tested and what was measured**. For interpret
 | Item | Detail |
 |---|---|
 | Date | 2026-09-24 (round-2 data included) |
-| System under test | INF TECH Infinity-Parser2 API, test endpoint; the server echoes the model alias `inf-mllm` |
+| System under test | INF TECH infinity-OCR API, test endpoint; the server echoes the model alias `inf-mllm` |
 | Baseline | Azure Document Intelligence `prebuilt-layout`, via the internal company gateway, `outputContentFormat=markdown` |
 | How it was called | Both systems parse the same pages through their APIs and output markdown; we do no format conversion. Infinity is called over raw HTTP, not through the vendor SDK |
 | How it was judged | Outputs are checked assertion by assertion against the same GT; only pages where both succeeded are compared; McNemar paired test; no composite score |
