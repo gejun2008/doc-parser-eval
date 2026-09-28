@@ -1,4 +1,4 @@
-# Infinity-Parser2 评估简报
+# infinity-OCR 评估简报
 
 > 本文件是 `briefing-deck.html` 的 Markdown 版，内容与幻灯片一致，一页对应一节。
 > 结构：结论与决策 → 关键数据 → 测试方法 → 对比结果 → 局限与待补项。每页标题就是该页结论。
@@ -77,7 +77,7 @@
 flowchart LR
     A["<b>53 份公开披露文档</b><br/>巨潮资讯网 / HKEX 披露易"] --> B["<b>210 页</b><br/>确定性规则选页"]
     B --> C["<b>1,229 条断言（GT）</b><br/>PDF 文本层自动提取<br/>+ 76 条人工确认"]
-    B --> D1["<b>Infinity-Parser2</b><br/>API 输出 markdown<br/>210 / 210 成功"]
+    B --> D1["<b>infinity-OCR</b><br/>API 输出 markdown<br/>210 / 210 成功"]
     B --> D2["<b>Azure DI</b><br/>API 输出 markdown<br/>191 / 210 成功"]
     C --> E
     D1 --> E["<b>配对 191 页</b><br/>只比两边都成功的页"]
@@ -121,7 +121,7 @@ flowchart LR
 
 ### 影响决策的四项差异
 
-| | Infinity-Parser2（VLM） | Azure DI（OCR 流水线） |
+| | infinity-OCR（VLM） | Azure DI（OCR 流水线） |
 |---|---|---|
 | **置信度** | 🔴 无，请求 `logprobs` 被静默忽略 | 🟢 每个文本片段都有 |
 | **认不出时** | 🔴 漏掉或生成内容，调用照常正常结束 | 🟢 给低置信度或留空 |

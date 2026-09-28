@@ -1,11 +1,11 @@
-# Infinity-Parser2 Evaluation Brief
+# infinity-OCR Evaluation Brief
 
 > Markdown version of `briefing-deck.html`, same content as the slides, one section per slide. Chinese original: [`../briefing-deck.md`](../briefing-deck.md).
 > Legend: 🟢 yes / supported　🔴 no / not supported　🟡 insufficient evidence or not compared　⚪ not covered
 
 ---
 
-## 1 / 4　Document Type Suitability: Azure DI vs Infinity-Parser2
+## 1 / 4　Document Type Suitability: Azure DI vs infinity-OCR
 
 <sub>INFINITY-PARSER2 vs AZURE DOCUMENT INTELLIGENCE · TECHNICAL EVALUATION BRIEF · 2026-09-24</sub>
 
@@ -18,7 +18,7 @@
 | | PDF | Images | Office (Word / Excel / PPT) | HTML |
 |---|---|---|---|---|
 | **Azure DI** | 🟢 | 🟢 JPG · PNG · BMP · TIFF · HEIF | 🟢 | 🟢 |
-| **Infinity-Parser2** | 🟢 | 🟢 PNG · JPG · BMP · TIFF · WEBP | 🔴 | 🔴 |
+| **infinity-OCR** | 🟢 | 🟢 PNG · JPG · BMP · TIFF · WEBP | 🔴 | 🔴 |
 
 For Infinity, Word / Excel / PPT must first be converted to PDF or images, losing native text and structure.
 
@@ -38,7 +38,7 @@ For Infinity, Word / Excel / PPT must first be converted to PDF or images, losin
 
 ---
 
-## 2 / 4　Parsing Quality: Azure DI vs Infinity-Parser2
+## 2 / 4　Parsing Quality: Azure DI vs infinity-OCR
 
 <sub>Azure is equal or better on every metric · same 191 pages, same assertions, paired comparison</sub>
 
@@ -95,7 +95,7 @@ For Infinity, Word / Excel / PPT must first be converted to PDF or images, losin
 
 ---
 
-## 3 / 4　Technical Approach: Azure DI (OCR Pipeline) vs Infinity-Parser2 (VLM)
+## 3 / 4　Technical Approach: Azure DI (OCR Pipeline) vs infinity-OCR (VLM)
 
 <sub>When OCR fails it reports uncertainty; when a VLM fails it delivers anyway · next: POC scope and exit criteria</sub>
 
@@ -103,7 +103,7 @@ For Infinity, Word / Excel / PPT must first be converted to PDF or images, losin
 <tr>
 <td width="58%" valign="top">
 
-| | Infinity-Parser2 | Azure DI (prebuilt-layout) |
+| | infinity-OCR | Azure DI (prebuilt-layout) |
 |---|---|---|
 | Approach | Vision-language model (VLM), generates the whole page as markdown in one pass | OCR + layout-analysis pipeline |
 | Input | Each page rendered to a 300 DPI image, processed independently | PDF (single-page PDFs in this test) |

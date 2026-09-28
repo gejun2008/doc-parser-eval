@@ -1,4 +1,4 @@
-# Infinity-Parser2 vs Azure DI: Technical Evaluation Report
+# infinity-OCR vs Azure DI: Technical Evaluation Report
 
 > English version. The Chinese original is [`../evaluation-report.md`](../evaluation-report.md). Working documents under `../working/` are in Chinese only.
 
@@ -6,7 +6,7 @@
 |---|---|
 | Date | 2026-09-24 (round-2 data included) |
 | Audience | Technical leads and team |
-| System under test | INF TECH Infinity-Parser2 API, test endpoint; the server echoes the model alias `inf-mllm` (tier and version unknown, see §3) |
+| System under test | INF TECH infinity-OCR API, test endpoint; the server echoes the model alias `inf-mllm` (tier and version unknown, see §3) |
 | Current baseline | Azure Document Intelligence `prebuilt-layout`, called through the internal company gateway, `outputContentFormat=markdown` |
 | Main data | Self-built financial set: 53 public disclosure documents, 210 pages selected by deterministic rules, 1,229 assertions |
 | Comparison basis | **Only pages where both systems succeeded** (Infinity 210/210, Azure 191/210); 1,103 paired assertions; McNemar test |
@@ -14,7 +14,7 @@
 | Source of numbers | Infinity: local `runs/`, every raw response saved. Azure: computed on the company workstation, transcribed from photos in two rounds, see [`../working/report-numbers-20260923.md`](../working/report-numbers-20260923.md) (every table carries a checksum, all verified) |
 
 This report does not say "recommend / do not recommend". It states which document types can be switched,
-which cannot at this stage, the evidence for each, what a POC should test, and when to stop.
+which cannot at this stage, the evidence for each, what evidence is still missing, and what would turn a conclusion into "cannot switch".
 
 ---
 
@@ -47,32 +47,34 @@ It can only come from cost (awaiting the vendor's quote, A2), deployment (open w
 | Document type | Judgement | Evidence | Strength of evidence |
 |---|---|---|---|
 | **Native Word / Excel / PPT / HTML files** | **Cannot replace directly** | Infinity accepts only PDF and images (format whitelist in SDK `utils/file.py`); Office files must first be converted to PDF or images, losing native text and structure. Azure processes Office and HTML directly | Strong: verified in source code |
-| **HK annual reports, interim reports, prospectuses** | **No difference on key fields; can enter POC** | Neither system failed any amount or amount–label assertion; no significant difference on unit & currency. On text completeness Azure is better overall; per-family results await round 3 | Medium |
-| **A-share ad-hoc announcements** | **No difference on key fields; can enter POC** | Neither system failed any amount assertion. Infinity's 46 : 0 lead in round 1 was caused by punctuation; per-family relaxed results await round 3 | Medium |
+| **HK annual reports, interim reports, prospectuses** | **No difference on key fields** | Neither system failed any amount or amount–label assertion; no significant difference on unit & currency. On text completeness Azure is better overall; per-family results await round 3 | Medium |
+| **A-share ad-hoc announcements** | **No difference on key fields** | Neither system failed any amount assertion. Infinity's 46 : 0 lead in round 1 was caused by punctuation; per-family relaxed results await round 3 | Medium |
 | **HK KYC-type documents** | No conclusion this round | Only 39 text-completeness assertions, no amount assertions | Weak |
 | **Financial statements and notes pages in A-share annual / interim reports** | **Cannot replace directly at this stage** | Infinity deterministically dropped whole table segments on 3 pages (one of them a whole table of 16 amounts) with no error signal. Azure also missed 6 amount occurrences on 2 paired pages, cause unknown, so **Azure cannot be said to be problem-free on these pages** | Medium: Infinity's mechanism is confirmed and reproducible; the frequency on both sides needs targeted testing |
 | **Workflows that route fields to human review by confidence** | **Cannot replace (structural)** | Infinity provides no confidence at all, so selective review is impossible | Strong: measured via the API |
 | **Scanned or skewed pages** | Not compared with Azure this round | Infinity only: a page skewed by 2° fell into endless repetition and hit 32,768 tokens | One-sided observation |
 | **Trade-finance documents** | **Not covered; current conclusions cannot be extrapolated** | No compliant public samples could be found, see `../working/corpus-method.md` | — |
 
-### 1.3 Recommended POC scope
+### 1.3 Recommended further evaluation
 
-0. **Precondition: a reason to switch.** Quality gives no reason (§1.1), so before starting a POC either the vendor's quote shows a cost advantage,
-   or the business genuinely needs on-premise deployment, or there is another clear business reason. If none holds, a POC is not recommended.
-1. **Documents**: HK annual reports, interim reports and prospectuses, plus A-share ad-hoc announcements; native electronic PDFs only.
-   A-share periodic reports get **targeted stress testing only** (item 3) and are not in the replacement scope.
-2. **Scale**: at least 300 amount-bearing pages per included family, reported per family, no composite score. Both systems run the same pages, compared page by page.
+The following evidence is still missing. Until it is in, the judgements in §1.2 are not extrapolated.
+
+0. **The reason to switch must come first.** Quality gives no reason (§1.1). Further evaluation is only worthwhile if the vendor's quote shows a cost advantage,
+   the business genuinely needs on-premise deployment, or there is another clear business reason.
+1. **Written vendor answers**: A1 (lock the tested model and version), A2 (billing basis), B1 (confidence), B3 (production throughput and SLA);
+   the leaked temporary key has been rotated (C3).
+2. **Larger per-family samples**: HK annual reports, interim reports and prospectuses, plus A-share ad-hoc announcements; native electronic PDFs only;
+   at least 300 amount-bearing pages per family, reported per family, no composite score. Both systems run the same pages, compared page by page.
 3. **Targeted set**: pick **at least 50 pages that start with a continuation of the previous page's table**, run both systems and compare the rate of whole-segment omission.
-4. **Mandatory guardrails** (already in the POC):
+4. **Guardrails required for any integration** (derived from this round's measurements, independent of the switch decision):
    - **Full amount reconciliation**: check every output amount of an electronic PDF against the text layer; prototype in `tools/amount_scan.py`, which still needs HK amount formats.
    - **`finish_reason` monitoring**: treat every `length` as a failed call and route it to a human.
    - **Downstream normalisation**: map U+2212 "−" to the ASCII minus; normalise full-width / half-width punctuation. The two systems' punctuation habits differ, confirmed by measurement in round 2.
-5. **Entry conditions**: written vendor answers to A1 (lock the tested model and version), A2 (billing basis), B1 (confidence), B3 (production throughput and SLA);
-   the leaked temporary key has been rotated (C3); if trade-finance documents are in scope, the business line provides sample pages.
+5. **Trade-finance documents**: if the business needs them, evaluate separately on sample pages supplied by the business line.
 
-### 1.4 Exit criteria
+### 1.4 Decision criteria
 
-If any criterion is triggered, the POC stops for the affected scope. Thresholds are set by the business; the values below are suggested starting points.
+If any criterion holds in further evaluation or in the vendor's answers, the conclusion for the affected scope becomes "cannot switch". Thresholds are set by the business; the values below are suggested starting points.
 
 | # | Condition | Scope |
 |---|---|---|
@@ -203,7 +205,7 @@ When an OCR pipeline cannot read something, it gives low confidence or leaves it
 when a VLM cannot read something, it may produce a perfectly formatted wrong result, or output nothing, while the call still ends normally.
 The omissions in §2.3 and §2.4 are instances of the latter.
 
-| Dimension | Infinity-Parser2 (measured) | Azure DI |
+| Dimension | infinity-OCR (measured) | Azure DI |
 |---|---|---|
 | Confidence | **None**. `logprobs: true` returns 200 without error but the result is `null` — silently ignored | Confidence per span |
 | Determinism | Same page called 3 times (`temperature 0`): 99.0% character-identical, assertion outcomes flip 0.17% [0.05, 0.63]. **Zero flips on the 562 amount assertions**; variation is in layout, e.g. `（2）`/`(2)` and checkbox notation | Deterministic pipeline |
@@ -303,7 +305,7 @@ These results have no Azure comparison and are descriptive only.
 
 **Declared gaps**
 
-- **Trade-finance documents are not covered**; current conclusions cannot be extrapolated to this scenario. If the business needs it, make it a POC entry condition.
+- **Trade-finance documents are not covered**; current conclusions cannot be extrapolated to this scenario. If the business needs it, it must be evaluated separately on sample pages supplied by the business line.
 - **Only 13 paired A-share annual-report pages**, exactly the category where Infinity's failures concentrate.
 - **The full amount scan does not cover HK amounts written without decimals**, so whole-table omissions on HK pages cannot be detected this round.
 - **The nature of Azure's 6 missing amount occurrences in the paired set is still unknown** (§2.4).
