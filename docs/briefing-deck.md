@@ -98,7 +98,7 @@ flowchart LR
 ### 测不到什么
 
 版面坐标定位（断言不含坐标）、贸易金融单证（无合规公开样本）、扫描件的双边对照。
-公共基准 olmOCR-Bench 另跑了 41 页，作为参照，不进正文结论。
+公共基准 olmOCR-Bench：抽样 120 页、604 条官方测试，Infinity 全部完成，Azure 仅 41 页调用成功，无法配对；且不是金融文档。结果只用于与厂商公布口径对齐，不参与对照结论（见 [test-results.md](test-results.md) §1.4）。
 
 *出处：[evaluation-report.md](evaluation-report.md) 附录 C　·　[test-results.md](test-results.md)*
 
