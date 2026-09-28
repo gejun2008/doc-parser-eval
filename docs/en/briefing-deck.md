@@ -1,175 +1,161 @@
 # infinity-OCR Evaluation Brief
 
 > Markdown version of `briefing-deck.html`, same content as the slides, one section per slide. Chinese original: [`../briefing-deck.md`](../briefing-deck.md).
+> Structure: conclusion & implications → key numbers → method → comparison → limits & open items. Each slide title is that slide's conclusion.
 > Legend: 🟢 yes / supported　🔴 no / not supported　🟡 insufficient evidence or not compared　⚪ not covered
 
 ---
 
-## 1 / 4　Document Type Suitability: Azure DI vs infinity-OCR
+## 1 / 5　Parsing quality gives no reason to switch; no difference on key fields for HK disclosures and A-share announcements; A-share statement pages cannot switch at this stage
 
-<sub>INFINITY-PARSER2 vs AZURE DOCUMENT INTELLIGENCE · TECHNICAL EVALUATION BRIEF · 2026-09-24</sub>
+*INFINITY-OCR vs AZURE DOCUMENT INTELLIGENCE · TECHNICAL EVALUATION BRIEF · 2026-09-28*
 
-> **In one sentence: on parsing quality Azure is equal or better on every metric.** No difference was seen on key fields in HK disclosures and A-share announcements, so these can enter a POC;
-> but on A-share annual and interim report pages that start with a continuation table, Infinity **silently drops the whole table segment**. It also **provides no confidence** and **accepts only PDF and images**.
-> A reason to switch can only come from cost or on-premise deployment.
+### Three conclusions
 
-### Supported file formats
+| | Conclusion | Key number |
+|---|---|---|
+| **①** | **Quality: Infinity is better on no metric** | Amounts 97.5% vs Azure **100%**; text completeness 93.1% vs **97.1%** (both significant) |
+| **②** | **Risk: A-share statement pages silently lose tables** | Whole table segments dropped on 3 pages, **27 amounts** in total; the calls still ended "normally" with no error |
+| **③** | **Engineering: no confidence, price unknown** | No way to pick fields for review by confidence; if billed per token, the price must be below **$1.13 / million tokens** to match Azure's list price |
 
-| | PDF | Images | Office (Word / Excel / PPT) | HTML |
+### By document type
+
+| 🟢 No difference on key fields | 🔴 Cannot switch at this stage | 🟡 / ⚪ No conclusion |
+|---|---|---|
+| HK annual / interim reports / prospectuses; A-share ad-hoc announcements | A-share annual / interim statement & note pages; workflows routing review by confidence; native Word / Excel / PPT / HTML files | HK KYC, scanned pages (insufficient sample or not compared); trade-finance documents (not covered) |
+
+### What this means for the decision
+
+> **A reason to switch can only come from cost or on-premise deployment, not from parsing quality.**
+> Cost awaits the vendor's written **quote**; without **version locking** the conclusions cannot be reproduced (open vendor items on slide 5).
+
+*Sample: 53 public disclosure documents → 210 pages → 1,229 assertions, 191 paired pages　·　Source: [evaluation-report.md](evaluation-report.md) §1*
+
+---
+
+## 2 / 5　Azure is significantly better on amounts and text; Infinity is better on nothing
+
+*Same 191 pages, same assertions, paired comparison*
+
+### Four numbers
+
+| Amount accuracy | Silent table loss | Confidence | Cost break-even |
+|:---:|:---:|:---:|:---:|
+| **97.5%** vs **100%** | **27** amounts · 3 pages | **None** vs **on every span** | **$1.13** / million tokens |
+| Infinity vs Azure | Infinity, no error signal | Infinity vs Azure | Below this, matches Azure's $10 / 1,000 pages |
+
+### Assertion pass rates (Infinity vs Azure)
+
+| Metric | n | Infinity | Azure DI | Difference |
 |---|---|---|---|---|
-| **Azure DI** | 🟢 | 🟢 JPG · PNG · BMP · TIFF · HEIF | 🟢 | 🟢 |
-| **infinity-OCR** | 🟢 | 🟢 PNG · JPG · BMP · TIFF · WEBP | 🔴 | 🔴 |
+| **Amounts** value appears verbatim, correct count | 486 | 97.5% | **100%** | 🔴 significant (0 : 12, p = 0.0005) |
+| **Text completeness** 3 body lines per page output verbatim | 448 | 93.1% | **97.1%** | 🔴 significant (2 : 20, p = 0.0001) |
+| **Unit & currency** e.g. "Unit: RMB" kept | 93 | 98.9% | 100% | no significant difference observed |
+| **Amount on same line as label** | 76 | 100% | 98.7% | no significant difference observed |
 
-For Infinity, Word / Excel / PPT must first be converted to PDF or images, losing native text and structure.
+*"0 : 12" = assertions only Infinity passed : assertions only Azure passed. Infinity's 12 amount failures checked one by one: 8 genuine omissions, 4 only a different minus glyph.*
+
+### Full amount scan: both miss some, for different reasons
+
+| | Infinity | Azure DI |
+|---|---|---|
+| Missing among 1,544 amounts on 54 paired pages | 11 · 2 pages | 6 · 2 pages |
+| Cause | **Confirmed**: continuation table at page top not output at all; identical in 3 repeat calls | Unknown |
+| Outside the paired set | 1 more page lost a whole table (16 amounts) | Gateway failed on that page, no comparison |
+
+*No significant difference at page level; the frequency on both sides needs a larger targeted test　·　Source: [test-results.md](test-results.md)*
+
+---
+
+## 3 / 5　Same pages, same standard, paired comparison: every number is reproducible
+
+*Method*
+
+### Flow
+
+```mermaid
+flowchart LR
+    A["<b>53 public disclosure documents</b><br/>CNINFO / HKEXnews"] --> B["<b>210 pages</b><br/>deterministic page selection"]
+    B --> C["<b>1,229 assertions (GT)</b><br/>auto-extracted from PDF text layer<br/>+ 76 human-confirmed"]
+    B --> D1["<b>infinity-OCR</b><br/>API outputs markdown<br/>210 / 210 succeeded"]
+    B --> D2["<b>Azure DI</b><br/>API outputs markdown<br/>191 / 210 succeeded"]
+    C --> E
+    D1 --> E["<b>191 paired pages</b><br/>only pages where both succeeded"]
+    D2 --> E
+    E --> F["<b>McNemar paired test</b><br/>reported per metric<br/>no composite score"]
+```
+
+### Why it can be trusted
+
+| | |
+|---|---|
+| **Public data** | Everything comes from public disclosure channels; anyone can download the same documents |
+| **Same yardstick** | Both systems judged by the same assertions, with no conversion of output on our side; punctuation differences handled by a separate relaxed rule, reported side by side |
+| **Traceable** | Every Infinity raw response (status code, latency, `finish_reason`, echoed model) saved in full; Azure-side numbers carry checksums |
+| **No composite score** | No weighted total; strata with n < 30 are marked "insufficient sample" with no conclusion |
+| **Self-correcting** | Round 1's "Infinity 91.3% vs Azure 72.5%" was traced to Azure converting full-width punctuation to half-width, and withdrawn |
+
+### What it cannot measure
+
+Layout coordinates (assertions carry no coordinates), trade-finance documents (no compliant public samples), a two-sided comparison on scanned pages.
+The public benchmark olmOCR-Bench was also run on 41 pages as a reference; it is not part of the main conclusions.
+
+*Sources: [evaluation-report.md](evaluation-report.md) Appendix C　·　[test-results.md](test-results.md)*
+
+---
+
+## 4 / 5　The difference is in failure: Azure reports uncertainty, Infinity delivers anyway
+
+*Comparison · by document type and technical approach*
 
 ### By document type (PDF)
 
-| Document type | Judgement | Evidence (same pages, paired comparison) |
+| Document type | Judgement | Evidence |
 |---|---|---|
-| HK annual / interim reports / prospectuses | 🟢 **Candidate · enter POC** | Neither system failed any amount or label assertion; per-family text completeness awaits round 3 |
-| A-share ad-hoc announcements | 🟢 **Candidate · enter POC** | Neither system failed any amount assertion; Infinity's round-1 lead was traced to punctuation |
-| A-share annual / interim reports (statements & notes) | 🔴 **Not replaceable yet** | Infinity deterministically dropped tables on 3 pages (27 amounts), all on continuation pages, with no error; Azure also missed 6, cause unknown |
-| Workflows routing review by confidence | 🔴 **Not replaceable (structural)** | The API returns no confidence; a `logprobs` request is silently ignored |
-| HK KYC-type documents | 🟡 **Insufficient evidence** | Only 39 text-completeness assertions, no amount assertions |
-| Scanned / skewed pages | 🟡 **Not compared with Azure** | Infinity only: a page skewed by 2° fell into endless repetition, hit 32k tokens, output unusable |
-| Trade-finance documents | ⚪ **Not covered** | No compliant public samples; current conclusions cannot be extrapolated |
+| HK annual / interim reports / prospectuses | 🟢 **No difference on key fields** | Neither system failed any amount or label assertion |
+| A-share ad-hoc announcements | 🟢 **No difference on key fields** | Neither system failed any amount assertion |
+| A-share annual / interim statement & note pages | 🔴 **Cannot switch at this stage** | Infinity deterministically drops tables on continuation pages, with no error; Azure also missed 6, cause unknown |
+| HK KYC-type documents | 🟡 Insufficient evidence | Only 39 text assertions, no amount assertions |
+| Scanned / skewed pages | 🟡 Not compared with Azure | Infinity on a page skewed by 2° repeated endlessly, hit 32k tokens, output unusable |
+| Trade-finance documents | ⚪ Not covered | Current conclusions cannot be extrapolated |
 
-<sub>Sample: 53 public disclosure documents → 210 pages → 1,229 assertions; 191 paired pages (19 Azure pages failed on gateway timeouts)　·　Source: [evaluation-report.md](evaluation-report.md)</sub>
+### Four differences that matter for the decision
+
+| | infinity-OCR (VLM) | Azure DI (OCR pipeline) |
+|---|---|---|
+| **Confidence** | 🔴 None; a `logprobs` request is silently ignored | 🟢 On every text span |
+| **When it cannot read** | 🔴 Omits or generates content; the call still ends normally | 🟢 Low confidence or left blank |
+| **Version** | 🔴 Only the alias `inf-mllm` is visible; model and version unknown | 🟢 API version number, can be pinned |
+| **File formats** | 🔴 PDF and images only | 🟢 Also Word / Excel / PPT / HTML |
+
+*Also: Infinity has open weights (Apache-2.0) and can be deployed on-premise, one possible reason to switch　·　Source: [evaluation-report.md](evaluation-report.md) §1.2, §3*
 
 ---
 
-## 2 / 4　Parsing Quality: Azure DI vs infinity-OCR
+## 5 / 5　Limits and open items: until these are closed, the conclusions are not extrapolated
 
-<sub>Azure is equal or better on every metric · same 191 pages, same assertions, paired comparison</sub>
+*Boundaries of this evaluation round*
 
-<table>
-<tr>
-<td width="55%" valign="top">
+### No written vendor answer yet
 
-### Assertion pass rate
+- Tested model and **version**: the server only echoes the alias `inf-mllm`; whether it changed during the evaluation is unknown
+- **Billing basis** and quote: without a quote, the cost comparison cannot be completed
+- Whether **confidence** can be provided
+- Production **throughput and SLA**: the test endpoint gave 1.6–5.6 pages/min, and more concurrency did not help
 
-| Metric | n | Infinity | Azure DI |
-|---|---|---|---|
-| **Amounts**<br><sub>value appears verbatim, the correct number of times</sub> | 486 | 97.5% | **100%** |
-| **Text completeness**<br><sub>3 text lines per page must appear verbatim</sub> | 448 | 93.1% | **97.1%** |
-| **Unit & currency**<br><sub>headers such as "unit: yuan" are kept</sub> | 93 | 98.9% | 100% |
-| **Amount next to label**<br><sub>amount and its line-item label together</sub> | 76 | 100% | 98.7% |
+### Not yet answered by this round's data
 
-- **Amounts**: significant (0 : 12, p = 0.0005). Of Infinity's 12 failures, checked one by one, **8 are real omissions**; the other 4 differ only in the minus-sign glyph.
-- **Text completeness**: significant (2 : 20, p = 0.0001). **Round 1's 91.3% vs 72.5% is void**: it came from Azure converting full-width punctuation to half-width.
-- **Unit & currency, amount next to label**: no significant difference.
+- Cause of Azure's 6 missing amounts on A-share amount pages
+- Text completeness per document family (only the overall result so far)
+- Frequency of table loss on "continuation table at page top" pages: 3 pages so far, needs a larger targeted sample
+- HK KYC, scanned / skewed pages: insufficient sample or not compared with Azure
+- Trade-finance documents: no compliant public samples, not covered
 
-</td>
-<td width="45%" valign="top">
+### Detailed material
 
-### 🔴 Full amount scan: both miss, for different reasons
-
-<sub>54 paired A-share pages with amounts, 1,544 amounts</sub>
-
-| Missed by Infinity | Missed by Azure |
+| File | Contents |
 |---|---|
-| **11** · 2 pages | **6** · 2 pages |
+| [test-results.md](test-results.md) | Test set composition, GT sources, every metric and failure detail, service data, sources of numbers |
+| [evaluation-report.md](evaluation-report.md) | Conclusions and evidence, judgement by document type, structural differences, limits of the evaluation, method (Appendix C) |
 
-- **Infinity, confirmed**: the continuation table at page top was not output; the call still "ended normally", and 3 repeats missed exactly the same
-- One more page outside the paired set: **a whole table of 16 amounts** vanished (Azure failed at the gateway on that page, no comparison)
-- Cause of Azure's 6 misses to be investigated (round 3); no significant difference at page level
-
-### Service & cost
-
-<sub>Reference only; bases differ, not ranked</sub>
-
-| | Infinity (test endpoint) | Azure DI (company gateway) |
-|---|---|---|
-| Success rate | 210 / 210 | 191 / 210 |
-| Latency P50 | 22.5 s (concurrency 2) | 17 s (concurrency 4, incl. polling) |
-| Throughput | 1.6–5.6 pages/min, more concurrency no help | — |
-| Price | Not quoted | List $10 / 1,000 pages |
-
-<sub>About 9.6k tokens per page. If billed per token, the input price must be below **≈ $1.13 / million tokens** to match Azure's list price.</sub>
-
-</td>
-</tr>
-</table>
-
-<sub>Test: McNemar paired test; no composite score; no conclusion for strata with n &lt; 30　·　Source: [test-results.md](test-results.md)</sub>
-
----
-
-## 3 / 4　Technical Approach: Azure DI (OCR Pipeline) vs infinity-OCR (VLM)
-
-<sub>When OCR fails it reports uncertainty; when a VLM fails it delivers anyway · next: POC scope and exit criteria</sub>
-
-<table>
-<tr>
-<td width="58%" valign="top">
-
-| | infinity-OCR | Azure DI (prebuilt-layout) |
-|---|---|---|
-| Approach | Vision-language model (VLM), generates the whole page as markdown in one pass | OCR + layout-analysis pipeline |
-| Input | Each page rendered to a 300 DPI image, processed independently | PDF (single-page PDFs in this test) |
-| Confidence | 🔴 **None** | 🟢 **For every text span** |
-| Determinism | Same page called 3 times: 99.0% character-identical (zero change in amounts) | Deterministic |
-| Punctuation | Keeps original full-width punctuation | Converts full-width to half-width; downstream normalisation needed |
-| When unsure | May omit or generate content; the call still ends normally | Low confidence or left blank |
-| Unique failure | Endless repetition hitting the token limit (seen twice) | — |
-| Bounding boxes | Generated by the model | Geometric detection |
-| Version | Only the alias `inf-mllm` is visible; model and version unknown | API version, can be pinned |
-| Model | Open weights (Apache-2.0); claims to be based on Qwen3.5 (unverified) | Closed, hosted service |
-
-</td>
-<td width="42%" valign="top">
-
-### Recommended POC scope
-
-- **Precondition: a cost or on-premise reason**; parsing quality alone is not a reason
-- HK annual / interim reports and prospectuses + A-share announcements, electronic PDFs only, ≥ 300 pages per family
-- **Targeted test on ≥ 50 "continuation table at page top" pages** to measure how often tables are dropped
-- Mandatory guardrails: reconcile every amount against the PDF text layer; route every `finish_reason=length` to a human
-- Before testing, the vendor must answer: model and version locking, billing, confidence, production SLA
-
-### Exit criteria (stop if any is triggered)
-
-- Significantly more pages with missing or substituted amounts than Azure
-- No version locking and no advance notice of changes
-- Per-page cost above Azure at contract price, including human review
-- Production throughput below business peak; repetition-degeneration rate above threshold
-
-</td>
-</tr>
-</table>
-
-<sub>Source: [evaluation-report.md](evaluation-report.md)</sub>
-
----
-
-## 4 / 4　Evaluation Summary
-
-<sub>Conclusion · Details · Method · Data sets</sub>
-
-<table>
-<tr><th width="110" align="left">Conclusion</th><td>Azure is significantly better on <b>amounts</b> and <b>text completeness</b>; on <b>unit &amp; currency</b> and <b>amount–label pairing</b> there is no significant difference; Infinity is better on none. Infinity also has two structural gaps: it <b>returns no confidence</b>, and on pages starting with a continuation table it <b>silently drops the table</b>.</td></tr>
-<tr><th width="110" align="left">Details</th><td>Test result data: see <a href="test-results.md">test-results.md</a>; analysis and findings: see <a href="evaluation-report.md">evaluation-report.md</a></td></tr>
-<tr><th width="110" align="left">Method</th><td>Both systems parse the same pages through their APIs and output markdown, with no conversion on our side; outputs are checked assertion by assertion against the same GT, only pages where both succeeded are compared, a paired test decides significance, and no composite score is computed.</td></tr>
-<tr><th width="110" align="left">Data sets</th><td>Self-built financial set: 53 public disclosure documents (CNINFO, HKEXnews) → 210 pages → 1,229 assertions, 191 paired pages. GT is mainly extracted automatically from the PDF text layer; 76 label pairings were confirmed by a human one by one.<br>Public benchmark olmOCR-Bench: 41 pages run.</td></tr>
-</table>
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-**[test-results.md](test-results.md)**
-
-<sub>Test sets and results: composition, GT sources, every metric and failure detail, service data, sources of numbers</sub>
-
-</td>
-<td width="50%" valign="top">
-
-**[evaluation-report.md](evaluation-report.md)**
-
-<sub>Analysis report: conclusions and evidence, judgement by document type, structural differences, POC scope and exit criteria, method (Appendix C)</sub>
-
-</td>
-</tr>
-</table>
-
-<sub>Sources: [test-results.md](test-results.md)　·　[evaluation-report.md](evaluation-report.md)</sub>
+*Sources: [evaluation-report.md](evaluation-report.md) §1.2, §2　·　[../working/vendor-questions.md](../working/vendor-questions.md)*
