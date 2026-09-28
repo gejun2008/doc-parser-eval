@@ -8,7 +8,7 @@
 
 ## 1 / 5　解析质量不构成替代理由；港股披露与 A 股公告关键字段未见差异，A 股报表页现阶段不可替代
 
-*INFINITY-PARSER2 vs AZURE DOCUMENT INTELLIGENCE · 技术评估简报 · 2026-09-28*
+*INFINITY-OCR vs AZURE DOCUMENT INTELLIGENCE · 技术评估简报 · 2026-09-28*
 
 ### 三条结论
 
