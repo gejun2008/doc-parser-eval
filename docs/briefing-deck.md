@@ -8,7 +8,7 @@
 
 ## 1 / 5　解析质量不构成替代理由；港股披露与 A 股公告可有条件进入 POC
 
-<sub>INFINITY-PARSER2 vs AZURE DOCUMENT INTELLIGENCE · 技术评估简报 · 2026-09-28</sub>
+*INFINITY-PARSER2 vs AZURE DOCUMENT INTELLIGENCE · 技术评估简报 · 2026-09-28*
 
 ### 三条结论
 
@@ -22,20 +22,20 @@
 
 | 🟢 可进 POC | 🔴 现阶段不可替代 | 🟡 / ⚪ 不下结论 |
 |---|---|---|
-| 港股年报 / 中报 / 招股书<br>A 股临时公告 | A 股年报 / 中报报表附注页<br>依赖置信度分流复核的流程<br>Word / Excel / PPT / HTML 原生文件 | 港股 KYC、扫描件（样本不足或未对照）<br>贸易金融单证（未覆盖） |
+| 港股年报 / 中报 / 招股书；A 股临时公告 | A 股年报 / 中报报表附注页；依赖置信度分流复核的流程；Word / Excel / PPT / HTML 原生文件 | 港股 KYC、扫描件（样本不足或未对照）；贸易金融单证（未覆盖） |
 
 ### 需要决定
 
 > **是否有成本或私有化部署上的动因推进替代？**
 > 质量本身给不出替代理由。如有动因：先由厂商书面答复**报价**与**版本锁定**，再启动 POC（范围见第 5 页）。
 
-<sub>样本：53 份公开披露文档 → 210 页 → 1,229 条断言，配对 191 页　·　出处：[evaluation-report.md](evaluation-report.md) §1</sub>
+*样本：53 份公开披露文档 → 210 页 → 1,229 条断言，配对 191 页　·　出处：[evaluation-report.md](evaluation-report.md) §1*
 
 ---
 
 ## 2 / 5　Azure 在金额和正文两项上显著更好，没有一项 Infinity 更好
 
-<sub>同一批 191 页、同一套断言配对比较</sub>
+*同一批 191 页、同一套断言配对比较*
 
 ### 四个数字
 
@@ -53,7 +53,7 @@
 | **单位与币种** 「单位：元」等是否保留 | 93 | 98.9% | 100% | 未观察到显著差异 |
 | **金额与科目同行** | 76 | 100% | 98.7% | 未观察到显著差异 |
 
-<sub>「0 : 12」= 只有 Infinity 对的条数 : 只有 Azure 对的条数。Infinity 金额的 12 条失败逐条核对：8 条真实遗漏，4 条是减号字形不同。</sub>
+*「0 : 12」= 只有 Infinity 对的条数 : 只有 Azure 对的条数。Infinity 金额的 12 条失败逐条核对：8 条真实遗漏，4 条是减号字形不同。*
 
 ### 全量金额扫描：两边都会缺，性质不同
 
@@ -63,13 +63,13 @@
 | 原因 | **已查实**：页首续表整段没输出；重复 3 次缺的完全一样 | 待查 |
 | 配对集外 | 另有 1 页整张表（16 个金额）不见了 | 该页网关失败，无法对比 |
 
-<sub>页级比较未观察到显著差异；频率要靠 POC 定向测试　·　出处：[test-results.md](test-results.md)</sub>
+*页级比较未观察到显著差异；频率要靠 POC 定向测试　·　出处：[test-results.md](test-results.md)*
 
 ---
 
 ## 3 / 5　同一批页、同一套标准、配对比较：每个数字都可以复现
 
-<sub>测试方法</sub>
+*测试方法*
 
 ### 流程
 
@@ -94,13 +94,13 @@
 版面坐标定位（断言不含坐标）、贸易金融单证（无合规公开样本）、扫描件的双边对照。
 公共基准 olmOCR-Bench 另跑了 41 页，作为参照，不进正文结论。
 
-<sub>出处：[evaluation-report.md](evaluation-report.md) 附录 C　·　[test-results.md](test-results.md)</sub>
+*出处：[evaluation-report.md](evaluation-report.md) 附录 C　·　[test-results.md](test-results.md)*
 
 ---
 
 ## 4 / 5　差别在出错时：Azure 会报不确定，Infinity 照常交付
 
-<sub>对比结果 · 按文档类型与技术路线</sub>
+*对比结果 · 按文档类型与技术路线*
 
 ### 按文档类型（PDF）
 
@@ -122,17 +122,13 @@
 | **版本** | 🔴 只看得到别名 `inf-mllm`，型号与版本不可知 | 🟢 有 API 版本号，可指定 |
 | **文件格式** | 🔴 只收 PDF 和图片 | 🟢 另支持 Word / Excel / PPT / HTML |
 
-<sub>另：Infinity 为开源权重（Apache-2.0），可私有化部署，这是替代动因的可能来源之一　·　出处：[evaluation-report.md](evaluation-report.md) §1.2、§3</sub>
+*另：Infinity 为开源权重（Apache-2.0），可私有化部署，这是替代动因的可能来源之一　·　出处：[evaluation-report.md](evaluation-report.md) §1.2、§3*
 
 ---
 
 ## 5 / 5　下一步：POC 范围与退出标准
 
-<sub>前提：第 1 页的决策项答「是」</sub>
-
-<table>
-<tr>
-<td width="50%" valign="top">
+*前提：第 1 页的决策项答「是」*
 
 ### 开测前，厂商须书面答复
 
@@ -147,9 +143,6 @@
 - **定向测试 ≥ 50 页「页首续表」**，测丢表频率
 - 强制护栏：金额与 PDF 文本层逐个对账；`finish_reason=length` 一律转人工
 
-</td>
-<td width="50%" valign="top">
-
 ### 退出标准（任一触发即停）
 
 - 丢失或替换金额的页，显著多于 Azure
@@ -158,10 +151,6 @@
 - 生产吞吐达不到业务峰值
 - 复读退化率超过阈值，或无效调用仍计费
 
-</td>
-</tr>
-</table>
-
 ### 详细材料
 
 | 文件 | 内容 |
@@ -169,4 +158,4 @@
 | [test-results.md](test-results.md) | 测试集构成、GT 来源、各项指标与逐条失败明细、服务数据、数字出处 |
 | [evaluation-report.md](evaluation-report.md) | 结论与依据、按文档类型的判断、结构性差异、POC 范围与退出标准、评测方法（附录 C） |
 
-<sub>出处：[evaluation-report.md](evaluation-report.md) §1.3、§1.4</sub>
+*出处：[evaluation-report.md](evaluation-report.md) §1.3、§1.4*
