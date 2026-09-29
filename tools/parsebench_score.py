@@ -26,6 +26,7 @@ ParseBench 判分（research-plan.md §3.2 第二层）
 import argparse
 import csv
 import json
+import os
 import random
 import statistics
 import subprocess
@@ -89,10 +90,15 @@ def normalize_all(pb_dir, pipeline_name):
 
 def run_official(pipeline_name, input_dir, out_dir):
     exe = Path(sys.executable).with_name("parse-bench")
+    if not exe.exists():                       # Windows: Scripts\parse-bench.exe
+        exe = exe.with_suffix(".exe")
     cmd = [str(exe), "run", pipeline_name, "--input_dir", str(input_dir),
            "--output_dir", str(out_dir), "--skip_inference", "--open_report", "False"]
     print("$", " ".join(cmd))
-    r = subprocess.run(cmd, capture_output=True, text=True)
+    # Windows 控制台默认编码不是 UTF-8，官方判分器打印 emoji 会崩，强制 UTF-8
+    env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
+    r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8",
+                       errors="replace", env=env)
     (out_dir / "_official_stdout.log").write_text(r.stdout + "\n--- stderr ---\n" + r.stderr,
                                                    encoding="utf-8")
     if r.returncode != 0:
