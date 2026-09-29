@@ -131,3 +131,26 @@ deep parsing 是评测框架里的额外工程（每张图再调一次模型把�
 | 2 | Infinity 用 deep parsing（每个 figure 多一次调用），客户默认拿不到 | **Infinity 有利**（Charts） |
 | 3 | Visual Grounding：Infinity 的 bbox 是模型生成的坐标 token，Azure 是几何检测 | 中性，但含义不同 |
 | 4 | 厂商报过这个 benchmark 的分数，存在训练集泄漏可能 | 可能 **Infinity 有利** |
+
+## 运行记录（INF）
+
+| 项 | 值 |
+|---|---|
+| run_id | `parsebench_inf_20260929T134509Z` |
+| 时间 | 2026-09-29 13:45–17:21 UTC（首轮 179 分钟 + 续跑 37 分钟），并发 8 |
+| 服务端回显模型 | `inf-mllm`（厂商答复为 Flash 2.1，端点本身不回显版本） |
+| 结果 | 500/500 成功；调用 1,325 次（主调用 500 + figure 调用 825）；token 输入 4,988,310 / 输出 1,463,228 |
+| 单次调用耗时 | 中位数 19.6 s，P95 291.6 s（并发 8，端点排队） |
+
+- **中途网络中断**：16:24–16:38 UTC 本机到端点的 HTTPS 连接失败（SSLError / ProxyError / connection reset，
+  全部是客户端网络层异常，没有一次是端点返回的业务错误），74 份 text 文件三次重试都落在这个窗口内。
+  用 `--resume` 在同一 run 目录续跑，74 份全部成功。原始记录里保留了首轮失败的尝试
+- **主调用截断（finish_reason=length）7 份**：table 4（其中 2 份 synthetic_invoice）、text 3。
+  截断内容按 SDK 行为交判分（与厂商口径一致），见 `run_summary.json` 的 `length_truncated_files`
+- **deep parsing 退回 shallow 6 份**：figure 调用或裁图异常，按官方 provider 行为整页用 shallow 结果
+- **空输出 4 份**：调用成功，但官方 normalize 后 markdown 为空（截断后 JSON 无法解析等），按 0 分计：
+  `layout/multi_col_40665`、`table/synthetic_invoice_page1`、`table/synthetic_invoice_page2`、`text/text_handwritting__address`
+- **Semantic Formatting n=133 而非 138**：5 份文件只有斜体/下划线规则，官方 `semantic_formatting` 不覆盖这两类，
+  官方自己的汇总也不计入它们（已核对我们的均值与官方 `avg_semantic_formatting` 逐位一致，五个维度都一致）
+
+单边结果（仅供参照，按约定不解读绝对分数）：`docs/working/parsebench-results-inf.md`。
