@@ -12,3 +12,6 @@ review/
 report_input.md
 tools/vendor/omnidocbench_src/
 tools/vendor/.venv-omnidoc/
+data/parsebench/
+tools/vendor/parsebench_src/
+tools/vendor/.venv-parsebench/
