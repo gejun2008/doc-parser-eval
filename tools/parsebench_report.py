@@ -186,6 +186,13 @@ def main():
                     w(f"| {DIM_NAME[dim]} | {d} | {c['n']} | {pct(c['mean_a'])} | {pct(c['mean_b'])} | "
                       f"{c['diff'] * 100:+.1f} | {verdict} |")
         w("")
+    else:
+        w("| 维度 | 领域猜测 | n | Infinity | 95% CI |")
+        w("|---|---|---|---|---|")
+        for dim in DIM_NAME:
+            for d, c in ((ips.get("dimensions", {}).get(dim) or {}).get("by_domain_guess") or {}).items():
+                w(f"| {DIM_NAME[dim]} | {d} | {c['n']} | {pct(c['mean'])} | {ci(c['ci95'])} |")
+        w("")
 
     # 5. 参照数字
     w("## 5. 参照数字（并列，不加评论）")
