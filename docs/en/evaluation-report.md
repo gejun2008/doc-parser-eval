@@ -6,7 +6,7 @@
 |---|---|
 | Date | 2026-09-24 (round-2 data included) |
 | Audience | Technical leads and team |
-| System under test | INF TECH Infinity-Parser2 API, test endpoint; the server echoes the model alias `inf-mllm` (tier and version unknown, see §3) |
+| System under test | INF TECH Infinity-Parser2 API, test endpoint; the server only echoes the alias `inf-mllm`. The vendor states in writing that it is **Infinity-Parser2-Flash, version 2.1** (vendor claim; the endpoint does not echo it, so it cannot be verified per call, see §3) |
 | Current baseline | Azure Document Intelligence `prebuilt-layout`, called through the internal company gateway, `outputContentFormat=markdown` |
 | Main data | Self-built financial set: 53 public disclosure documents, 210 pages selected by deterministic rules, 1,229 assertions |
 | Comparison basis | **Only pages where both systems succeeded** (Infinity 210/210, Azure 191/210); 1,103 paired assertions; McNemar test |
@@ -35,12 +35,15 @@ was not output at all, the call still ended normally (`finish_reason=stop`), and
 The cause of Azure's 6 misses is not yet known. On one further page Infinity dropped a whole table of 16 amounts,
 but Azure failed on that page, so it cannot be compared.
 
-**③ Engineering constraints: no confidence scores, more concurrency does not help, the cost break-even can be computed.**
+**③ Engineering constraints: no confidence scores, more concurrency does not help; on the vendor's price list, the tested Flash tier costs about half of Azure's list price per page.**
 The API returns no confidence; a `logprobs` request is silently ignored. On the test endpoint, raising concurrency from 1 to 8 kept throughput at 1.6–1.8 pages/min.
-Each page costs about 9.6k tokens; if billed per token, the input-only price must be below **$1.13 / million tokens** to match Azure's list price of $10 / 1,000 pages.
+According to the vendor, the tested tier is Flash 2.1. Using the price list of 2026-09-28 and measured usage (about 8.7k input + 1.0k output tokens per page),
+Flash call cost per 1,000 pages is **¥38** at list (about $5.3, versus Azure list $10) and ¥19 at 50%.
+Pro at list is ¥81 (about $11.5, above Azure's list price), for reference only; Pro's quality was not measured.
+The billing unit and the meaning of the discount are working assumptions; the vendor's written answer describes charges as "licence fee + technical service fee", and how that maps to the price list is still to be confirmed (§4.3).
 
 **Taken together**: a reason to switch **cannot come from parsing quality** — on every quality metric measured in this round Azure was equal or better.
-It can only come from cost (awaiting the vendor's quote, A2), deployment (open weights allow on-premise deployment), or other business considerations.
+It can only come from cost (§4.3: Flash call cost is below Azure's list price, but must be recomputed against HSBC's contract price and human review cost), deployment (open weights allow on-premise deployment), or other business considerations.
 
 ### 1.2 Judgement by document type
 
@@ -57,7 +60,7 @@ It can only come from cost (awaiting the vendor's quote, A2), deployment (open w
 
 ### 1.3 Recommended POC scope
 
-0. **Precondition: a reason to switch.** Quality gives no reason (§1.1), so before starting a POC either the vendor's quote shows a cost advantage,
+0. **Precondition: a reason to switch.** Quality gives no reason (§1.1), so before starting a POC either a cost advantage remains after recomputing with HSBC's contract price and review cost (the 09-28 price list gives call cost only, see §4.3),
    or the business genuinely needs on-premise deployment, or there is another clear business reason. If none holds, a POC is not recommended.
 1. **Documents**: HK annual reports, interim reports and prospectuses, plus A-share ad-hoc announcements; native electronic PDFs only.
    A-share periodic reports get **targeted stress testing only** (item 3) and are not in the replacement scope.
@@ -67,7 +70,7 @@ It can only come from cost (awaiting the vendor's quote, A2), deployment (open w
    - **Full amount reconciliation**: check every output amount of an electronic PDF against the text layer; prototype in `tools/amount_scan.py`, which still needs HK amount formats.
    - **`finish_reason` monitoring**: treat every `length` as a failed call and route it to a human.
    - **Downstream normalisation**: map U+2212 "−" to the ASCII minus; normalise full-width / half-width punctuation. The two systems' punctuation habits differ, confirmed by measurement in round 2.
-5. **Entry conditions**: written vendor answers to A1 (lock the tested model and version), A2 (billing basis), B1 (confidence), B3 (production throughput and SLA);
+5. **Entry conditions**: written vendor answers to A1 (answered: Flash 2.1; still missing a commitment to version locking and advance notice of changes), A2 (charge structure answered; still missing the unit of measure, the meaning of the discount, whether degenerate calls are billed, and how the licence fee maps to the price list), B1 (confidence), B3 (production throughput and SLA);
    the leaked temporary key has been rotated (C3); if trade-finance documents are in scope, the business line provides sample pages.
 
 ### 1.4 Exit criteria
@@ -211,12 +214,12 @@ The omissions in §2.3 and §2.4 are instances of the latter.
 | Punctuation glyphs | Keeps the original full-width punctuation | **Converts full-width punctuation to half-width** (measured in round 2); downstream normalisation needed |
 | Generation degeneration | 2 cases of endless repetition hitting 32,768 tokens: one on a dense numeric table, one on a financial page skewed by 2°. Identical on 3 retries | This failure mode does not exist |
 | bbox | Coordinate tokens generated by the model (normalised 0–1000), not measured by a detector | Geometric detection |
-| Version observability | The endpoint only echoes the alias `inf-mllm`; `/v1/models` returns 404; tier and version cannot be determined | Has an API version |
+| Version observability | The endpoint only echoes the alias `inf-mllm`; `/v1/models` returns 404; tier and version cannot be determined. The vendor states in writing that it is Flash 2.1, but this cannot be verified from any response | Has an API version |
 
 **The shape of the trade-off**: Infinity gives up confidence, determinism and geometric bboxes.
 In round 1 we thought it gained an advantage in text completeness; after normalising punctuation in round 2, that advantage is gone (§2.5).
 In this round's data, **no parsing-quality return for giving up these three can be seen**.
-Its possible value lies outside parsing quality: open weights allow on-premise deployment, and cost (awaiting a quote).
+Its possible value lies outside parsing quality: open weights allow on-premise deployment, and cost (§4.3).
 
 **Working hypothesis (not established)**: the model called itself Qwen3.5 three times, consistent with the base model in the public technical report.
 But a model's self-description is unreliable, so this is not a conclusion.
@@ -252,23 +255,58 @@ Whether production behaves the same cannot be told from outside — which is exa
 | Whole batch | 1.819 M input + 0.202 M output = 2.02 M tokens |
 | One degenerate call | 32,768 output tokens, result invalid |
 
-### 4.3 Cost: a break-even price first, no conclusion
+### 4.3 Cost: recomputed from the vendor's price list
 
-- **Azure DI Layout** list price is $10 / 1,000 pages, i.e. $0.01 per page. **HSBC's actual contract price should be used; obtain it from procurement.**
-- **If Infinity bills per token**: counting input tokens only, the price must be below $0.01 ÷ 8,868 ≈ **$1.13 / million tokens** to match the list price.
-  Including output tokens lowers the threshold further.
+**Source**: vendor price list, received 2026-09-28. The two Infinity rows (currency CNY):
+
+| Model | Range | Input | Cache | Output | Flat discount |
+|---|---|---|---|---|---|
+| Infinity-Parser2-Pro | ≤64K | 6.5 | 1.30 | 26.0 | 5.0 |
+| Infinity-Parser2-Flash | ≤64K | 3.0 | 0.60 | 12.0 | 5.0 |
+
+Copied as given. Three caveats:
+
+- The header **does not state the unit**. The figures below assume the industry convention of CNY per million tokens — **a working assumption, to be confirmed by the vendor**.
+- "Flat discount 5.0" is read as the Chinese convention "5 折", i.e. list price × 50% — **a working assumption, to be confirmed by the vendor**.
+- The price list states that prices and other commercial terms are subject to the order, and that INF models are "quoted separately by the vendor according to the specific product and service mode".
+  **The Infinity prices in the table are therefore not necessarily the final price.**
+
+**Applied to measured usage** (§4.2, whole 210-page financial batch: 1,819,156 input + 202,288 output tokens, an average of 8,663 + 963 per page):
+
+| | Per 1,000 pages (CNY) | Per 1,000 pages (USD at 1 USD = 7.10 CNY) | Relative to Azure list $10 / 1,000 pages |
+|---|---|---|---|
+| Pro, list (reference) | ¥81.35 | $11.46 | 115% |
+| Pro, 50% (reference) | ¥40.68 | $5.73 | 57% |
+| **Flash, list (tested tier)** | ¥37.55 | $5.29 | 53% |
+| **Flash, 50% (tested tier)** | ¥18.77 | $2.64 | 26% |
+
+- **The exchange rate changes the percentages, not the ordering**: Pro at list price only drops below Azure's list price if USD/CNY exceeds 8.14.
+- **Input is about 69% of the cost.** Input tokens are set by rendering resolution, not page content (§4.2). Lowering DPI saves money, but its effect on accuracy was not measured this round.
+- **Cache pricing does not apply this round (working assumption)**: every page is an independent call with a different image; only a short text prompt could be reused.
+- **Degenerate calls**: one call of 8,868 input + 32,768 output tokens costs ¥0.42 at Flash list price, equal to 11 normal pages;
+  with the runner's default of 3 attempts that is ¥1.26, all for invalid output. The price list does not say whether such calls are billed.
+- **Tested tier: Flash 2.1 (vendor's written answer).** The endpoint only echoes the alias `inf-mllm`, so we cannot verify this independently.
+  Every quality figure in this report belongs to Flash. **The Pro rows are for reference only**: Pro's quality was not measured, so do not pair Flash's quality with Pro's price, or vice versa.
+- **Charge structure**: the vendor's written answer has two parts — (1) a licence fee charged by usage or deployment volume, pay more for more use;
+  (2) technical service fees (solution design, on-premise deployment, technical updates, quality tuning, etc.), quoted case by case.
+  The table above covers only per-token call fees under (1); **whether the price list's token prices are the same thing as the "licence fee", and roughly how large (2) is, are both unknown**.
+- **Azure is still at list price**, $10 / 1,000 pages. **HSBC's actual contract price should be used; obtain it from procurement.**
 - **Cost from a bank's perspective** = cost of effective output per page without key errors + human review cost.
-  Without confidence, review cannot be limited to suspicious fields.
-  This directly determines whether the "99.7% automation rate" in the vendor's ROI model can hold.
+  Without confidence, review cannot be limited to suspicious fields. Review cost is usually far higher than the call cost above,
+  and it directly determines whether the "99.7% automation rate" in the vendor's ROI model can hold.
 
-Question A2 in the first letter only asked "how is it billed"; it should be refined into six questions that plug straight into the formula:
+The six refined A2 questions, against the price list and the written answers:
 
-1. Is the billing unit pages, tokens, calls, or an annual subscription?
-2. If tokens, **what are the unit prices for image input and text output**?
-3. **Are degenerate calls that hit the token limit billed**? Each one is about 33k output tokens of invalid result.
-4. Input resolution is chosen by the client, and lower resolution means fewer tokens. Which resolution does the vendor recommend? Who bears the accuracy impact of lowering it?
-5. Are there tiered prices or committed-volume discounts?
-6. How is on-premise deployment licensed and priced? The weights are Apache-2.0 open source — what exactly would procurement be buying?
+| # | Question | Answered? |
+|---|---|---|
+| 1 | Is the billing unit pages, tokens, calls, or an annual subscription? | **Partly**: the price list charges per token, with separate input, cache and output prices, but no unit of measure; the written answer says "licence fee by usage / deployment volume + technical service fee" |
+| 2 | What are the unit prices for image input and text output? | **Partly**: "input" and "output" prices given; whether image tokens cost the same as text tokens is not stated |
+| 3 | Are degenerate calls that hit the token limit billed? | No |
+| 4 | Which input resolution does the vendor recommend? Who bears the accuracy impact of lowering it? | No |
+| 5 | Are there tiered prices or committed-volume discounts? | **Partly**: a "flat discount 5.0" whose meaning needs confirming; no committed-volume tiers mentioned |
+| 6 | How is on-premise deployment licensed and priced? | **Partly**: licence fee is charged by deployment volume; on-premise deployment falls under technical service fees, quoted separately; no range given |
+
+The added tier question (merged with A1) is answered: **Flash, version 2.1**.
 
 ---
 
@@ -280,7 +318,12 @@ Question A2 in the first letter only asked "how is it billed"; it should be refi
 | Technical report / HF model card | 87.6% | olmOCR-Bench: about 7,000 binary unit tests checking whether key facts appear in the output |
 | Technical report | 74.3% | ParseBench |
 
-The vendor has not provided the dataset behind 93.56% (question A3), so the first reproduction layer cannot be done at all.
+The vendor has not provided the dataset or result files behind 93.56% (questions A3, C5). The written answer was that "testing can be done on public data, and download addresses for public data or datasets can be provided";
+their own evaluation set and results were not supplied, so the first reproduction layer cannot be done at all.
+
+The tested endpoint is Flash 2.1 (vendor's answer). This report has not checked which tier and version produced each of the three figures above, **so they should not be assumed to represent the tested Flash 2.1**.
+
+PDFParser (another product on the vendor's site) is, according to the vendor, the Nano version, not yet available, and a different model with a different configuration from Infinity-Parser2 (question B6). It is out of scope for this round.
 
 **The public-benchmark layer is not part of this report's comparison.** On that layer only 41/120 Azure calls succeeded, and it does not test financial documents.
 Infinity's one-sided results on the olmOCR-Bench sample are in the appendix, for aligning definitions only.

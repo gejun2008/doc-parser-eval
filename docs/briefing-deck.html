@@ -146,9 +146,9 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
           <tr><td>成功率</td><td class="num">210 / 210</td><td class="num">191 / 210</td></tr>
           <tr><td>单页延迟 P50</td><td class="num">22.5 s（并发 2）</td><td class="num">17 s（并发 4，含轮询）</td></tr>
           <tr><td>吞吐</td><td>1.6–5.6 页/分，加并发无效</td><td>—</td></tr>
-          <tr><td>价格</td><td>未报价</td><td>牌价 $10 / 千页</td></tr>
+          <tr><td>价格</td><td>Flash（被测档）¥38 / 千页（报价单牌价；5 折 ¥19）</td><td>牌价 $10 / 千页</td></tr>
         </table>
-        <div class="small" style="margin-top:6px">每页约 9.6k token。若按 token 计费，输入单价要低于 <b>≈ $1.13 / 百万 token</b> 才能与 Azure 牌价持平。</div>
+        <div class="small" style="margin-top:6px">被测档位据厂商答复为 Flash 2.1。按 2026-09-28 厂商报价单（元 / 百万 token、5 折均为待确认的工作假设）：Flash 牌价约 $5.3 / 千页，<b>约为 Azure 牌价的一半</b>；Pro 牌价约 $11.5，仅作参考。收费构成还包括技术服务费，另行报价。</div>
       </div>
     </div>
   </div>
@@ -171,7 +171,7 @@ ul{margin:6px 0;padding-left:20px;line-height:1.6;font-size:14.5px}
         <tr><td>认不出时</td><td>可能漏掉或生成内容，调用照常正常结束</td><td>给低置信度或留空</td></tr>
         <tr><td>特有失败</td><td>无限复读、打满 token 上限（观测到 2 次）</td><td>—</td></tr>
         <tr><td>坐标框</td><td>由模型生成</td><td>几何检测得出</td></tr>
-        <tr><td>版本</td><td>只看得到别名 <code>inf-mllm</code>，型号与版本不可知</td><td>有 API 版本号，可指定</td></tr>
+        <tr><td>版本</td><td>只看得到别名 <code>inf-mllm</code>；厂商答复为 Flash 2.1，无法逐次核实</td><td>有 API 版本号，可指定</td></tr>
         <tr><td>模型</td><td>开源权重（Apache-2.0）；自称基于 Qwen3.5（待证实）</td><td>闭源托管服务</td></tr>
       </table>
     </div>
