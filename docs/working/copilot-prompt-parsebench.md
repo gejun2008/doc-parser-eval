@@ -2,8 +2,9 @@
 
 在公司电脑上把下面「Prompt」一节整段交给 Copilot agent 执行。口径见 `docs/working/parsebench-method.md`。
 
-背景：INF（Infinity-Parser2）已经在 500 份 ParseBench 分层子集上跑完并用官方判分器打过分，
-结果随交接包提供。公司电脑只需要用公司的 Azure DI 网关跑**同一批 500 份文件**，
+背景：INF（Infinity-Parser2）在 500 份 ParseBench 分层子集上用官方判分器打分，
+结果随交接包提供。**交接分两批**：第一批是数据与判分器（可以立即跑第 0–5 步的 Azure），
+第二批是 INF 结果包 `parsebench-inf-results.zip`（到了再跑第 6–9 步）。公司电脑只需要用公司的 Azure DI 网关跑**同一批 500 份文件**，
 用**同一个判分脚本**打分，然后配对比较、生成报告。判分、比较、报告的代码都已在仓库里，
 Copilot 唯一需要写的是「怎么调用公司网关」这一个函数。
 
@@ -31,15 +32,15 @@ Azure Document Intelligence 网关，跑 ParseBench 500 份分层子集，用仓
 ## 第 0 步：解压交接包并核对
 handoff/ 目录下有这些文件（每个都有同名 .sha256）：
   parsebench-data-chart.zip / -layout.zip / -table.zip / -text.zip   500 份文件 + 清单（按维度拆包）
-  parsebench-inf-results.zip          INF 的 run 目录（含官方判分产物）
+  parsebench-inf-results.zip          INF 的 run 目录（含官方判分产物）——第二批，可能还没到
   parsebench-scorer-src_3295d7f.zip   ParseBench 判分器源码（commit 3295d7f）
 - 先逐个核对 sha256，不一致就停下报告。
-- 在仓库根目录解压：4 个 data 包 -> data/parsebench/；inf-results 包 -> runs/；
-  scorer 包 -> tools/vendor/parsebench_src/。解压后应有：
+- 在仓库根目录直接解压（zip 内已带完整相对路径，解压目标就是仓库根目录）：
+  4 个 data 包、scorer 包；inf-results 包如果已到也一起解压。解压后应有：
     data/parsebench/manifest.csv（500 行，不含表头）
     data/parsebench/subset/{chart,table,text_content,text_formatting,layout}.jsonl
     data/parsebench/subset/docs/{chart,layout,table,text}/...
-    runs/parsebench_inf_<时间戳>/parsebench_per_file.csv
+    runs/parsebench_inf_<时间戳>/parsebench_per_file.csv   （第二批到了才有）
     tools/vendor/parsebench_src/pyproject.toml
 - 按 manifest.csv 核对 500 份文件：data/parsebench/subset/<pdf 列> 的 sha256 前 16 位
   必须等于 sha256_16 列。全部一致才继续。
@@ -84,7 +85,9 @@ tools/vendor/.venv-parsebench/bin/python tools/parsebench_score.py runs/parseben
 确认输出了 runs/parsebench_azure_<ts>/parsebench_summary.json 和 parsebench_per_file.csv，
 五个维度都有 n。
 
-## 第 6 步：配对比较
+## 第 6 步：配对比较（需要第二批 INF 结果包）
+如果 handoff/parsebench-inf-results.zip 还不存在，到这里先停，把第 0–5 步的结果汇报给我；
+包到了（git pull 后出现）再核对 sha256、在仓库根目录解压，继续往下。
 python tools/parsebench_compare.py runs/parsebench_inf_<INF 时间戳>/parsebench_per_file.csv runs/parsebench_azure_<ts>/parsebench_per_file.csv --name-a Infinity-Parser2 --name-b "Azure DI" --out runs/parsebench_azure_<ts>/parsebench_compare.json
 （这个脚本只用标准库，主 venv 或 parse-bench venv 都能跑。）
 
