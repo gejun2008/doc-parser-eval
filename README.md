@@ -77,6 +77,12 @@ cp .env.example .env                                 # 填凭证，.env 不入�
 | `runner.py` | 评测 runner（裸 HTTP、全量落盘、断点续跑） |
 | `check.py` | 断言判定器 |
 | `score_olmocr.py` | olmOCR-Bench 判定（调官方评分代码，不重写） |
+| `fetch_parsebench.py` | ParseBench 500 份分层子集抽样下载（固定 seed、钉 revision） |
+| `parsebench_runner.py` | ParseBench INF runner（裸 HTTP 复刻官方 doc2json + deep parsing） |
+| `parsebench_azure_runner.py` | ParseBench Azure DI runner（公司网关，官方转换链） |
+| `parsebench_score.py` | ParseBench 判分（官方 normalize + 官方判分器，失败按 0 分） |
+| `parsebench_compare.py` | ParseBench 两系统逐文件配对比较 |
+| `parsebench_report.py` | ParseBench 结果文档生成 |
 | `consistency.py` | 重复一致性三层分析 |
 | `azure_di_runner.py` | Azure DI 基线 runner |
 | `compare_systems.py` | 两系统配对对照（McNemar） |
