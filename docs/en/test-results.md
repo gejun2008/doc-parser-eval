@@ -7,7 +7,7 @@ This file contains only **what was tested and what was measured**. For interpret
 | Item | Detail |
 |---|---|
 | Date | 2026-09-24 (round-2 data included) |
-| System under test | INF TECH Infinity-Parser2 API, test endpoint; the server echoes the model alias `inf-mllm` |
+| System under test | INF TECH Infinity-Parser2 API, test endpoint; the server echoes the model alias `inf-mllm`; the vendor states in writing that it is Infinity-Parser2-Flash, version 2.1 (not verifiable per call) |
 | Baseline | Azure Document Intelligence `prebuilt-layout`, via the internal company gateway, `outputContentFormat=markdown` |
 | How it was called | Both systems parse the same pages through their APIs and output markdown; we do no format conversion. Infinity is called over raw HTTP, not through the vendor SDK |
 | How it was judged | Outputs are checked assertion by assertion against the same GT; only pages where both succeeded are compared; McNemar paired test; no composite score |
@@ -172,10 +172,10 @@ The two columns differ in measurement date, concurrency and call path, so they a
 | Whole-batch time | 46.5 min | 187 min (includes interruptions) |
 | Rate limiting | Silent queuing, no 429; throughput constant at 1.6–1.8 pages/min from concurrency 1→8 | Not measured |
 | Throughput variation over time | On different days: 1.92 / 3.66 / 4.51 / 5.41 / 5.64 pages/min | Not measured |
-| Price | Not quoted | List price $10 / 1,000 pages |
+| Price | Flash (tested) ¥38 / 1,000 pages (list; ¥19 at 50%) | List price $10 / 1,000 pages |
 
 Infinity token usage (210 pages): median input 8,868 / page, median output 984 / page (P95 1,782).
-If billed per token, counting input only, the price must be below **≈ $1.13 / million tokens** to match Azure's list price.
+Applying the vendor price list of 2026-09-28 to the whole 210-page batch, call cost per 1,000 pages: Pro list ¥81.35 (≈ $11.46), Pro at 50% ¥40.68, Flash list ¥37.55, Flash at 50% ¥18.77 (1 USD = 7.10 CNY; unit and discount meaning are working assumptions; tested tier per the vendor is Flash 2.1, Pro for reference only; see report §4.3).
 
 ### 2.6 Infinity-only results (no Azure comparison)
 
