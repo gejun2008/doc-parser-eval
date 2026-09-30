@@ -83,6 +83,8 @@ cp .env.example .env                                 # 填凭证，.env 不入�
 | `parsebench_score.py` | ParseBench 判分（官方 normalize + 官方判分器，失败按 0 分） |
 | `parsebench_compare.py` | ParseBench 两系统逐文件配对比较 |
 | `parsebench_report.py` | ParseBench 结果文档生成 |
+| `parsebench_nodeep.py` | ParseBench deep parsing 消融（不调 API，从落盘主调用输出重建） |
+| `parsebench_verify.py` | ParseBench 总结复核：总结引用数字逐项比对落盘结果，检查 analyzeResult 完整性 |
 | `consistency.py` | 重复一致性三层分析 |
 | `azure_di_runner.py` | Azure DI 基线 runner |
 | `compare_systems.py` | 两系统配对对照（McNemar） |

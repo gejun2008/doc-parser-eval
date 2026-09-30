@@ -54,13 +54,13 @@
 
 | 维度 | Infinity（官方配置，含 deep parsing） | Infinity（去掉 deep parsing） | Azure |
 |---|---|---|---|
-| Tables | 74.8 | 74.4 | 82.6 |
+| Tables | 74.8 | 74.8 | 82.6 |
 | Charts | 58.3 | **2.0** | 2.1 |
 | Content Faithfulness | 86.7 | 87.2 | 83.3 |
 | Semantic Formatting | 46.5 | 46.5 | 40.4 |
 | Visual Grounding | 75.4 | 75.4 | 71.1 |
 
-（全部文件口径；Infinity 两列来自本机落盘，`runs/parsebench_inf_20260929T134509Z{,_nodeep}`）
+（全部文件口径；Infinity 两列来自本机落盘，`runs/parsebench_inf_20260929T134509Z{,_nodeep}`，消融由 `tools/parsebench_nodeep.py` 生成。09-30 初稿 Tables 写成 74.4，是临时脚本对文件名含点号的 1 份文件匹配错误，已更正）
 
 - Charts 维度的 +56 分几乎全部来自 deep parsing；其余四维基本不受影响
 - 含义：图表数据抽取需要**额外的第二次调用**。若 POC 需要这项能力，要把它当作独立的工程集成与成本项，
@@ -152,7 +152,7 @@ POC 退出条件建议补一条：**表格维度在金融披露页上相对 Azur
 | 来源 | 样本 | Tables | Charts | Content Faithfulness | Semantic Formatting | Visual Grounding | Overall |
 |---|---|---|---|---|---|---|---|
 | 本次 · Infinity-Parser2 | 500 份子集 | 74.8 | 58.3 | 86.7 | 46.5 | 75.4 | 不合成 |
-| 本次 · Infinity-Parser2（去掉 deep parsing） | 500 份子集 | 74.4 | 2.0 | 87.2 | 46.5 | 75.4 | 不合成 |
+| 本次 · Infinity-Parser2（去掉 deep parsing） | 500 份子集 | 74.8 | 2.0 | 87.2 | 46.5 | 75.4 | 不合成 |
 | 本次 · Azure DI (Layout) | 500 份子集 | 82.6 | 2.1 | 83.3 | 40.4 | 71.1 | 不合成 |
 | 官方 leaderboard · Azure DI (Layout) | 全量 2,078 页 | 86.00 | 1.56 | 84.93 | 51.93 | 73.78 | 59.64 |
 | 官方 leaderboard · Infinity-Parser2-Flash | 全量 | 82.88 | 55.56 | 89.52 | 57.7 | 80.61 | 73.25 |
