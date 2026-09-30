@@ -65,3 +65,17 @@ Azure 通过数 7+99+51+21+162 = 340（68.1%）；Infinity 通过数与 09-18 ru
 产物（公司电脑）：`compare_all/`、`compare_both_ok/`（各含 `summary.json`、`paired.csv`），
 `olmocr_results.csv`、`olmocr_summary.json`、`failure_breakdown.csv`，
 筛选脚本 `prepare_both_ok.py`，过滤结果 `inf_both_ok.csv`、`azure_both_ok.csv`。
+
+## 补充：old_scans 15 页按书写方式分类（2026-09-30，本机逐页目检）
+
+olmOCR-Bench 的 old_scans 取自美国国会图书馆众包转录项目（19 世纪中叶至 1914 年的信件）。
+按**正文**的书写方式分类（信头印刷不算）：
+
+| 类别 | PDF | 测试数 | INF 通过 |
+|---|---|---|---|
+| 手写 | 3, 18, 22, 34, 35, 39, 46, 56, 76, 85 | 47 | 16（34.0%） |
+| 打字/印刷 | 11, 23, 59, 64 | 26 | 20（76.9%） |
+| 混合（打字信 + 手写便条） | 95 | 2 | 2 |
+
+Azure 按类别的通过数待公司侧按 pdf 汇总后补入。
+分类由 Claude 目检缩略图完成，用户另行打开 3.pdf 核实为手写。

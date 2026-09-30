@@ -1,0 +1,288 @@
+<title>olmOCR-Bench 对照 · Infinity vs Azure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<style>
+/* Layout: single reading column, memo-style; result bars sit beside the numbers so a reader scans once */
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --ink:#18212b; --muted:#5b6673; --rule:#dde1e7;
+  --inf:#b36b12; --az:#2f63a3; --good:#1f7a55; --na:#8a94a0; --chip:#eef1f5;
+  --f-body:"IBM Plex Sans","Noto Sans SC",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#11151a; --surface:#181e25; --ink:#e4e8ed; --muted:#98a3b0; --rule:#2a323c;
+  --inf:#e09a45; --az:#6f9fdb; --good:#4fb98a; --na:#6c7682; --chip:#212933; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11151a; --surface:#181e25; --ink:#e4e8ed; --muted:#98a3b0; --rule:#2a323c;
+  --inf:#e09a45; --az:#6f9fdb; --good:#4fb98a; --na:#6c7682; --chip:#212933; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.7 var(--f-body);padding-inline:16px;padding-block:28px 56px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+header{display:flex;flex-direction:column;gap:10px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lang{display:flex;border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.lang button{font:500 13px var(--f-body);padding:6px 12px;border:0;background:var(--surface);color:var(--muted);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.lang button:focus-visible{outline:2px solid var(--az);outline-offset:-2px}
+h1{font-size:clamp(22px,4vw,30px);line-height:1.3;margin:0;font-weight:600;text-wrap:balance}
+h2{font-size:18px;margin:0 0 10px;font-weight:600;text-wrap:balance}
+p{margin:0}
+.meta{display:grid;grid-template-columns:max-content 1fr;gap:4px 16px;font-size:13px;color:var(--muted)}
+.meta b{font-weight:500;color:var(--ink)}
+code{font:13px var(--f-mono);background:var(--chip);padding:1px 5px;border-radius:4px}
+.lede{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:18px 20px;font-size:16px}
+.lede strong{color:var(--az)}
+section{display:flex;flex-direction:column;gap:10px}
+ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+.tbl{overflow-x:auto;border:1px solid var(--rule);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font-weight:500;font-size:12px;color:var(--muted);letter-spacing:.03em;white-space:nowrap}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.hi{font-weight:600}
+/* results chart */
+.legend{display:flex;gap:16px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:2px;display:inline-block}
+.results{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--rule);border-radius:8px}
+.row{display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr) minmax(0,210px);gap:14px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--rule)}
+.row:last-child{border-bottom:0}
+.row.ref{opacity:.75}
+.name{font-weight:500}
+.name small{display:block;font:12px var(--f-mono);color:var(--muted)}
+.bars{display:flex;flex-direction:column;gap:5px;min-width:0}
+.bar{display:grid;grid-template-columns:1fr 54px;gap:8px;align-items:center}
+.track{height:10px;background:var(--chip);border-radius:3px;overflow:hidden}
+.fill{height:100%;border-radius:3px}
+.bar .num{font-size:12.5px;text-align:right}
+.verdict{font-size:13px;line-height:1.5}
+.verdict .bc{font:12px var(--f-mono);color:var(--muted);display:block}
+.tag{display:inline-block;font-size:12px;font-weight:500;padding:1px 8px;border-radius:999px;background:var(--chip)}
+.tag.az{color:var(--az)} .tag.inf{color:var(--inf)} .tag.na{color:var(--na)}
+.row.na .fill{opacity:.35}
+.note{font-size:13px;color:var(--muted)}
+.callout{border-left:3px solid var(--az);padding:4px 0 4px 14px}
+footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--rule);padding-top:14px}
+@media (max-width:640px){
+  .row{grid-template-columns:1fr;gap:8px}
+  .meta{grid-template-columns:1fr;gap:0}
+  .meta b{margin-top:6px}
+}
+</style>
+
+<div class="wrap">
+  <div class="top">
+    <span class="eyebrow" data-zh="技术评估 · 公开基准层" data-en="Technical evaluation · public benchmark layer"></span>
+    <div class="lang" role="group" aria-label="Language">
+      <button id="btn-zh" type="button" aria-pressed="true">中文</button>
+      <button id="btn-en" type="button" aria-pressed="false">English</button>
+    </div>
+  </div>
+
+  <!-- ================= 中文 ================= -->
+  <article id="zh" lang="zh-CN" class="wrap" style="gap:28px">
+    <header>
+      <h1>Infinity-Parser2 与 Azure DI：公开基准对照</h1>
+      <div class="meta">
+        <b>日期</b><span>2026-09-30</span>
+        <b>被测</b><span>Infinity-Parser2 API（端点回显 <code>inf-mllm</code>，厂商称 Flash 2.1），2026-09-18 运行</span>
+        <b>对照</b><span>Azure Document Intelligence <code>prebuilt-layout</code>，API <code>2024-11-30</code>，公司 UAT 网关，2026-09-29 运行</span>
+        <b>定位</b><span>公开基准上的准入检查。能否替代，以自建金融文档集的结果为准</span>
+      </div>
+    </header>
+
+    <p class="lede">同一批页面、同一套判分代码下，两家总体<strong>未观察到显著差异</strong>。<strong>表格是 Azure 明显更好</strong>；Infinity 的优势出现在手写老信件上，与我们的业务场景关系不大。</p>
+
+    <section>
+      <h2>结果</h2>
+      <div class="legend"><span><i class="sw" style="background:var(--inf)"></i>Infinity-Parser2</span><span><i class="sw" style="background:var(--az)"></i>Azure DI</span><span>通过率，0–100%</span></div>
+      <div class="results" id="res-zh"></div>
+      <p class="callout"><b>表格为什么差这么多</b>：Infinity 在 40 页里有 14 页<b>没有把表格识别成表格</b>，整张表被拼成一段普通文字，行列关系丢失，而且不报错。只要识别成了表格，它的单元格正确率是 91%。这种「表格被拍平」的失败对财报场景风险最高。</p>
+    </section>
+
+    <section>
+      <h2>测试集：用什么测</h2>
+      <p><b>olmOCR-Bench</b>：AllenAI 公开发布的 PDF 解析基准（ODC-BY 许可），共 1,403 页、7,019 条测试。选它的理由：</p>
+      <ul>
+        <li><b>第三方出题</b>：测试题和判分代码都不是我们写的，也不是厂商写的</li>
+        <li><b>判分代码原样使用</b>：官方代码固定在 commit <code>ab294c6a</code>，一行未改</li>
+        <li><b>可复现</b>：抽样用固定随机种子；每页的原始输出全部保存，任何数字都能重算</li>
+      </ul>
+      <p>我们按金融文档的相关性抽了 <b>120 页 / 499 条测试</b>（不含公式类）：</p>
+      <div class="tbl"><table>
+        <thead><tr><th>子集</th><th>页数</th><th>测试数</th><th>考什么</th><th>与金融文档的关系</th></tr></thead>
+        <tbody>
+          <tr><td>表格</td><td class="num">40</td><td class="num">187</td><td>单元格的值与行列关系</td><td><b>最高</b>：财报、附注的核心</td></tr>
+          <tr><td>小字密排</td><td class="num">15</td><td class="num">120</td><td>小字号长文本不漏字</td><td>高：接近附注页</td></tr>
+          <tr><td>多栏</td><td class="num">20</td><td class="num">68</td><td>阅读顺序</td><td>中</td></tr>
+          <tr><td>老扫描件</td><td class="num">15</td><td class="num">75</td><td>历史信件识别</td><td>低：15 页中 10 页是手写</td></tr>
+          <tr><td>页眉页脚</td><td class="num">20</td><td class="num">49</td><td>页眉页脚不应混入正文</td><td>中，但两家输出方式不同</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section>
+      <h2>评估方法：怎么判</h2>
+      <ol>
+        <li><b>每条测试只判对或错</b>。例如「这句话必须出现」「A 段必须在 B 段之前」「这个单元格的右边必须是那个值」。</li>
+        <li><b>两家做同一批页、同一批测试</b>，一条一条配对比较。</li>
+        <li><b>只看两家结论不一致的那部分</b>：「只有 Infinity 对」几条、「只有 Azure 对」几条，再用 McNemar 检验判断差异是否显著（p &lt; 0.05）。两家都对或都错的条目不影响结论。</li>
+        <li><b>不合成总分</b>：按子集分别给结果。p ≥ 0.05 写「未观察到显著差异」，不写「持平」。</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>公平性：已知的偏差都摆出来</h2>
+      <div class="tbl"><table>
+        <thead><tr><th>事项</th><th>处理</th></tr></thead>
+        <tbody>
+          <tr><td><b>厂商主场</b>：厂商自己在这个基准上报过分（全量 87.6%），不能排除训练时见过这批数据</td><td>如实写明，对 Infinity 有利；我们跑的是抽样子集，分数不与 87.6% 比较</td></tr>
+          <tr><td><b>输入不同</b>：Azure 收到 PDF 原件，Infinity 收到 300 DPI 图片（厂商 SDK 的做法）</td><td>两家都按各自产品的标准用法调用</td></tr>
+          <tr><td><b>页眉页脚</b>：Azure 把页眉页脚写成 HTML 注释，判分代码仍当作「出现在正文」，判 Azure 错</td><td>这一行不作比较</td></tr>
+          <tr><td><b>公式类</b>：公司网络装不上渲染公式所需的组件，Azure 侧没法判分</td><td>两边都去掉公式类，604 条剩 499 条</td></tr>
+          <tr><td><b>调用失败</b>：Infinity 有 1 页陷入复读、输出被截断；Azure 120 页全部成功</td><td>两种算法都算了：失败页算错，或两边都去掉这一页。结论相同</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section>
+      <h2>这一层说明了什么</h2>
+      <ul>
+        <li><b>能说明</b>：在中立的公开题目上，Infinity 的基础解析能力达到 Azure 的水平，可以进入下一步评测；表格是需要重点盯的风险。</li>
+        <li><b>不能说明</b>：这个基准里没有财报。能否在 HSBC 场景替代，要看自建金融文档集的分文档类型结果。</li>
+      </ul>
+    </section>
+
+    <footer>复现：原始输出与逐条判分在 <code>runs/inf-mllm_doc2md_20260918T065831Z/</code>（本机）和 <code>runs/azure_di_layout_20260929T133601Z/</code>（公司电脑）；口径细节见 <code>docs/working/olmocr-bench-method.md</code>。</footer>
+  </article>
+
+  <!-- ================= English ================= -->
+  <article id="en" lang="en" class="wrap" style="gap:28px" hidden>
+    <header>
+      <h1>Infinity-Parser2 vs Azure DI: Public Benchmark Comparison</h1>
+      <div class="meta">
+        <b>Date</b><span>2026-09-30</span>
+        <b>Under test</b><span>Infinity-Parser2 API (endpoint echoes <code>inf-mllm</code>; vendor states Flash 2.1), run 2026-09-18</span>
+        <b>Baseline</b><span>Azure Document Intelligence <code>prebuilt-layout</code>, API <code>2024-11-30</code>, company UAT gateway, run 2026-09-29</span>
+        <b>Role</b><span>Entry check on a public benchmark. Replacement is decided by the in-house financial document set</span>
+      </div>
+    </header>
+
+    <p class="lede">On the same pages, scored by the same code, we observed <strong>no significant overall difference</strong>. <strong>Azure is clearly better on tables</strong>; Infinity's advantage shows up on handwritten historical letters, which have little to do with our use case.</p>
+
+    <section>
+      <h2>Results</h2>
+      <div class="legend"><span><i class="sw" style="background:var(--inf)"></i>Infinity-Parser2</span><span><i class="sw" style="background:var(--az)"></i>Azure DI</span><span>Pass rate, 0–100%</span></div>
+      <div class="results" id="res-en"></div>
+      <p class="callout"><b>Why tables differ so much</b>: on 14 of 40 pages Infinity <b>did not recognise the table as a table</b>. The whole table came out as plain text, with rows and columns lost and no error raised. When it did recognise a table, 91% of its cells were correct. This "flattened table" failure is the highest risk for financial statements.</p>
+    </section>
+
+    <section>
+      <h2>Test set: what we tested on</h2>
+      <p><b>olmOCR-Bench</b>: a public PDF parsing benchmark released by AllenAI (ODC-BY licence), 1,403 pages and 7,019 tests. Why this benchmark:</p>
+      <ul>
+        <li><b>Third-party questions</b>: neither we nor the vendor wrote the tests or the scoring code</li>
+        <li><b>Official scorer used as-is</b>: pinned to commit <code>ab294c6a</code>, not a single line changed</li>
+        <li><b>Reproducible</b>: fixed random seed for sampling; every raw output is kept, so any number can be recomputed</li>
+      </ul>
+      <p>We sampled <b>120 pages / 499 tests</b>, weighted towards financial-document relevance (formula tests excluded):</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Subset</th><th>Pages</th><th>Tests</th><th>What it checks</th><th>Relevance to financial documents</th></tr></thead>
+        <tbody>
+          <tr><td>Tables</td><td class="num">40</td><td class="num">187</td><td>Cell values and row/column relationships</td><td><b>Highest</b>: core of statements and notes</td></tr>
+          <tr><td>Long tiny text</td><td class="num">15</td><td class="num">120</td><td>No dropped text in small, dense print</td><td>High: close to notes pages</td></tr>
+          <tr><td>Multi-column</td><td class="num">20</td><td class="num">68</td><td>Reading order</td><td>Medium</td></tr>
+          <tr><td>Old scans</td><td class="num">15</td><td class="num">75</td><td>Historical letters</td><td>Low: 10 of 15 pages are handwritten</td></tr>
+          <tr><td>Headers &amp; footers</td><td class="num">20</td><td class="num">49</td><td>Headers/footers kept out of body text</td><td>Medium, but formatted differently by the two systems</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section>
+      <h2>Method: how we scored</h2>
+      <ol>
+        <li><b>Every test is pass or fail.</b> For example: "this sentence must appear", "paragraph A must come before B", "the cell to the right of X must be Y".</li>
+        <li><b>Both systems run the same pages and the same tests</b>, compared test by test.</li>
+        <li><b>Only disagreements count</b>: how many tests only Infinity passed and how many only Azure passed. A McNemar test decides whether the difference is significant (p &lt; 0.05). Tests both pass or both fail do not affect the result.</li>
+        <li><b>No composite score</b>: results are reported per subset. When p ≥ 0.05 we write "no significant difference observed", never "equal".</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Fairness: every known bias on the table</h2>
+      <div class="tbl"><table>
+        <thead><tr><th>Issue</th><th>How we handled it</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vendor home ground</b>: the vendor has published a score on this benchmark (87.6% on the full set); we cannot rule out that it saw this data in training</td><td>Stated openly; favours Infinity. We ran a sample, so our numbers are not compared with 87.6%</td></tr>
+          <tr><td><b>Different inputs</b>: Azure receives the original PDF, Infinity a 300 DPI image (what the vendor SDK does)</td><td>Each system called the way its product is meant to be used</td></tr>
+          <tr><td><b>Headers &amp; footers</b>: Azure writes them as HTML comments; the scorer still counts them as body text and fails Azure</td><td>This row is not compared</td></tr>
+          <tr><td><b>Formula tests</b>: the company network could not install the formula-rendering component, so Azure could not be scored</td><td>Formula tests removed on both sides: 604 tests down to 499</td></tr>
+          <tr><td><b>Call failures</b>: 1 Infinity page fell into a repetition loop and was truncated; all 120 Azure pages succeeded</td><td>Scored both ways: failed page counted as wrong, or dropped on both sides. Same conclusions</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section>
+      <h2>What this layer tells us</h2>
+      <ul>
+        <li><b>It shows</b>: on neutral public tests, Infinity's basic parsing is at Azure's level and can move to the next stage; tables are the risk to watch.</li>
+        <li><b>It does not show</b>: this benchmark has no financial statements. Replacement in the HSBC setting depends on per-document-type results from the in-house financial document set.</li>
+      </ul>
+    </section>
+
+    <footer>Reproduce: raw outputs and per-test scores are in <code>runs/inf-mllm_doc2md_20260918T065831Z/</code> (local machine) and <code>runs/azure_di_layout_20260929T133601Z/</code> (company machine); method details in <code>docs/working/olmocr-bench-method.md</code>.</footer>
+  </article>
+</div>
+
+<script>
+const ROWS = [
+  {zh:"表格", en:"Tables", n:187, inf:64.2, az:86.6, bc:"11 : 53", p:"p = 3×10⁻⁷", tag:"az",
+   vzh:"Azure 显著更好", ven:"Azure significantly better"},
+  {zh:"小字密排", en:"Long tiny text", n:120, inf:87.5, az:82.5, bc:"11 : 5", p:"p = 0.21", tag:"",
+   vzh:"未观察到显著差异", ven:"No significant difference observed"},
+  {zh:"多栏", en:"Multi-column", n:68, inf:82.3, az:75.0, bc:"8 : 3", p:"p = 0.23", tag:"",
+   vzh:"未观察到显著差异", ven:"No significant difference observed"},
+  {zh:"老扫描件", en:"Old scans", n:75, inf:50.7, az:28.0, bc:"19 : 2", p:"p = 0.0002", tag:"inf",
+   vzh:"Infinity 更高，但以手写为主；人工抽看实际差距较小", ven:"Infinity higher, but mostly handwriting; a manual look shows a smaller real gap"},
+  {zh:"页眉页脚", en:"Headers & footers", n:49, inf:30.6, az:14.3, bc:"9 : 1", p:"", tag:"na", na:true,
+   vzh:"不作比较（输出方式不同）", ven:"Not compared (different output formats)"},
+  {zh:"全部（仅供参考）", en:"All (reference only)", n:499, inf:66.9, az:68.1, bc:"58 : 64", p:"p = 0.65", tag:"", ref:true,
+   vzh:"未观察到显著差异", ven:"No significant difference observed"},
+];
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function render(lang){
+  const el = document.getElementById("res-"+lang);
+  const bcLabel = lang==="zh" ? "只 Inf 对 : 只 Az 对 " : "Only Inf : only Az ";
+  const nLabel = lang==="zh" ? " 条测试" : " tests";
+  el.innerHTML = ROWS.map(r => `
+    <div class="row${r.na?" na":""}${r.ref?" ref":""}">
+      <div class="name">${esc(r[lang])}<small>n = ${r.n}${nLabel}</small></div>
+      <div class="bars">
+        <div class="bar"><div class="track"><div class="fill" style="width:${r.inf}%;background:var(--inf)"></div></div><span class="num">${r.inf.toFixed(1)}%</span></div>
+        <div class="bar"><div class="track"><div class="fill" style="width:${r.az}%;background:var(--az)"></div></div><span class="num">${r.az.toFixed(1)}%</span></div>
+      </div>
+      <div class="verdict"><span class="tag ${r.tag}">${esc(lang==="zh"?r.vzh:r.ven)}</span><span class="bc">${bcLabel}${r.bc}${r.p?" · "+r.p:""}</span></div>
+    </div>`).join("");
+}
+render("zh"); render("en");
+const zh = document.getElementById("zh"), en = document.getElementById("en");
+const bz = document.getElementById("btn-zh"), be = document.getElementById("btn-en");
+const eyebrow = document.querySelector(".eyebrow");
+function setLang(l){
+  zh.hidden = l!=="zh"; en.hidden = l!=="en";
+  bz.setAttribute("aria-pressed", l==="zh"); be.setAttribute("aria-pressed", l==="en");
+  eyebrow.textContent = eyebrow.dataset[l];
+  document.documentElement.lang = l==="zh" ? "zh-CN" : "en";
+  try{ localStorage.setItem("lang", l) }catch(e){}
+}
+bz.onclick = () => setLang("zh"); be.onclick = () => setLang("en");
+let init = "zh";
+try{ init = localStorage.getItem("lang") || init }catch(e){}
+if (location.hash === "#en") init = "en";
+if (location.hash === "#zh") init = "zh";
+setLang(init);
+</script>
