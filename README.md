@@ -1,7 +1,7 @@
 # inf-eval
 
 对 INF TECH（无限光年）**Infinity-Parser2** 文档解析 API 的独立技术评测。
-判断能否在 HSBC 金融文档场景下替代现状方案（Azure Document Intelligence）。
+判断能否在金融公司的文档场景下替代现状方案（Azure Document Intelligence）。
 
 **报告的说服力不来自分数高低，来自评测过程的独立性可被验证。**
 每个数字都要能追溯到：谁产生的、用什么数据、什么口径、什么时候跑的、模型版本号是什么。

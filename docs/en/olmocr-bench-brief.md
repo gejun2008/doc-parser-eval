@@ -69,7 +69,7 @@ This "flattened table" failure is the highest risk for financial statements.
 
 - **It shows**: on neutral public tests, Infinity's basic parsing is at Azure's level and can move to the next stage;
   tables are the risk to watch.
-- **It does not show**: this benchmark contains no financial statements. Replacement in the HSBC setting depends on
+- **It does not show**: this benchmark contains no financial statements. Replacement in the financial company's setting depends on
   per-document-type results from the in-house financial document set.
 
 ---

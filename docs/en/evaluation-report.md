@@ -43,7 +43,7 @@ Pro at list is ¥81 (about $11.5, above Azure's list price), for reference only;
 The billing unit and the meaning of the discount are working assumptions; the vendor's written answer describes charges as "licence fee + technical service fee", and how that maps to the price list is still to be confirmed (§4.3).
 
 **Taken together**: a reason to switch **cannot come from parsing quality** — on every quality metric measured in this round Azure was equal or better.
-It can only come from cost (§4.3: Flash call cost is below Azure's list price, but must be recomputed against HSBC's contract price and human review cost), deployment (open weights allow on-premise deployment), or other business considerations.
+It can only come from cost (§4.3: Flash call cost is below Azure's list price, but must be recomputed against the financial company's contract price and human review cost), deployment (open weights allow on-premise deployment), or other business considerations.
 
 ### 1.2 Judgement by document type
 
@@ -60,7 +60,7 @@ It can only come from cost (§4.3: Flash call cost is below Azure's list price, 
 
 ### 1.3 Recommended POC scope
 
-0. **Precondition: a reason to switch.** Quality gives no reason (§1.1), so before starting a POC either a cost advantage remains after recomputing with HSBC's contract price and review cost (the 09-28 price list gives call cost only, see §4.3),
+0. **Precondition: a reason to switch.** Quality gives no reason (§1.1), so before starting a POC either a cost advantage remains after recomputing with the financial company's contract price and review cost (the 09-28 price list gives call cost only, see §4.3),
    or the business genuinely needs on-premise deployment, or there is another clear business reason. If none holds, a POC is not recommended.
 1. **Documents**: HK annual reports, interim reports and prospectuses, plus A-share ad-hoc announcements; native electronic PDFs only.
    A-share periodic reports get **targeted stress testing only** (item 3) and are not in the replacement scope.
@@ -82,7 +82,7 @@ If any criterion is triggered, the POC stops for the affected scope. Thresholds 
 | E1 | On paired pages, Infinity has **significantly more** "pages with missing or substituted amounts" than Azure (McNemar p < 0.05), and the vendor cannot fix it within the agreed period | That document family |
 | E2 | On the targeted continuation-table set, the upper bound of the 95% CI of Infinity's omission page rate exceeds the business threshold (suggested start: 1%) | A-share periodic reports, and every family with tables spanning pages |
 | E3 | The vendor cannot provide **version locking** and **advance notice of changes** | All |
-| E4 | Recomputed with the actual quote and **HSBC's Azure contract price** (not list price), the effective cost per page is higher than Azure. Effective cost = call cost + human review cost; without confidence, review cost assumes full or sampled review | All |
+| E4 | Recomputed with the actual quote and **the financial company's Azure contract price** (not list price), the effective cost per page is higher than Azure. Effective cost = call cost + human review cost; without confidence, review cost assumes full or sampled review | All |
 | E5 | The throughput in the production SLA is below the business peak demand | All |
 | E6 | The page rate of repetition degeneration (`finish_reason=length`) exceeds the threshold, or the vendor will not commit to not billing such invalid calls | All |
 
@@ -290,7 +290,7 @@ Copied as given. Three caveats:
 - **Charge structure**: the vendor's written answer has two parts — (1) a licence fee charged by usage or deployment volume, pay more for more use;
   (2) technical service fees (solution design, on-premise deployment, technical updates, quality tuning, etc.), quoted case by case.
   The table above covers only per-token call fees under (1); **whether the price list's token prices are the same thing as the "licence fee", and roughly how large (2) is, are both unknown**.
-- **Azure is still at list price**, $10 / 1,000 pages. **HSBC's actual contract price should be used; obtain it from procurement.**
+- **Azure is still at list price**, $10 / 1,000 pages. **The financial company's actual contract price should be used; obtain it from procurement.**
 - **Cost from a bank's perspective** = cost of effective output per page without key errors + human review cost.
   Without confidence, review cannot be limited to suspicious fields. Review cost is usually far higher than the call cost above,
   and it directly determines whether the "99.7% automation rate" in the vendor's ROI model can hold.

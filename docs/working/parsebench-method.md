@@ -10,7 +10,7 @@
 - 厂商在 ParseBench 上自报：技术报告 Pro **74.3%**；FinIE 站点「Arena」页 Flash **72.2**、Pro **74.3**（2026-09-29 截图）
 - 官方 leaderboard（`run-llama/ParseBench` 仓库 `leaderboard.csv`）同时收录了
   Infinity-Parser2-Flash / Pro 和 **Azure Document Intelligence (Layout)**，是唯一一个三者都在的公开基准
-- 数据来自保险、金融、政府等企业文档，比 olmOCR-Bench 更接近 HSBC 场景
+- 数据来自保险、金融、政府等企业文档，比 olmOCR-Bench 更接近金融公司场景
 - 五个维度里的 Visual Grounding（bbox 溯源）对应「可审计」要求，是前两层没测过的
 
 泄漏风险与 olmOCR-Bench 相同：厂商报过分的 benchmark，无法排除进过训练集。

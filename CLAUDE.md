@@ -5,7 +5,7 @@ Claude Code 每次进入本仓库先读这份文件。
 ## 这是什么项目
 
 对 INF TECH（无限光年）的 **Infinity-Parser2** 文档解析 API 做独立技术评测，
-判断能否在 HSBC 金融文档场景下替代现状方案（Azure Document Intelligence）。
+判断能否在金融公司的文档场景下替代现状方案（Azure Document Intelligence）。
 产出一份内部技术评估报告，读者是技术主管与团队。
 
 完整评测设计见 `docs/working/research-plan.md`，那是权威范围文档，本文件不复述它。
