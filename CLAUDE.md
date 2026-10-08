@@ -70,6 +70,7 @@ docs/working/corpus-results-partial.md 第三层结果（部分指标）
 docs/working/azure-di-baseline.md    在公司电脑跑基线的步骤
 docs/working/ai-assistant-prompt.md  给 AI 助手的起始 prompt
 docs/working/sync-prompt.md          无 git 环境下同步新版仓库的 prompt
+docs/design/                 后续方向的设计文档（可靠性工程总体架构，待评审）
 tools/                       见 README 的工具表
 data/corpus/                 下载的公开文档（不入库）
 data/assertions/             断言文件，每份文档一个 YAML（入库，这是 GT）
