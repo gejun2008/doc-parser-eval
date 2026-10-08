@@ -33,6 +33,8 @@
 | 导出成文所需数据 | `docs/working/export-prompt.md`（运行导出脚本、原样输出，不让 AI 转述数字） |
 | 数据只能拍照带出时 | `docs/working/photo-numbers-prompt.md`（汇成整数表、带校验和，便于拍照与核对） |
 
+后续方向（评测之外）：`docs/design/doc-reliability-architecture.md`，文档智能可靠性工程的总体架构设计（评测 → 质量护栏 → 解析路由 → 人工复核分流），草案，待设计评审。
+
 已被取代、只作记录：`docs/working/executive-summary.md`（deck 的文字版）、`interim-brief.md`（中期简报）、
 `report-outline.md`（成文对照表）、`corpus-results-partial.md`（第三层部分结果）。
 
