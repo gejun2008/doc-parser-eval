@@ -1,6 +1,6 @@
 # 公司电脑：把 benchmark-kit 提交进 ocr-benchmark-dataset，再用 skill 跑一次验收
 
-两步：**① 装进仓库并提交**（纯文件操作，不跑任何检查）；**② 用 skill 跑一次 INF 的历史输出**，
+两步：**① 装进仓库并提交**（纯文件操作，自己执行，不跑任何检查）；**② 用 skill 跑一次 INF 的历史输出**，
 看 skill 能不能自己把流程走完、报告数字是否与已知结果一致。第 ② 步就是验收，不另做核对。
 
 判分代码本身已在本仓库用历史 INF 跑数核对过（金融 1,153/1,153、扰动 500/500、ParseBench 512/513 一致），
@@ -10,31 +10,33 @@
 
 1. GitHub 上把分支 `claude/cool-planck-j8dsb2` 下载成 zip（Code → Download ZIP），解压到**仓库以外**的目录，
    例如 `D:\work\kit-src\`。里面那一层 `doc-parser-eval-claude-cool-planck-j8dsb2\` 下文叫**源目录**。
-2. 改下面 Prompt 开头三个路径，整段粘给 Copilot。
+2. 改下面命令开头三个路径。
 
-## 第 ① 步 Prompt：装进仓库并提交
+## 第 ① 步：装进仓库并提交（自己在 PowerShell 里执行，不用 Copilot）
 
-```text
-先在 PowerShell 里执行（路径按实际改）：
+纯文件复制，交给 Copilot 反而容易跑偏（例如反复调用 Pylance 去分析 vendor 里的代码）。
+
+```powershell
 $SRC = "D:\work\kit-src\doc-parser-eval-claude-cool-planck-j8dsb2"   # 解压出来的源目录
 $OLD = "D:\work\doc-parser-eval-main"                                 # 旧评测仓库（有 runs\）
 $DS  = "D:\work\ocr-benchmark-dataset"                                # 数据集仓库
-$env:PYTHONUTF8 = "1"; Set-Location $DS; git switch -c add-eval-kit
+Set-Location $DS
+git switch -c add-eval-kit            # 分支已存在就用 git switch add-eval-kit
+git status --short -- data gt metadata   # 必须没有输出；有的话 git restore -- data gt metadata
 
-规则：不修改 data\、gt\、metadata\ 下任何文件；不改 $SRC\benchmark-kit\eval 里的代码。
+Copy-Item -Recurse -Force $SRC\benchmark-kit\eval $DS
+New-Item -ItemType Directory -Force $DS\.github\skills\ocr-benchmark, $DS\docs | Out-Null
+Copy-Item -Force $SRC\benchmark-kit\.github\skills\ocr-benchmark\SKILL.md $DS\.github\skills\ocr-benchmark\
+Copy-Item -Force $SRC\benchmark-kit\docs\protocol.md $DS\docs\
+Copy-Item -Force README.md docs\README-previous.md      # 旧 README 原样保留，之后再拆到 docs\sources.md
+Copy-Item -Force $SRC\benchmark-kit\README.md README.md
+Get-Content $SRC\benchmark-kit\.gitignore | Where-Object { -not (Select-String -Path .gitignore -SimpleMatch -Pattern $_ -Quiet) } | Add-Content .gitignore
 
-1. 复制：
-   Copy-Item -Recurse $SRC\benchmark-kit\eval, $SRC\benchmark-kit\.github $DS
-   New-Item -ItemType Directory -Force $DS\docs ; Copy-Item $SRC\benchmark-kit\docs\protocol.md $DS\docs\
-   把 $SRC\benchmark-kit\.gitignore 里的行追加到 $DS\.gitignore（已有的行不重复）。
-2. README：
-   a. 现有 README.md 的「3. Get the data」「8. Limits and safe reuse」「9. Sources, attribution and rights」
-      三节原文移到 docs\sources.md（不改写）。
-   b. 把现有 README.md 第 4–7 节里的评分规则（含「Strict financial scoring contract」）与 docs\protocol.md
-      第 3 节对比，把 protocol.md 没覆盖或说法不同的地方列出来告诉我（只列，不改）。
-   c. 用 $SRC\benchmark-kit\README.md 替换 README.md。
-3. git add 后 git commit -m "Add evaluation kit: scorers, protocol, Copilot skill"。不要 push，告诉我 2b 的结果。
+git add -A ; git status --short | Select-Object -First 30   # 只应出现 eval\ .github\ docs\ README.md .gitignore
+git commit -m "Add evaluation kit: scorers, protocol, Copilot skill"
 ```
+
+旧 README 里的 Get the data / Limits / Sources 三节先留在 `docs\README-previous.md`，以后再整理，不阻塞提交。
 
 ## 第 ② 步：用 skill 验收
 
@@ -49,7 +51,8 @@ python $SRC\tools\export_predictions.py --out $DS\predictions\inf-flash --model 
   --parsebench runs\<parsebench_inf_ 开头、不带 _nodeep 的 run>
 ```
 
-然后在 VS Code 打开数据集仓库，Copilot agent 模式里说：
+然后在 VS Code 打开数据集仓库，Copilot agent 模式里说（建议先在聊天框的工具设置里关掉 Pylance 相关工具，
+让它只用终端跑命令）：
 
 ```text
 run the ocr-benchmark skill on predictions/inf-flash
