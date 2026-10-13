@@ -1,0 +1,4 @@
+dimension,stratum,pdf
+table,easy,docs/table/t1.pdf
+table,hard,docs/table/t2.pdf
+layout,easy,docs/layout/l1.png

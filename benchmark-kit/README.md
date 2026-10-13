@@ -3,7 +3,7 @@
 Inputs, ground truth and scorers for evaluating document parsers on financial documents.
 Run your parser, drop its outputs in a folder, run one command (or one Copilot skill), get a report per collection.
 
-**Snapshot:** `2026-09-30` · **Financial GT frozen:** `2026-09-23` · **Scorer:** `eval 0.1.0`
+**Snapshot:** `2026-09-30` · **Financial GT frozen:** `2026-09-23` · **Scorer:** `eval 0.2.0`
 **This repository never stores model outputs, scores or credentials.**
 
 ## Collections
@@ -13,7 +13,7 @@ Run your parser, drop its outputs in a folder, run one command (or one Copilot s
 | **Financial disclosures** | 210 pages from 53 CNINFO / HKEX PDFs, 7 families | 1,229 assertions | amounts, units/currency, label–amount, page integrity | yes |
 | **olmOCR-Bench subset** | 120 single-page PDFs, 7 subsets | 604 upstream tests | tables, multi-column, headers/footers, small text, old scans, math | yes (math optional) |
 | **Perturbation** | 210 images = 42 pages × 5 variants | reuses financial GT | low DPI, JPEG, skew, photocopy | yes |
-| **ParseBench subset** | 500 files (482 PDF, 18 images) | 45,931 upstream rules | tables, charts, text content and formatting, layout | not yet |
+| **ParseBench subset** | 500 files (482 PDF, 18 images) | 45,931 upstream rules | tables, charts, text content and formatting, layout | yes (Visual Grounding N/A for markdown) |
 
 The financial collection is what decides fit for financial documents. The public subsets are entry checks:
 they may be in the training data of the model under test, so a high score there is necessary, not sufficient.
@@ -23,6 +23,8 @@ they may be in the training data of the model under test, so a high score there 
 ```bash
 git lfs install && git clone <repo-url> && cd ocr-benchmark-dataset
 python -m pip install -r eval/requirements.txt     # Python 3.12, internal pip mirror
+python -m pip install -r eval/requirements-parsebench.txt   # only if you score ParseBench
+python -m eval.tests                               # scorer self-test on synthetic fixtures
 python -m eval verify --quick                      # are the LFS files really here?
 python -m eval inputs                              # writes inputs.csv: every input and its prediction file
 ```
@@ -68,12 +70,14 @@ results/<your-model>/
   financial.md         pass rate by assertion type, family, family × window
   olmocr.md            pass rate by subset and test type
   perturbed.md         pass rate by variant + drop vs. the clean page
+  parsebench.md        mean official score per dimension and stratum (Visual Grounding N/A for markdown)
+  parsebench_official/ the official ParseBench evaluator's own per-file results and log
   <collection>.csv     one row per test: item, test id, outcome (pass / fail / missing / not_scored), detail
   summary.json
 ```
 
 - **There is no overall score.** Each collection has its own metric; do not average across them.
-- A page with no prediction file counts as **failed**, never skipped.
+- A page with no prediction file counts as **failed**, never skipped (ParseBench: scored as an empty document).
 - A stratum with fewer than 20 scored tests is shown as *insufficient sample*, without a rate.
 - olmOCR math tests are **skipped by default** (reported as not scored). To score them, see `docs/protocol.md` → Math tests.
 
@@ -83,7 +87,8 @@ results/<your-model>/
 python -m eval compare results/<model-a> results/<model-b>
 ```
 
-Pairs the same tests on both sides, per stratum, with an exact McNemar test. It warns if the two runs
+Pairs the same tests on both sides, per stratum, with an exact McNemar test
+(ParseBench: paired per-file score difference with a bootstrap interval). It warns if the two runs
 used a different dataset commit, input mode or scorer version.
 
 ## Rules the scorer cannot enforce
@@ -123,4 +128,4 @@ Any change to a scorer that can change an outcome bumps the scorer version.
 | olmOCR-Bench subset | `allenai/olmOCR-bench` | ODC-BY |
 | ParseBench subset | `llamaindex/ParseBench` @ `2805a1d` | Apache-2.0 (`metadata/parsebench_LICENSE.txt`) |
 | Financial disclosures, perturbation | public CNINFO and HKEX filings | source terms apply; see `docs/sources.md` |
-| Vendored scorer code | olmocr @ `ab294c6a`, KaTeX | Apache-2.0, MIT (`eval/vendor/NOTICE.md`) |
+| Vendored scorer code | olmocr @ `ab294c6a`, ParseBench @ `3295d7f`, KaTeX | Apache-2.0, Apache-2.0, MIT (`eval/vendor/NOTICE.md`) |

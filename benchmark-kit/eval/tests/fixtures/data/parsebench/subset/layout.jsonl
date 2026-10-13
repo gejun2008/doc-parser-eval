@@ -1,0 +1,1 @@
+{"pdf": "docs/layout/l1.png", "category": "layout", "id": "l1_layout_0", "type": "layout", "rule": "{\"bbox\": [0.1, 0.1, 0.5, 0.05], \"canonical_class\": \"Text\", \"content\": {\"text\": \"Synthetic layout element\", \"type\": \"text\"}, \"page\": 1}", "page": null, "expected_markdown": null, "tags": []}

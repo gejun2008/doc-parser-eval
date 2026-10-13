@@ -5,7 +5,7 @@ from pathlib import Path
 
 import yaml
 
-from .common import MIN_N, read_csv
+from .common import MIN_N, boot_ci, read_csv
 
 STRATUM = {"financial": "test_type", "olmocr": "subset", "perturbed": "variant"}
 
@@ -51,5 +51,35 @@ def compare(dir_a, dir_b):
                        ("A higher" if ao > bo else "B higher"))
             lines.append(f"| {s} | {n} | {both + ao} | {both + bo} | {ao} | {bo} | {p:.3g} | {reading} |")
         lines.append("")
-    lines.append("Missing predictions count as failures on both sides. No overall score.")
+    fa, fb = a / "parsebench.csv", b / "parsebench.csv"
+    if fa.exists() and fb.exists():
+        lines += _compare_scores(fa, fb)
+    lines.append("Missing predictions count as failures (ParseBench: empty documents) on both sides. "
+                 "No overall score.")
     return "\n".join(lines)
+
+
+def _compare_scores(fa, fb):
+    """ParseBench: paired per-file score difference (B - A), bootstrap CI, sign test."""
+    ok = ("scored", "missing")
+    ra = {(r["test_type"], r["test_id"]): float(r["score"]) for r in read_csv(fa) if r["outcome"] in ok}
+    rb = {(r["test_type"], r["test_id"]): float(r["score"]) for r in read_csv(fb) if r["outcome"] in ok}
+    by_dim = defaultdict(list)
+    for k in ra.keys() & rb.keys():
+        by_dim[k[0]].append((ra[k], rb[k]))
+    lines = ["## parsebench (paired files)", "",
+             "| Dimension | n | Mean A | Mean B | B − A | 95% CI | B wins | A wins | Sign p | Reading |",
+             "|---|---:|---:|---:|---:|---|---:|---:|---:|---|"]
+    for dim, pairs in sorted(by_dim.items()):
+        n = len(pairs)
+        diffs = [y - x for x, y in pairs]
+        lo, hi = boot_ci(diffs)
+        bw, aw = sum(d > 0 for d in diffs), sum(d < 0 for d in diffs)
+        p = mcnemar_p(aw, bw)  # exact two-sided sign test on non-tied pairs
+        reading = ("insufficient sample" if n < MIN_N else
+                   "no significant difference" if lo is None or lo <= 0 <= hi else
+                   ("B higher" if lo > 0 else "A higher"))
+        ma, mb = sum(x for x, _ in pairs) / n, sum(y for _, y in pairs) / n
+        ci = "–" if lo is None else f"{lo:+.3f} – {hi:+.3f}"
+        lines.append(f"| {dim} | {n} | {ma:.3f} | {mb:.3f} | {mb - ma:+.3f} | {ci} | {bw} | {aw} | {p:.3g} | {reading} |")
+    return lines + [""]
