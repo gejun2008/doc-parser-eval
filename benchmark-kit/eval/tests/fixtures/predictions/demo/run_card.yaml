@@ -1,0 +1,6 @@
+model: demo-parser
+version: "0.0"
+input_mode: image
+dpi: 300
+output_format: markdown
+date: 2026-10-13
