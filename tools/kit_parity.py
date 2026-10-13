@@ -23,21 +23,13 @@ olmOCR 需在公司电脑上跑。
 """
 import argparse
 import csv
-import json
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
 
-
-def prediction_rel(collection, rec):
-    pdf = rec["pdf"].replace("\\", "/").removeprefix("data/")
-    stem = pdf.rsplit(".", 1)[0]
-    if collection == "financial":
-        return f"{stem}_p{rec['page']}.md"
-    if collection == "olmocr":
-        return f"olmocr_bench/bench_data/pdfs/{stem}.md"
-    return f"{stem}.md"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from export_predictions import export  # noqa: E402
 
 
 def main():
@@ -51,23 +43,7 @@ def main():
 
     tmp = Path(tempfile.mkdtemp(prefix="kit_parity_"))
     pred = tmp / "predictions" / "parity"
-    n = 0
-    if a.collection == "parsebench":
-        for f in sorted((run / "parsebench").rglob("*.result.json")):
-            r = json.loads(f.read_text(encoding="utf-8"))
-            ex = r["request"]["example_id"]
-            p = pred / f"parsebench/subset/docs/{ex}.md"
-            p.parent.mkdir(parents=True, exist_ok=True)
-            p.write_text((r.get("output") or {}).get("markdown") or "", encoding="utf-8")
-            n += 1
-    for f in sorted((run / "raw").glob("*.json")) if a.collection != "parsebench" else []:
-        r = json.loads(f.read_text(encoding="utf-8"))
-        if not r.get("ok"):
-            continue                      # 旧口径：调用失败判 fail；新口径：无文件 = missing = fail
-        p = pred / prediction_rel(a.collection, r)
-        p.parent.mkdir(parents=True, exist_ok=True)
-        p.write_text(r.get("content") or "", encoding="utf-8")
-        n += 1
+    n = export(run, a.collection, pred)
     (pred / "run_card.yaml").write_text("model: parity\ninput_mode: image\ndpi: 300\n", encoding="utf-8")
     print(f"{n} 条原始响应 -> {pred}")
 
