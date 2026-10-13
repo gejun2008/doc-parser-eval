@@ -54,7 +54,9 @@ def _pct(x):
 def _table(agg):
     lines = ["| Stratum | n | Pass | Missing | Pass rate | 95% CI |", "|---|---:|---:|---:|---:|---|"]
     for a in agg:
-        if not a["sufficient"]:
+        if a["n"] == 0:
+            rate, ci = "not scored", "–"
+        elif not a["sufficient"]:
             rate, ci = f"insufficient sample ({_pct(a['rate'])})", "–"
         else:
             rate, ci = _pct(a["rate"]), f"{_pct(a['ci95'][0])} – {_pct(a['ci95'][1])}"

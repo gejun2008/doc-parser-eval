@@ -96,6 +96,7 @@ cp .env.example .env                                 # 填凭证，.env 不入�
 | `make_briefing_pptx.py` | 生成 3 页幻灯片 PPTX（需 python-pptx） |
 | `relaxed_recheck.py` | 宽松口径复判：区分真实缺失与标点/字形差异，两边对称 |
 | `dataset_inventory.py` | 导出 ocr-benchmark-dataset 的结构清单（只导结构，不导内容） |
+| `export_predictions.py` | 把历史 run 的模型输出导出成 benchmark-kit 的 predictions 目录 |
 | `kit_parity.py` | benchmark-kit 新判分器与旧判分器的逐条一致性核对 |
 
 ## 典型流程
