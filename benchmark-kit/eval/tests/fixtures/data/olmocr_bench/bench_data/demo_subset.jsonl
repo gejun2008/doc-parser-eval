@@ -1,0 +1,6 @@
+{"pdf": "demo_subset/doc_a.pdf", "page": 1, "id": "doc_a_present_01", "type": "present", "text": "The quick brown fox", "max_diffs": 0}
+{"pdf": "demo_subset/doc_a.pdf", "page": 1, "id": "doc_a_absent_01", "type": "absent", "text": "Page 3 of 10", "max_diffs": 0}
+{"pdf": "demo_subset/doc_a.pdf", "page": 1, "id": "doc_a_order_01", "type": "order", "before": "Introduction", "after": "Conclusion", "max_diffs": 0}
+{"pdf": "demo_subset/doc_a.pdf", "page": 1, "id": "doc_a_table_01", "type": "table", "cell": "42", "up": "Count", "left": "Apples", "max_diffs": 0}
+{"pdf": "demo_subset/doc_a.pdf", "page": 1, "id": "doc_a_math_01", "type": "math", "math": "a^2 + b^2 = c^2", "max_diffs": 0}
+{"pdf": "demo_subset/doc_b.pdf", "page": 1, "id": "doc_b_present_01", "type": "present", "text": "anything", "max_diffs": 0}

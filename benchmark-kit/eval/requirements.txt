@@ -1,0 +1,8 @@
+# Scorer dependencies, pinned to the versions the fixture tests pass with (python -m eval.tests).
+# Install from the internal pip mirror: python -m pip install -r eval/requirements.txt
+pyyaml==6.0.3
+fuzzysearch==0.8.1
+rapidfuzz==3.14.6
+beautifulsoup4==4.15.0
+numpy==2.5.4
+tqdm==4.70.1

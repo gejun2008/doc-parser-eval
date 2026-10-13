@@ -1,0 +1,4 @@
+# Optional: olmOCR math tests (KaTeX rendering). Playwright 1.63.0 uses Chromium build 1243
+# (chromium_headless_shell-1243). Any other Playwright version needs a different browser build.
+# See docs/protocol.md "Math tests".
+playwright==1.63.0

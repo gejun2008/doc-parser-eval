@@ -1,0 +1,3 @@
+variant,path,doc_id,page,family,window
+dpi100,data/perturbed/dpi100/demo_doc_p1_dpi100.png,demo_doc,1,demo,new
+jpeg30,data/perturbed/jpeg30/demo_doc_p1_jpeg30.jpg,demo_doc,1,demo,new

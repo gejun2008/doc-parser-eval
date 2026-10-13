@@ -95,6 +95,8 @@ cp .env.example .env                                 # 填凭证，.env 不入�
 | `amount_scan.py` | 全量金额扫描：页上每个金额都与文本层对账，不抽样（抓整表遗漏） |
 | `make_briefing_pptx.py` | 生成 3 页幻灯片 PPTX（需 python-pptx） |
 | `relaxed_recheck.py` | 宽松口径复判：区分真实缺失与标点/字形差异，两边对称 |
+| `dataset_inventory.py` | 导出 ocr-benchmark-dataset 的结构清单（只导结构，不导内容） |
+| `kit_parity.py` | benchmark-kit 新判分器与旧判分器的逐条一致性核对 |
 
 ## 典型流程
 

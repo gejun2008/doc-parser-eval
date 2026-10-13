@@ -1,0 +1,13 @@
+# Synthetic fixture, not real GT.
+doc_id: demo_doc
+family: demo
+window: new
+local_path: data/corpus/demo/demo_doc.pdf
+pages_selected: [1, 2]
+assertions:
+- {id: demo_p1_pi01, type: page_integrity, severity: critical, page: 1, eval_on: md, rule: exactly_once, target: "Total revenue for the year", status: auto}
+- {id: demo_p1_am01, type: amount, severity: critical, page: 1, eval_on: md, rule: exactly_n, n: 2, target: "5,678", forbid: ["5678"], status: auto_textlayer}
+- {id: demo_p1_am02, type: amount, severity: critical, page: 1, eval_on: md, rule: exactly_n, n: 1, target: "1,234", forbid: ["1234"], status: auto_textlayer}
+- {id: demo_p1_al01, type: amount_label, severity: critical, page: 1, eval_on: md, rule: label_proximity, label: "Net profit", target: "9,999", max_gap: 10, status: confirmed}
+- {id: demo_p1_dr01, type: amount, severity: critical, page: 1, eval_on: md, rule: exactly_once, target: "777", status: draft}
+- {id: demo_p2_pi01, type: page_integrity, severity: critical, page: 2, eval_on: md, rule: exactly_once, target: "Second page anchor", status: auto}
