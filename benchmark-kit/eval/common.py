@@ -2,7 +2,9 @@
 import csv
 import json
 import os
+import random
 import re
+import statistics
 import subprocess
 from collections import defaultdict
 from pathlib import Path
@@ -46,12 +48,11 @@ def read_prediction(pred_root, rel):
 
 
 def strip_fences(text):
-    """Remove a ```markdown fence wrapping the whole output. Content is not touched."""
+    """Remove a ``` / ```markdown fence only when it wraps the whole output (opens at the
+    very start and closes at the very end). Fences inside the output are content."""
     text = (text or "").strip()
-    text = re.sub(r"^```markdown\s*\n?", "", text)
-    text = re.sub(r"^```\s*\n?", "", text)
-    text = re.sub(r"\n?```$", "", text)
-    return text.strip()
+    m = re.fullmatch(r"```(?:markdown|md)?[ \t]*\n(.*?)\n?```", text, flags=re.S)
+    return m.group(1).strip() if m else text
 
 
 def wilson(k, n, z=1.96):
@@ -79,6 +80,35 @@ def aggregate(rows, *keys):
             "not_scored": len(rs) - len(scored),
             "rate": round(n_pass / len(scored), 4) if scored else None,
             "ci95": [lo, hi], "sufficient": len(scored) >= MIN_N,
+        })
+    return out
+
+
+def boot_ci(xs, n_boot=2000, seed=0):
+    """Percentile bootstrap 95% interval of the mean (fixed seed: same data, same interval)."""
+    if len(xs) < 2:
+        return None, None
+    rng = random.Random(seed)
+    means = sorted(statistics.fmean(rng.choices(xs, k=len(xs))) for _ in range(n_boot))
+    return round(means[int(0.025 * n_boot)], 4), round(means[int(0.975 * n_boot) - 1], 4)
+
+
+def aggregate_scores(rows, *keys):
+    """Mean score by stratum for collections scored 0..1 per item (ParseBench).
+    Missing predictions are included with the score of an empty document."""
+    groups = defaultdict(list)
+    for r in rows:
+        groups[tuple(str(r[k]) for k in keys)].append(r)
+    out = []
+    for k, rs in sorted(groups.items()):
+        xs = [float(r["score"]) for r in rs if r["outcome"] in ("scored", MISSING)]
+        lo, hi = boot_ci(xs)
+        out.append({
+            "stratum": " / ".join(k), "n": len(xs),
+            "missing": sum(r["outcome"] == MISSING for r in rs),
+            "not_scored": len(rs) - len(xs),
+            "mean": round(statistics.fmean(xs), 4) if xs else None,
+            "ci95": [lo, hi], "sufficient": len(xs) >= MIN_N,
         })
     return out
 

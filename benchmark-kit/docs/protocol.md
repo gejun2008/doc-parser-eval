@@ -10,6 +10,7 @@ The README is enough to run the benchmark; read this before you publish or compa
 | Financial | one page of a multi-page PDF | `data/corpus/run_manifest.csv` (210 rows: `pdf`, `page`) |
 | olmOCR | one single-page PDF | `pdf` field of `data/olmocr_bench/bench_data/*.jsonl` (120 files) |
 | Perturbation | one image | `data/perturbed/manifest.csv` (210 rows) |
+| ParseBench | one file (PDF or image) | `pdf` field of `data/parsebench/subset/*.jsonl` (500 files) |
 
 `python -m eval inputs` writes all of them, with the expected prediction path, to `inputs.csv`.
 
@@ -28,7 +29,8 @@ The README is enough to run the benchmark; read this before you publish or compa
 - If the model call failed, **write nothing** for that input. A missing file is scored as a failure
   on every test of that input (outcome `missing`). Do not write an empty file to hide a failure:
   an empty file is a real (empty) answer and fails on its own.
-- A ```` ```markdown ```` fence wrapping the whole output is removed before scoring. Nothing else is changed.
+- A ```` ``` ```` / ```` ```markdown ```` fence is removed before scoring **only if it wraps the whole output**
+  (opens at the very start and closes at the very end). Fences inside the output are content. Nothing else is changed.
 
 ## 3. Scoring
 
@@ -64,6 +66,27 @@ Each image reuses the financial assertions of the page it was made from (`doc_id
 The useful number is the **drop vs. the clean page** for the same model, which the report computes when the
 financial collection was scored in the same run.
 
+### ParseBench subset (`eval/parsebench.py`)
+
+The official ParseBench evaluator (`run-llama/ParseBench` @ `3295d7f`, vendored in `eval/vendor/parsebench_src`)
+does all scoring. Each prediction is wrapped as an official `ParseOutput` (the markdown, as one page) and evaluated
+one dimension at a time. A file's score is the dimension's headline metric, the column the official leaderboard averages:
+
+| Dimension | Metric | Files |
+|---|---|---|
+| Tables | `grits_trm_composite` | 130 |
+| Charts | `rule_pass_rate` | 100 |
+| Content Faithfulness | `content_faithfulness` | 150 (text) |
+| Semantic Formatting | `semantic_formatting` | 150 (text; the evaluator scores 133) |
+| Visual Grounding | `layout_element_rule_pass_rate` | 120: **N/A** for markdown, it needs element bounding boxes |
+
+- A missing prediction is scored as an empty document (the official evaluator would drop it from the denominator).
+- Page header/footer fields are empty in a markdown submission. Rules that read them from structured page data fall
+  back to the markdown, as they do for any provider without that data.
+- Means per dimension and stratum with a percentile bootstrap 95% interval (2,000 resamples, fixed seed).
+- Install: `python -m pip install -r eval/requirements-parsebench.txt`. Never install `parse-bench` from PyPI:
+  its 1.0.4 is a different build from `3295d7f`.
+
 ## 4. Math tests
 
 Math tests render LaTeX with KaTeX in a headless Chromium and compare the renderings. They are skipped by default.
@@ -84,7 +107,7 @@ debugging by policy, and breaks the "same build everywhere" rule.
 
 - Pass rates per stratum with a Wilson 95% interval. Missing predictions count as failures.
 - Strata with fewer than **20** scored tests get no rate: *insufficient sample*. Do not merge strata to get above 20.
-- **No overall score** across collections, families or types.
+- **No overall score** across collections, families, dimensions or types.
 - Comparisons (`python -m eval compare`) pair identical tests and use an exact McNemar test per stratum.
   p ≥ 0.05 reads as "no significant difference", not "equal".
 - Tests on the same page are correlated; intervals computed per test are optimistic. Read page coverage alongside.

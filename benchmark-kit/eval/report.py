@@ -1,7 +1,7 @@
 """Markdown reports. One report per collection, each in its own metric. No overall score."""
 from collections import Counter, defaultdict
 
-from .common import MIN_N, PASS, aggregate
+from .common import MIN_N, PASS, aggregate, aggregate_scores
 
 CAVEATS = {
     "financial": [
@@ -17,6 +17,16 @@ CAVEATS = {
         "regardless of parsing quality.",
         "Public benchmark: may be in the training data of the model under test.",
     ],
+    "parsebench": [
+        "Subset of ParseBench (500 of 2,078 files, finance-weighted quotas): not comparable with the "
+        "official leaderboard or vendor-reported numbers.",
+        "Scores come from the official evaluator; each file's score is the dimension's headline metric "
+        "(Tables: grits_trm_composite, Charts: rule_pass_rate, Content Faithfulness: content_faithfulness, "
+        "Semantic Formatting: semantic_formatting).",
+        "Visual Grounding is N/A for markdown-only submissions; it is not 0.",
+        "Text Content and Text Formatting are scored on the same 150 files.",
+        "Public benchmark: may be in the training data of the model under test.",
+    ],
     "perturbed": [
         "Reuses the financial assertions of the source page. Read the drop vs. the clean page, "
         "not the absolute rate.",
@@ -29,11 +39,12 @@ STRATA = {
     "financial": [("By assertion type", ("test_type",)), ("By document family", ("family",)),
                   ("By family × window", ("family", "window"))],
     "olmocr": [("By subset", ("subset",)), ("By test type", ("test_type",))],
+    "parsebench": [("By dimension", ("test_type",)), ("By dimension × stratum", ("test_type", "stratum"))],
     "perturbed": [("By variant", ("variant",)), ("By variant × assertion type", ("variant", "test_type"))],
 }
 
 TITLES = {"financial": "Financial disclosures", "olmocr": "olmOCR-Bench subset",
-          "perturbed": "Perturbation"}
+          "perturbed": "Perturbation", "parsebench": "ParseBench subset"}
 
 
 def _pct(x):
@@ -65,6 +76,20 @@ def perturbation_drop(pert_rows, fin_rows):
                 "drop": round((c - p) / n, 4)} for k, (n, c, p) in sorted(by_var.items()) if n}
 
 
+def _score_table(agg):
+    lines = ["| Stratum | n | Missing | Mean score | 95% CI |", "|---|---:|---:|---:|---|"]
+    for a in agg:
+        if a["n"] == 0:
+            mean, ci = "N/A", "–"
+        elif not a["sufficient"]:
+            mean, ci = f"insufficient sample ({a['mean']:.3f})", "–"
+        else:
+            mean = f"{a['mean']:.3f}"
+            ci = f"{a['ci95'][0]:.3f} – {a['ci95'][1]:.3f}" if a["ci95"][0] is not None else "–"
+        lines.append(f"| {a['stratum']} | {a['n']} | {a['missing']} | {mean} | {ci} |")
+    return lines
+
+
 def render(collection, rows, coverage, card, drop=None):
     out = [f"# {TITLES[collection]}", ""]
     out += [f"- **Model:** {card.get('model')} {card.get('version') or ''}".rstrip(),
@@ -75,9 +100,13 @@ def render(collection, rows, coverage, card, drop=None):
     out += ["## Coverage", ""] + [f"- {k}: {v}" for k, v in coverage.items()] + [""]
     outcomes = Counter(r["outcome"] for r in rows)
     out += ["Outcomes: " + ", ".join(f"{k} {v}" for k, v in sorted(outcomes.items())),
-            "", f"Missing predictions count as failures. Strata with n < {MIN_N} are not given a rate.", ""]
+            "", ("Missing predictions are scored as empty documents. " if collection == "parsebench"
+                 else "Missing predictions count as failures. ")
+            + f"Strata with n < {MIN_N} are not given a rate.", ""]
     for title, keys in STRATA[collection]:
-        out += [f"## {title}", ""] + _table(aggregate(rows, *keys)) + [""]
+        table = (_score_table(aggregate_scores(rows, *keys)) if collection == "parsebench"
+                 else _table(aggregate(rows, *keys)))
+        out += [f"## {title}", ""] + table + [""]
     if drop:
         out += ["## Drop vs. clean page (same assertions, same model)", "",
                 "| Variant | n | Clean | Perturbed | Drop |", "|---|---:|---:|---:|---:|"]

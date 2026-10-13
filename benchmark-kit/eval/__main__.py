@@ -8,13 +8,14 @@ from pathlib import Path
 import yaml
 
 from . import __version__
-from .common import ROOT, aggregate, dump_json, git_commit, read_csv, write_csv
+from .common import ROOT, aggregate, aggregate_scores, dump_json, git_commit, read_csv, write_csv
 
-COLLECTIONS = ["financial", "olmocr", "perturbed"]
+COLLECTIONS = ["financial", "olmocr", "perturbed", "parsebench"]
 # Directory under predictions/<model>/ whose presence marks a collection as submitted.
-PREFIX = {"financial": "corpus", "olmocr": "olmocr_bench", "perturbed": "perturbed"}
+PREFIX = {"financial": "corpus", "olmocr": "olmocr_bench", "perturbed": "perturbed",
+          "parsebench": "parsebench"}
 FIELDS = ["collection", "item", "page", "variant", "test_id", "test_type", "subset",
-          "doc_id", "family", "window", "status", "outcome", "detail"]
+          "doc_id", "family", "window", "stratum", "status", "outcome", "score", "detail"]
 REQUIRED_CARD = ["model", "input_mode"]
 
 
@@ -57,6 +58,9 @@ def _inputs(coll):
     if coll == "perturbed":
         from .financial import perturbed_inputs
         return perturbed_inputs()
+    if coll == "parsebench":
+        from .parsebench import parsebench_inputs
+        return parsebench_inputs()
     from .olmocr import olmocr_inputs
     return olmocr_inputs()
 
@@ -113,6 +117,9 @@ def cmd_score(a):
         elif c == "perturbed":
             from .financial import score_perturbed
             rows, cov = score_perturbed(pred_root)
+        elif c == "parsebench":
+            from .parsebench import score_parsebench
+            rows, cov = score_parsebench(pred_root, keep_official=out / "parsebench_official")
         else:
             from .olmocr import score_olmocr
             rows, cov = score_olmocr(pred_root, with_math=with_math)
@@ -123,12 +130,13 @@ def cmd_score(a):
                 if c == "perturbed" and "financial" in results else None)
         write_csv(out / f"{c}.csv", rows, FIELDS)
         (out / f"{c}.md").write_text(render(c, rows, cov, card, drop), encoding="utf-8")
+        agg = aggregate_scores if c == "parsebench" else aggregate
         summary[c] = {"coverage": cov, "drop_vs_clean": drop,
-                      "strata": {k: aggregate(rows, k) for k in ("test_type", "family", "subset", "variant")
+                      "strata": {k: agg(rows, k) for k in ("test_type", "family", "subset", "variant")
                                  if any(r.get(k) for r in rows)}}
-        n = sum(r["outcome"] in ("pass", "fail", "missing") for r in rows)
-        print(f"  {c}: {n} scored, {sum(r['outcome'] == 'pass' for r in rows)} pass, "
-              f"{sum(r['outcome'] == 'missing' for r in rows)} missing -> {out / (c + '.md')}")
+        n = sum(r["outcome"] in ("pass", "fail", "missing", "scored") for r in rows)
+        print(f"  {c}: {n} scored, {sum(r['outcome'] == 'missing' for r in rows)} missing "
+              f"-> {out / (c + '.md')}")
 
     (out / "run_card.yaml").write_text(yaml.safe_dump(card, allow_unicode=True, sort_keys=False),
                                        encoding="utf-8")

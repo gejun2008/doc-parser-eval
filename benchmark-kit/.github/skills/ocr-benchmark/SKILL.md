@@ -13,7 +13,9 @@ differently or "fix" a score yourself.** If a script fails, report the error; do
 - Modify anything under `data/`, `gt/`, `metadata/` or `eval/`.
 - Send GT files (`data/assertions/`, `gt/`, `*.jsonl`, `metadata/`) to any model or service.
 - Commit `predictions/` or `results/`.
-- Install packages other than `eval/requirements.txt` (and `eval/requirements-math.txt` if the user asks for math) without asking.
+- Install packages other than `eval/requirements.txt`, `eval/requirements-parsebench.txt` (needed when
+  `predictions/<model>/parsebench/` exists) and `eval/requirements-math.txt` (only if the user asks for math) without asking.
+- Install `parse-bench` from PyPI: it is a different build from the vendored, pinned one.
 - Average collections into one overall score, or report a rate for a stratum marked *insufficient sample*.
 
 ## Steps
@@ -24,6 +26,7 @@ differently or "fix" a score yourself.** If a script fails, report the error; do
 2. **Check the environment** (once per machine):
    ```
    python -m pip install -r eval/requirements.txt
+   python -m pip install -r eval/requirements-parsebench.txt   # if ParseBench predictions exist
    python -m eval.tests
    ```
    If the tests fail, stop and report: the scorer is not trustworthy on this machine.
@@ -32,7 +35,9 @@ differently or "fix" a score yourself.** If a script fails, report the error; do
    Add `--with-math` only if the user asked for math tests; if the output says math stays unscored, say so.
 5. **Summarise** from `results/<model>/*.md`, quoting numbers exactly as written:
    - per collection: coverage (how many inputs had a prediction), then the strata tables;
-   - every *missing* count above zero, and what it means (failed or not-run inputs count as failures);
+   - every *missing* count above zero, and what it means (failed or not-run inputs count as failures;
+     on ParseBench they are scored as empty documents);
+   - for ParseBench, that Visual Grounding is N/A for markdown submissions (never report it as 0);
    - the "Read with care" notes of each report;
    - dataset commit, scorer version and input mode from `results/<model>/run_card.yaml`.
 6. **Comparing two models:** `python -m eval compare results/<a> results/<b>`. Lead with any WARNING lines

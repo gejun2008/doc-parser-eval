@@ -3,6 +3,7 @@
 Every expected outcome below was worked out by hand from the fixture files. If a scorer
 change alters any of them, the change alters scores: bump eval.__version__ and say why.
 """
+import importlib.util
 import os
 import shutil
 import sys
@@ -18,6 +19,8 @@ from eval.common import prediction_path, read_csv  # noqa: E402
 from eval.financial import score_financial, score_perturbed  # noqa: E402
 from eval.olmocr import math_available, score_olmocr  # noqa: E402
 from eval.report import perturbation_drop  # noqa: E402
+
+HAVE_PARSEBENCH = importlib.util.find_spec("parse_bench") is not None
 
 PRED = FIX / "predictions" / "demo"
 DATA = FIX / "data"
@@ -80,12 +83,26 @@ class OlmOCR(unittest.TestCase):
         self.assertEqual(outcomes(rows)["doc_a_math_01"], "pass")
 
 
+@unittest.skipUnless(HAVE_PARSEBENCH, "pip install -r eval/requirements-parsebench.txt")
+class ParseBench(unittest.TestCase):
+    def test_outcomes(self):
+        from eval.parsebench import score_parsebench
+        rows, cov = score_parsebench(PRED, DATA)
+        got = {r["test_id"]: (r["outcome"], r["score"]) for r in rows}
+        self.assertEqual(got["table/t1"], ("scored", 1.0))      # prediction equals the expected table
+        self.assertEqual(got["table/t2"], ("missing", 0.0))     # no file: scored as an empty document
+        self.assertEqual(got["layout/l1"][0], "not_scored")     # Visual Grounding is N/A for markdown
+        self.assertEqual(cov["files_with_prediction"], 1)
+
+
 class EndToEnd(unittest.TestCase):
     def test_score_and_compare(self):
         out = Path(tempfile.mkdtemp())
         try:
-            self.assertEqual(main(["score", str(PRED), "--out", str(out / "a")]), 0)
-            self.assertEqual(main(["score", str(PRED), "--out", str(out / "b")]), 0)
+            colls = ["financial", "olmocr", "perturbed"] + (["parsebench"] if HAVE_PARSEBENCH else [])
+            for side in ("a", "b"):
+                self.assertEqual(main(["score", str(PRED), "--collections", *colls,
+                                       "--out", str(out / side)]), 0)
             for f in ("financial.md", "olmocr.md", "perturbed.md", "run_card.yaml", "summary.json"):
                 self.assertTrue((out / "a" / f).is_file(), f)
             self.assertEqual(len(read_csv(out / "a" / "olmocr.csv")), 6)
