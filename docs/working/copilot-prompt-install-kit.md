@@ -12,35 +12,41 @@
 | ParseBench | 512 / 513 | 1 处是口径差异：`text/text_sparse__cover2` 整段输出被 ```markdown 围栏包住，新口径剥掉外层围栏 |
 | olmOCR | — | 本地拿不到 GT，**只能在公司电脑核对** |
 
-## 准备
+## 准备（你手动做，2 分钟）
 
-1. 从 GitHub 分支 `claude/cool-planck-j8dsb2` 下载整个仓库 zip，解压后取出：
-   - `benchmark-kit/` 整个目录
-   - `tools/kit_parity.py`（放到公司电脑的 `doc-parser-eval-main\tools\`）
+1. 在 GitHub 上把分支 `claude/cool-planck-j8dsb2` 下载成 zip（Code → Download ZIP），
+   解压到一个**仓库以外**的目录，例如 `D:\work\kit-src\`。
+   解压后里面是一层 `doc-parser-eval-claude-cool-planck-j8dsb2\`，下文叫它 **源目录**，用到的只有两样：
+   - `源目录\benchmark-kit\`：要装进数据集仓库的全部文件
+   - `源目录\tools\kit_parity.py`：一致性核对脚本，**原地运行，不用复制**
 2. 在 ocr-benchmark-dataset 里**新建分支**再改，不要直接改 main。
-
-然后把下面整段粘给 Copilot。
+3. 把下面 Prompt 开头三行的路径改成你电脑上的实际路径，然后整段粘给 Copilot。
+   所有命令都在 **数据集仓库目录** 里执行，只有一致性核对会去读旧仓库的 `runs\`。
 
 ## Prompt
 
 ```text
-先运行 $env:PYTHONUTF8 = "1"。在 ocr-benchmark-dataset 仓库里工作，先新建分支 add-eval-kit。
-<KIT> 是解压出来的 benchmark-kit 目录，<OLD> 是 doc-parser-eval-main 目录，<DS> 是 ocr-benchmark-dataset 目录。
+先在 PowerShell 里执行下面四行（路径按实际改），后面所有命令都用这些变量：
+$SRC = "D:\work\kit-src\doc-parser-eval-claude-cool-planck-j8dsb2"   # 解压出来的源目录
+$OLD = "D:\work\doc-parser-eval-main"                                 # 旧评测仓库（有 runs\）
+$DS  = "D:\work\ocr-benchmark-dataset"                                # 数据集仓库
+$env:PYTHONUTF8 = "1"; Set-Location $DS; git switch -c add-eval-kit
 
 硬性规则：不修改 data\、gt\、metadata\ 下任何文件；不改 eval\ 下的代码（发现问题就报告，不要自己修）；
 不 git commit，最后由我检查后提交；不调用任何模型 API；不要从 pip 安装 parse-bench（只用 eval\vendor 里的）。
 
-1. 复制：把 <KIT>\eval、<KIT>\docs\protocol.md、<KIT>\.github 复制到 <DS> 对应位置。
-   .gitignore：把 <KIT>\.gitignore 里的行追加到 <DS>\.gitignore（已有的行不重复）。
+1. 复制：Copy-Item -Recurse $SRC\benchmark-kit\eval, $SRC\benchmark-kit\.github $DS
+   New-Item -ItemType Directory -Force $DS\docs ; Copy-Item $SRC\benchmark-kit\docs\protocol.md $DS\docs\
+   .gitignore：把 $SRC\benchmark-kit\.gitignore 里的行追加到 $DS\.gitignore（已有的行不重复）。
 
 2. README：
    a. 把现有 README.md 中「3. Get the data」「8. Limits and safe reuse」「9. Sources, attribution and rights」
       三节原文移到新文件 docs\sources.md（保持原文，不改写）。
    b. 把现有 README.md 第 4、5、6、7 节里的评分规则（包括「Strict financial scoring contract」）
       与 docs\protocol.md 第 3 节逐条对比，列出 protocol.md 没覆盖或说法不同的规则（只列，不改）。
-   c. 用 <KIT>\README.md 替换 README.md。
+   c. 用 $SRC\benchmark-kit\README.md 替换 $DS\README.md。
 
-3. 环境与自检（在 <DS> 执行）。建议先建虚拟环境：python -m venv .venv ; .venv\Scripts\activate
+3. 环境与自检（在 $DS 执行）。建议先建虚拟环境：python -m venv .venv ; .venv\Scripts\activate
    python -m pip install -r eval\requirements.txt
    python -m pip install -r eval\requirements-parsebench.txt
    python -m eval.tests
@@ -56,13 +62,13 @@
    看 test_with_math 是 ok 还是 skipped；skipped 的话报告 python -m playwright --version 的输出，
    以及 %LOCALAPPDATA%\ms-playwright\ 下的目录名。
 
-5. 一致性核对（新判分器 vs 旧判分器，用旧 run 的原始结果）。在 <OLD> 目录执行，<DS> 用绝对路径：
-   python tools\kit_parity.py runs\<金融 run>        --collection financial  --dataset <DS>
-   python tools\kit_parity.py runs\<扰动 run>        --collection perturbed  --dataset <DS>
-   python tools\kit_parity.py runs\<olmOCR run>      --collection olmocr     --dataset <DS>
-   python tools\kit_parity.py runs\<ParseBench INF run>   --collection parsebench --dataset <DS>
-   python tools\kit_parity.py runs\<ParseBench Azure run> --collection parsebench --dataset <DS>
-   run 目录怎么找：
+5. 一致性核对（新判分器 vs 旧判分器，用旧 run 的原始结果）。仍在 $DS 执行，脚本原地运行：
+   python $SRC\tools\kit_parity.py $OLD\runs\<金融 run>        --collection financial  --dataset $DS
+   python $SRC\tools\kit_parity.py $OLD\runs\<扰动 run>        --collection perturbed  --dataset $DS
+   python $SRC\tools\kit_parity.py $OLD\runs\<olmOCR run>      --collection olmocr     --dataset $DS
+   python $SRC\tools\kit_parity.py $OLD\runs\<ParseBench INF run>   --collection parsebench --dataset $DS
+   python $SRC\tools\kit_parity.py $OLD\runs\<ParseBench Azure run> --collection parsebench --dataset $DS
+   <…run> 是 $OLD\runs\ 下的子目录名，按下面的规则找：
    - 金融 = run_meta.json 的 note 含「第三层自建金融场景集 210 页」
    - 扰动 = note 含「T2 扰动组」
    - olmOCR = note 含「olmOCR-Bench 抽样子集 120 页」

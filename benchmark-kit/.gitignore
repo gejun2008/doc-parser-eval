@@ -3,3 +3,4 @@
 /inputs.csv
 /.playwright-browsers/
 __pycache__/
+/.venv/
