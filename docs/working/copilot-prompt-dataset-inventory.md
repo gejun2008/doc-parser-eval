@@ -1,76 +1,49 @@
-# Copilot 任务：导出 ocr-benchmark-dataset 的结构清单（只导结构，不导内容）
+# 公司电脑：导出 ocr-benchmark-dataset 的结构清单（只导结构，不导内容）
 
-公司电脑的数据不能带出。这段 prompt 让公司电脑上的 AI 助手把数据集仓库的**结构**汇成一页，
-用于设计共享评测 harness 的数据集描述（suite）与判分接口。
-只输出键名、计数、枚举标签、哈希校验结果，**不输出任何文档正文、GT 的值、模型输出或分数**。
+公司电脑的数据不能带出。用一个脚本把数据集仓库的**结构**汇成一页，拍照带回，
+用于设计共享评测的判分接口与预测文件命名。
+输出只含目录名、文件名规律、计数、字段名、类型、白名单内的短标签、哈希比对结果；
+**不含文档正文、GT 的值、模型输出、分数、绝对路径**。
 
-用法：在公司电脑打开 `ocr-benchmark-dataset` 仓库所在目录，整段粘给 Copilot。
-生成的 `inventory-for-photo.md` 拍照或抄回来即可。
+> 上一版让 Copilot 自己逐节探索，跑 10 分钟以上不结束。现在 A–D、F 节改由脚本一次跑完，
+> E 节改成你自己回答的几个问题。
 
----
+## 第 1 步：跑脚本（约 1–2 分钟）
 
-## 复制以下内容
+1. 从 GitHub 分支 `claude/cool-planck-j8dsb2` 下载 `tools/dataset_inventory.py`，
+   放到数据集仓库**外面**的任意目录，例如 `D:\tmp\dataset_inventory.py`
+2. 确认数据集仓库已经拉过 LFS（`git lfs pull`），否则 D3 哈希全部对不上
+3. 在数据集仓库根目录运行：
+
+```powershell
+$env:PYTHONUTF8 = "1"
+python D:\tmp\dataset_inventory.py
+```
+
+生成 `inventory-for-photo.md`（在仓库根目录，**不要提交**；拍完照就删掉）。
+没装 PyYAML 时金融集 YAML 会跳过，先 `pip install pyyaml`。
+网络探测卡住就加 `--no-network`；哈希太慢就加 `--no-hash`。
+
+也可以让 Copilot 代跑，整段粘给它：
 
 ```text
-在 ocr-benchmark-dataset 仓库根目录执行，先运行 $env:PYTHONUTF8 = "1"。
-
-硬性规则：
-- 只读。不修改、不移动、不删除任何文件；不 git commit；不调用任何外部 API 或模型服务
-- 只允许新建一个文件 inventory-for-photo.md，并且它不要提交进仓库
-- 不输出：文档正文、GT 里的具体值（金额、文字、单元格内容）、模型输出、分数、
-  用户名、绝对路径、内部主机名、端点、凭证。路径一律写相对仓库根目录的路径
-- 数字直接从文件计算，不要凭 README 转述；只写整数计数
-- 每张计数表最后一行写「校验和 = 表内所有整数之和」
-- 需要写脚本就写在系统临时目录，跑完不留在仓库里
-
-请按下面 A–F 六节生成 inventory-for-photo.md：
-
-A. 目录结构
-   A1. data/、gt/、metadata/ 往下三层的目录树：每个目录只写目录名、文件数、
-       扩展名分布（如 pdf×53, png×8）。同一目录下文件名有规律的，写命名规则
-       （如 <family>_<age>_<code>_<date>.yaml），不要逐个列文件名
-   A2. 根目录下 .gitattributes 的规则（LFS 跟踪了哪些扩展名）
-   A3. README.md 的全部章节标题（含层级）。另外把讲「使用方法 / 版本与快照 /
-       审核状态 / license / 已知限制」的段落各用一两句话概括
-
-B. metadata 的字段
-   对 metadata/ 下每个文件：格式、行数、全部列名。对每一列写：
-   类型（str/int/float/bool/日期）、非空行数、不同值个数；
-   不同值个数 ≤ 15 的列，列出全部取值及各自行数（这些通常是族、子集、难度、维度等标签）。
-   特别指出：有没有难度类字段、选页/抽样来源类字段（例如是否标注了用某个模型判过难易），
-   字段名叫什么、取值有哪些。只写字段和取值，不写判定依据的原文
-
-C. GT 的结构
-   对四个集合（金融披露、olmOCR-Bench 子集、ParseBench 子集、扰动集）分别写：
-   C1. GT 文件数、记录（断言 / 测试 / 规则）总数
-   C2. 记录的键路径全集（嵌套键用 a.b.c 表示），每个键：类型、出现次数
-   C3. 枚举类键（如 type、status、tier、category、dimension），不同值 ≤ 15 的列出全部取值和计数
-   C4. 给一条结构骨架示例：保留键名，值全部替换成 <str> <num> <bool> <list[n]> <null>
-   C5. olmOCR 和 ParseBench 的 GT 是否与上游格式一致（键名有没有增删改）；
-       有改动的列出改了什么键
-   C6. 金融集的审核状态：每种 status / tier 各多少条；是否还有未审核（draft 或类似）的记录
-
-D. 一致性检查（只写计数）
-   D1. 每个集合：metadata 登记的输入文件数、data/ 实际文件数、两者对上的数量
-   D2. GT 里引用的文档/页 id，能在 metadata 找到的数量、找不到的数量
-   D3. metadata 有 sha256 字段的，重新计算后一致的数量、不一致的数量
-   D4. 扰动集：每条扰动图能映射回原始页（doc_id + 页码）的数量、映射不上的数量
-
-E. 本机已有的评测资产（不在数据集仓库里的部分）
-   在本机其他工作目录里查找，只写相对名称和用途，不写内容、不写分数：
-   E1. 每个集合当前用哪个判分脚本（脚本文件名），是自写的还是调上游官方代码；
-       上游的话写上游仓库名和钉住的 commit / 版本号
-   E2. 每个判分脚本要求的模型输出形态：markdown / JSON / 是否需要 bbox / 是否需要逐页
-   E3. 四家 OCR（Infinity-Parser2-Flash、Azure DI layout、Mistral OCR、PaddleOCR 1.6 dev）
-       各自的原始输出形态：markdown / JSON / 是否带 bbox / 是否带置信度 / 是否整份文档一次返回
-       （做成一张 4 行的表，只写有/无，不写结果）
-   E4. 当时「用模型解析后按难易挑选文档」的做法：挑选结果记录在哪个文件（相对名称）、
-       记了哪些字段；挑选规则有没有写成文档或脚本（只写有/无和文件名）
-
-F. 运行环境
-   Python 版本；能否访问 github.com / huggingface.co / pypi.org（各写能/不能）；
-   是否已装 playwright 和 chromium；操作系统
-
-最后在对话里告诉我三件事：C6 里未审核的记录数、D 节里所有「不一致 / 找不到 / 映射不上」的计数、
-E4 的答案。
+在 ocr-benchmark-dataset 仓库根目录执行，先运行 $env:PYTHONUTF8 = "1"，
+然后运行 python D:\tmp\dataset_inventory.py 。
+只运行这一条命令，不要修改任何文件，不要自己额外探索目录。
+运行结束后告诉我：「未拉取的 LFS 指针文件数」、D 节所有表里「不一致 / 找不到 / 不在」列的数字。
 ```
+
+## 第 2 步：拍照前检查一眼
+
+脚本是启发式的。拍照前扫一遍 `inventory-for-photo.md`，**如果任何地方出现了正文、金额、
+单元格内容或内部路径，把那一行删掉**再拍。重点看 B 节「枚举列取值」和 C 节「C3 枚举键取值」。
+
+## 第 3 步：E 节，你直接回答（不用跑脚本）
+
+1. 每个集合（金融、olmOCR、ParseBench、扰动）当时用哪个判分脚本？自写还是上游官方代码？
+   上游的话钉在哪个 commit / 版本？
+2. 四家 OCR（Infinity-Parser2-Flash、Azure DI layout、Mistral OCR、PaddleOCR 1.6 dev）的原始输出：
+   markdown 还是 JSON？带不带 bbox？带不带置信度？逐页调还是整份文档一次调？（只写有/无）
+3. 「用模型解析后按难易挑选文档」：挑选结果记在哪个文件、有哪些字段？
+   规则有没有写成文档或脚本？（看 B 节末尾「可能与难度/选页相关的列」是否已经覆盖）
+4. 公司电脑上 Copilot 能否识别 `.github/skills/` 下的 skill？（可以等写好 skill 后再试）
