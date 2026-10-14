@@ -174,6 +174,17 @@ def cmd_run(a):
     return 0
 
 
+def cmd_table(a):
+    from .table import side_by_side
+    text = side_by_side(a.results)
+    out = Path(a.out) if a.out else ROOT / "results" / "side_by_side.md"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(text, encoding="utf-8")
+    print(text)
+    print(f"\n-> {out}")
+    return 0
+
+
 def cmd_compare(a):
     from .compare import compare
     text = compare(a.a, a.b)
@@ -214,6 +225,11 @@ def main(argv=None):
     r.add_argument("--smoke", action="store_true", help="only 2 inputs per collection, to test the connection")
     r.add_argument("--limit", type=int, help="at most N new inputs per collection")
     r.set_defaults(fn=cmd_run)
+
+    t = sub.add_parser("table", help="several scored models side by side (no ranking, no total)")
+    t.add_argument("results", nargs="*", help="default: every results/<model> with a summary.json")
+    t.add_argument("--out", help="default: results/side_by_side.md")
+    t.set_defaults(fn=cmd_table)
 
     c = sub.add_parser("compare", help="paired comparison of two results folders")
     c.add_argument("a")

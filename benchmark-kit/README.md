@@ -18,10 +18,30 @@ Point it at your model's endpoint (or hand it your parser's outputs), run one co
 The financial collection is what decides fit for financial documents. The public subsets are entry checks:
 they may be in the training data of the model under test, so a high score there is necessary, not sufficient.
 
-## Quick start
+## Start here (3 steps)
+
+This repository is your workspace: test data, ground truth, scorers and the Copilot skill are all in it,
+and every model you test gets its own folder next to the others.
 
 ```bash
-git lfs install && git clone <repo-url> && cd ocr-benchmark-dataset
+git lfs install                                                   # once per machine
+git clone --branch data-2026-09-30 <repo-url> ocr-benchmark-dataset   # a fixed, tagged snapshot
+code ocr-benchmark-dataset                                        # open it in VS Code
+```
+
+Then, in Copilot **agent mode**, say:
+
+> *Use the ocr-benchmark skill to test my model at https://&lt;host&gt;/v1/chat/completions*
+
+The skill sets up the environment, asks for the model name and the name of the environment variable holding your
+API key (you set the key yourself in the terminal; never paste it into chat), runs a 2-input smoke test, tells you
+how long the full run will take and lets you choose all collections (default) or only some, then runs, scores
+and summarises. Test another model the same way: each one lands in `predictions/<model>/` and `results/<model>/`,
+and the skill can put them side by side.
+
+Everything the skill does is a plain command you can also run yourself:
+
+```bash
 python -m venv .venv && .venv\Scripts\activate     # Windows; source .venv/bin/activate elsewhere
 python -m pip install -r eval/requirements.txt -r eval/requirements-parsebench.txt -r eval/requirements-run.txt
 python -m eval.tests                               # self-test on synthetic fixtures
@@ -80,13 +100,6 @@ Add `predictions/<your-model>/run_card.yaml` with `model`, `version`, `input_mod
 `dpi` (for images), `date` and `notes`, then `python -m eval score predictions/<your-model>`.
 Collections without a folder are skipped.
 
-### With Copilot
-
-Open the repository in VS Code agent mode or Copilot CLI and ask
-*"run the ocr-benchmark skill for predictions/&lt;your-model&gt;"*. The skill checks the setup, runs a smoke test,
-tells you how long the full run will take and lets you pick collections, then runs, scores and summarises.
-Every number comes from the scripts, never from the assistant.
-
 ## Reading the results
 
 ```
@@ -106,15 +119,18 @@ results/<your-model>/
 - A stratum with fewer than 20 scored tests is shown as *insufficient sample*, without a rate.
 - olmOCR math tests are **skipped by default** (reported as not scored). To score them, see `docs/protocol.md` → Math tests.
 
-## Comparing two models
+## Comparing models
 
 ```bash
-python -m eval compare results/<model-a> results/<model-b>
+python -m eval table                                      # every model under results/, side by side
+python -m eval compare results/<model-a> results/<model-b>   # paired test between two models
 ```
 
-Pairs the same tests on both sides, per stratum, with an exact McNemar test
-(ParseBench: paired per-file score difference with a bootstrap interval). It warns if the two runs
-used a different dataset commit, input mode or scorer version.
+`table` writes `results/side_by_side.md`: one table per collection, one column per model, each cell with its n
+and missing count. It is descriptive only: no overall score, no ranking, no test.
+`compare` pairs the same tests on both sides, per stratum, with an exact McNemar test (ParseBench: paired
+per-file score difference with a bootstrap interval). Both warn when runs used a different dataset commit,
+input mode or scorer version.
 
 ## Rules the scorer cannot enforce
 
@@ -135,7 +151,9 @@ data/
 gt/                            index
 metadata/                      checksums.csv, dataset.json, GT provenance, upstream licenses
 eval/                          runner + scorers (python -m eval), tests (python -m eval.tests), vendored upstream code
-.github/skills/ocr-benchmark/  Copilot skill
+.github/skills/ocr-benchmark/  Copilot skill (available as soon as the repository is open in VS Code)
+predictions/<model>/           your run cards, model outputs and raw responses (git-ignored)
+results/<model>/               reports per model; results/side_by_side.md (git-ignored)
 docs/protocol.md               full evaluation protocol
 docs/sources.md                data sources, attribution and rights
 ```

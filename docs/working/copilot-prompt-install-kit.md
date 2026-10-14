@@ -19,6 +19,12 @@
    git push
    ```
 
+合并 PR 之后给合并后的提交打 tag，同事按 tag 克隆（README「Start here」第 2 行用的就是这个 tag）：
+```powershell
+git switch main ; git pull
+git tag data-2026-09-30 ; git push origin data-2026-09-30     # tag 已存在就换个名字，并同步改 README
+```
+
 ## 2. 准备环境（每台电脑一次）
 
 ```powershell
