@@ -1,6 +1,7 @@
 """python -m eval {verify,inputs,score,compare}"""
 import argparse
 import hashlib
+import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -145,6 +146,34 @@ def cmd_score(a):
     return 0
 
 
+def cmd_run(a):
+    from .run import run
+    pred_root = Path(a.predictions)
+    p = pred_root / "run_card.yaml"
+    if not p.exists():
+        sys.exit(f"{p} not found. Create it with an endpoint: block first (see README: Run your model).")
+    card = yaml.safe_load(p.read_text(encoding="utf-8")) or {}
+    items = [dict(r, collection=c) for c in a.collections for r in _inputs(c)]
+    limit = 2 if a.smoke else a.limit
+    summary = run(pred_root, card, items, limit=limit)
+    summary.update(collections=a.collections, limit=limit,
+                   finished_utc=datetime.now(timezone.utc).isoformat(timespec="seconds"))
+    log = pred_root / "_raw" / "_runs.jsonl"
+    log.parent.mkdir(parents=True, exist_ok=True)
+    with log.open("a", encoding="utf-8") as fh:
+        fh.write(json.dumps(summary, ensure_ascii=False) + "\n")
+    print(f"\nCalled {summary['called']}: ok {summary['ok']}, failed {summary['fail']}, "
+          f"median latency {summary['median_latency_s']} s, wall {summary['wall_s']} s")
+    if summary["remaining_without_prediction"]:
+        est = summary["estimated_minutes_for_remaining"]
+        print(f"{summary['remaining_without_prediction']} inputs still have no prediction"
+              + (f"; at this speed about {est} min ({est / 60:.1f} h) to finish." if est is not None else ".")
+              + " Re-run the same command to continue (failed inputs are retried).")
+    else:
+        print(f"All inputs have a prediction. Next: python -m eval score {pred_root}")
+    return 0
+
+
 def cmd_compare(a):
     from .compare import compare
     text = compare(a.a, a.b)
@@ -177,6 +206,14 @@ def main(argv=None):
                    help="score olmOCR math tests (needs Playwright + Chromium)")
     s.add_argument("--out", help="default: results/<model folder name>")
     s.set_defaults(fn=cmd_score)
+
+    r = sub.add_parser("run", help="call the model in run_card.yaml (OpenAI-compatible) on every input")
+    r.add_argument("predictions")
+    r.add_argument("--collections", nargs="+", choices=COLLECTIONS, default=COLLECTIONS,
+                   help="default: all four (1,040 inputs)")
+    r.add_argument("--smoke", action="store_true", help="only 2 inputs per collection, to test the connection")
+    r.add_argument("--limit", type=int, help="at most N new inputs per collection")
+    r.set_defaults(fn=cmd_run)
 
     c = sub.add_parser("compare", help="paired comparison of two results folders")
     c.add_argument("a")
