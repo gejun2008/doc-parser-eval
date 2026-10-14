@@ -1,67 +1,93 @@
-# 公司电脑：把 benchmark-kit 提交进 ocr-benchmark-dataset，再用 skill 跑一次验收
+# 公司电脑操作顺序：更新 kit → 配置新 OCR 模型 → 用 skill 跑出测试结果
 
-两步：**① 装进仓库并提交**（纯文件操作，自己执行，不跑任何检查）；**② 用 skill 跑一次 INF 的历史输出**，
-看 skill 能不能自己把流程走完、报告数字是否与已知结果一致。第 ② 步就是验收，不另做核对。
+路径按实际改。下文：**源目录** = 分支 zip 解压出来的 `doc-parser-eval-claude-cool-planck-j8dsb2\`；
+**数据集仓库** = `ocr-benchmark-dataset`。
 
-判分代码本身已在本仓库用历史 INF 跑数核对过（金融 1,153/1,153、扰动 500/500、ParseBench 512/513 一致），
-所以第 ② 步看到的数字应与已有结论一致，例如金融 amount 类通过率 97.9%。
+## 1. 更新 kit 到数据集仓库（每次 kit 有新版本时做一次）
 
-## 准备（手动，2 分钟）
+1. GitHub 上把分支 `claude/cool-planck-j8dsb2` 重新下载成 zip（Code → Download ZIP），解压到仓库以外，
+   例如 `D:\work\kit-src\`。
+2. 运行安装脚本（只复制文件，不提交；分支 `add-eval-kit` 已存在会直接切过去）：
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File D:\work\kit-src\doc-parser-eval-claude-cool-planck-j8dsb2\tools\install_kit.ps1 -DS D:\work\ocr-benchmark-dataset
+   ```
+   若弹出「是否覆盖 eval\ 下的文件」，选允许。
+3. 列表里只有 `eval/ .github/ docs/ README.md .gitignore` 就提交并推送：
+   ```powershell
+   Set-Location D:\work\ocr-benchmark-dataset
+   git commit -m "Update evaluation kit: model runner (OpenAI-compatible)"
+   git push
+   ```
 
-1. GitHub 上把分支 `claude/cool-planck-j8dsb2` 下载成 zip（Code → Download ZIP），解压到**仓库以外**的目录，
-   例如 `D:\work\kit-src\`。里面那一层 `doc-parser-eval-claude-cool-planck-j8dsb2\` 下文叫**源目录**。
-2. 下面命令里的路径按你的实际位置改。
-
-## 第 ① 步：装进仓库（运行脚本，不用 Copilot）
-
-纯文件复制，交给 Copilot 反而容易跑偏（例如反复调用 Pylance 去分析 vendor 里的代码）。
-脚本 `tools/install_kit.ps1` 就在解压出来的源目录里，直接运行：
-
-```powershell
-powershell -ExecutionPolicy Bypass -File D:\work\kit-src\doc-parser-eval-claude-cool-planck-j8dsb2\tools\install_kit.ps1 -DS D:\work\ocr-benchmark-dataset
-```
-
-它会：切到（或新建）分支 `add-eval-kit` → 确认 `data/ gt/ metadata/` 没被改过（改过就停下）→ 复制
-`eval/`、`.github/skills/ocr-benchmark/`、`docs/protocol.md` → 旧 README 原样存成 `docs/README-previous.md`，
-换上新 README → 补 `.gitignore` → `git add` 并列出将要提交的文件。**不会自动提交**。
-
-列表里只有 `eval/ .github/ docs/ README.md .gitignore` 就提交：
+## 2. 准备环境（每台电脑一次）
 
 ```powershell
 Set-Location D:\work\ocr-benchmark-dataset
-git commit -m "Add evaluation kit: scorers, protocol, Copilot skill"
+python -m venv .venv
+.venv\Scripts\activate
+python -m pip install -r eval\requirements.txt -r eval\requirements-parsebench.txt -r eval\requirements-run.txt
 ```
 
-旧 README 里的 Get the data / Limits / Sources 三节先留在 `docs\README-previous.md`，以后再整理，不阻塞提交。
+VS Code 里 `Ctrl+Shift+P` → `Python: Select Interpreter` → 选 `.venv`，这样 Copilot 开的终端也用这个环境。
 
-## 第 ② 步：用 skill 验收
+## 3. 配置新 OCR 模型
 
-先导出 INF 的历史输出（一条命令，在旧仓库目录执行；各 run 目录名按 run_meta.json 的 note 找）：
+新建 `predictions\new-ocr\run_card.yaml`（`predictions\` 不会被提交）：
+
+```yaml
+model: new-ocr
+version: test
+input_mode: image
+dpi: 300
+endpoint:
+  url: https://<host>/new-ocr/test/xxxx/v1/chat/completions   # 完整的 chat completions 地址
+  model: <服务端要求的 model 名>
+  api_key_env: NEW_OCR_API_KEY        # 只写环境变量名，密钥不写进文件
+  concurrency: 4
+```
+
+在**要跑的那个终端**里设置密钥（只在这个终端有效，不落盘）：
 
 ```powershell
-$SRC = "D:\work\kit-src\doc-parser-eval-claude-cool-planck-j8dsb2"   # 解压出来的源目录
-$DS  = "D:\work\ocr-benchmark-dataset"
-Set-Location D:\work\doc-parser-eval-main                             # 旧评测仓库（有 runs\）
-python $SRC\tools\export_predictions.py --out $DS\predictions\inf-flash --model Infinity-Parser2-Flash `
-  --financial runs\<note 含「第三层自建金融场景集 210 页」的 run> `
-  --perturbed runs\<note 含「T2 扰动组」的 run> `
-  --olmocr runs\<note 含「olmOCR-Bench 抽样子集 120 页」的 run> `
-  --parsebench runs\<parsebench_inf_ 开头、不带 _nodeep 的 run>
+$env:NEW_OCR_API_KEY = "<密钥>"
 ```
 
-然后在 VS Code 打开数据集仓库，Copilot agent 模式里说（建议先在聊天框的工具设置里关掉 Pylance 相关工具，
-让它只用终端跑命令）：
+## 4. 用 skill 跑
 
-```text
-run the ocr-benchmark skill on predictions/inf-flash
+1. Copilot 聊天框的工具设置里**关掉 Pylance 相关工具**，切到 Agent 模式。
+2. 输入：
+   ```text
+   Use the ocr-benchmark skill to evaluate predictions/new-ocr.
+   Only run the terminal commands the skill lists; do not open or analyse source code.
+   ```
+3. skill 会依次：自检 → 冒烟测试（每个集合 2 个输入）→ 告诉你全量预计耗时并让你选：
+   - **默认全量**：4 个集合，1,040 个输入
+   - **只跑挑选的公开子集**：ParseBench 500 + olmOCR 120 = 620 个输入
+   - 或任选几个集合
+4. 预计超过 30 分钟时，skill 会给出一条命令让你在自己的终端里跑（终端里要先设好 `$env:NEW_OCR_API_KEY`）。
+   中途断了，再跑同一条命令会接着跑，失败的自动重试。例如：
+   ```powershell
+   python -m eval run predictions\new-ocr                                  # 全量
+   python -m eval run predictions\new-ocr --collections parsebench olmocr  # 只跑公开子集
+   ```
+5. 跑完回到 Copilot 说「finished」，skill 判分并汇总。报告在 `results\new-ocr\`。
+
+## 5. 出问题时看哪里
+
+- 冒烟测试失败：看 `predictions\new-ocr\_raw\` 下最新的 `.json`，里面有 HTTP 状态码、错误信息、`finish_reason`。
+  常见原因：url 不是完整的 chat completions 地址、model 名不对、鉴权头不是 `Authorization: Bearer`
+  （可在 run_card 的 endpoint 里加 `auth_header: api-key` 和 `auth_prefix: ""`）。
+- `finish_reason: length`：输出被截断，按失败计；可在 endpoint 里调大 `max_tokens`。
+- 大量 `missing`：说明调用失败的输入多，重跑同一条 `eval run` 命令重试。
+
+## 可选：用 INF 历史输出核对判分
+
+不调模型，只验证判分在公司电脑上与本地一致（金融 amount 97.9% 一类）。在旧评测仓库执行：
+
+```powershell
+python D:\work\kit-src\doc-parser-eval-claude-cool-planck-j8dsb2\tools\export_predictions.py `
+  --out D:\work\ocr-benchmark-dataset\predictions\inf-flash --model Infinity-Parser2-Flash `
+  --financial runs\<金融 run> --perturbed runs\<扰动 run> --olmocr runs\<olmOCR run> --parsebench runs\<parsebench_inf_ run>
 ```
 
-skill 会自己装依赖、跑自检、校验数据、判分、汇总。**你只看三件事**：
-
-1. skill 有没有中途停下来或要你手工处理（这是在验 skill 本身）
-2. 汇总里的数字与已有结论是否一致（金融 amount 97.9% 一类）
-3. 有没有大量 `missing`（说明文件命名或目录对不上）
-
-把 skill 的最后汇总拍照发我。数字对不上时，再用 `$SRC\tools\kit_parity.py` 逐条查（用法见脚本开头注释）。
-
-`predictions\` 和 `results\` 已在 .gitignore 里，不会被提交。
+然后让 skill 评测 `predictions/inf-flash`（没有 endpoint，它会直接判分）。

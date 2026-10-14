@@ -23,7 +23,27 @@ The README is enough to run the benchmark; read this before you publish or compa
 - **Never send the model GT**: anything under `data/assertions/`, `gt/`, the `*.jsonl` files or `metadata/`.
 - Keep the model's raw output, version, settings and failures **outside this repository**.
 
-## 2. Predictions
+## 2. Running a model (`python -m eval run`)
+
+For an OpenAI-compatible endpoint the kit produces the predictions itself (`eval/run.py`):
+
+- **Rendering:** PDF pages are rendered with PyMuPDF at the run card's `dpi` (300 reference) to PNG; image inputs
+  (perturbation, some ParseBench files) are sent unchanged. One request per input, image first, then the prompt.
+- **Prompt:** a neutral default ("Convert this document page to Markdown…", see `eval/run.py`) unless the run card
+  sets `endpoint.prompt`. The prompt changes results: its hash is recorded, and two models compared with
+  different prompts must say so.
+- **Parameters:** `temperature` 0, `max_tokens` 16384 unless overridden; `extra_body` is merged into the request.
+- **Success** = HTTP 200 and `finish_reason: "stop"`. Errors, timeouts and `finish_reason: "length"` (truncation)
+  write no prediction and are scored as failures. HTTP 408/409/425/429/5xx and network errors are retried
+  (`retries`, default 2, exponential backoff).
+- **Audit trail:** `predictions/<model>/_raw/<same path>.json` holds every attempt: UTC time, latency, status,
+  response headers (cookies and auth removed), full response body, usage, served model. The image and the key
+  are never written. `_raw/_runs.jsonl` logs each invocation with its effective settings.
+- **Resume:** inputs with a prediction are skipped, so re-running continues an interrupted run and retries failures.
+- **Concurrency** is capped at 16. If the endpoint queues silently instead of returning 429, latency numbers
+  depend on concurrency: report them together.
+
+## 3. Predictions
 
 - One Markdown file per input at the path given by `inputs.csv`. UTF-8.
 - If the model call failed, **write nothing** for that input. A missing file is scored as a failure
@@ -32,7 +52,7 @@ The README is enough to run the benchmark; read this before you publish or compa
 - A ```` ``` ```` / ```` ```markdown ```` fence is removed before scoring **only if it wraps the whole output**
   (opens at the very start and closes at the very end). Fences inside the output are content. Nothing else is changed.
 
-## 3. Scoring
+## 4. Scoring
 
 ### Financial assertions (`eval/financial.py`)
 
@@ -87,7 +107,7 @@ one dimension at a time. A file's score is the dimension's headline metric, the 
 - Install: `python -m pip install -r eval/requirements-parsebench.txt`. Never install `parse-bench` from PyPI:
   its 1.0.4 is a different build from `3295d7f`.
 
-## 4. Math tests
+## 5. Math tests
 
 Math tests render LaTeX with KaTeX in a headless Chromium and compare the renderings. They are skipped by default.
 To score them, every team must use the **same browser build**, or renderings, and therefore pass/fail, can differ:
@@ -103,7 +123,7 @@ To score them, every team must use the **same browser build**, or renderings, an
 Do **not** use the installed Google Chrome (`channel="chrome"`): it auto-updates, may be blocked from remote
 debugging by policy, and breaks the "same build everywhere" rule.
 
-## 5. Statistics and reporting
+## 6. Statistics and reporting
 
 - Pass rates per stratum with a Wilson 95% interval. Missing predictions count as failures.
 - Strata with fewer than **20** scored tests get no rate: *insufficient sample*. Do not merge strata to get above 20.
@@ -112,14 +132,14 @@ debugging by policy, and breaks the "same build everywhere" rule.
   p ≥ 0.05 reads as "no significant difference", not "equal".
 - Tests on the same page are correlated; intervals computed per test are optimistic. Read page coverage alongside.
 
-## 6. What a result does not tell you
+## 7. What a result does not tell you
 
 - Production behaviour: latency, throughput, rate limits, cost, version stability.
 - Silent failures your pipeline would see (truncation, dropped headers/footers) beyond what the tests catch.
 - Document types outside the 7 financial families (e.g. trade-finance documents are not covered).
 - Anything about the full public benchmarks: these are subsets with finance-weighted quotas.
 
-## 7. Changing the benchmark
+## 8. Changing the benchmark
 
 - **GT change** → new data snapshot tag; never inside a comparison.
 - **Scorer change that can change any outcome** → bump `eval/__init__.py` version, update the expected outcomes in

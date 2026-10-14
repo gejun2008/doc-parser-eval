@@ -1,0 +1,2 @@
+# Needed only for `python -m eval run` (calling a model): renders PDF pages to images.
+pymupdf==1.28.2

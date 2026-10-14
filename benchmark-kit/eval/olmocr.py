@@ -58,7 +58,7 @@ def _test_files(data):
 def olmocr_inputs(data=DATA):
     seen, out = set(), []
     for jf in _test_files(data):
-        for line in jf.open(encoding="utf-8"):
+        for line in jf.read_text(encoding="utf-8").split("\n"):
             if line.strip():
                 pdf = json.loads(line)["pdf"]
                 if pdf not in seen:
@@ -73,7 +73,7 @@ def score_olmocr(pred_root, data=DATA, with_math=False):
     rows, cache = [], {}
     for jf in _test_files(data):
         subset = jf.stem
-        for line in jf.open(encoding="utf-8"):
+        for line in jf.read_text(encoding="utf-8").split("\n"):
             if not line.strip():
                 continue
             raw = json.loads(line)

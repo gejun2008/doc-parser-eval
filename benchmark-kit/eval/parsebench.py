@@ -44,7 +44,7 @@ def _files_by_dimension(data):
         if not f.exists():
             continue
         seen = []
-        for line in f.open(encoding="utf-8"):
+        for line in f.read_text(encoding="utf-8").split("\n"):
             if line.strip():
                 pdf = json.loads(line)["pdf"]
                 if pdf not in seen:

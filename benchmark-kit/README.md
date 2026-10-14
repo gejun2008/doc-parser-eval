@@ -1,9 +1,9 @@
 # OCR Benchmark Dataset
 
 Inputs, ground truth and scorers for evaluating document parsers on financial documents.
-Run your parser, drop its outputs in a folder, run one command (or one Copilot skill), get a report per collection.
+Point it at your model's endpoint (or hand it your parser's outputs), run one command or one Copilot skill, get a report per collection.
 
-**Snapshot:** `2026-09-30` · **Financial GT frozen:** `2026-09-23` · **Scorer:** `eval 0.2.0`
+**Snapshot:** `2026-09-30` · **Financial GT frozen:** `2026-09-23` · **Scorer:** `eval 0.3.0`
 **This repository never stores model outputs, scores or credentials.**
 
 ## Collections
@@ -22,45 +22,70 @@ they may be in the training data of the model under test, so a high score there 
 
 ```bash
 git lfs install && git clone <repo-url> && cd ocr-benchmark-dataset
-python -m pip install -r eval/requirements.txt     # Python 3.12, internal pip mirror
-python -m pip install -r eval/requirements-parsebench.txt   # only if you score ParseBench
-python -m eval.tests                               # scorer self-test on synthetic fixtures
+python -m venv .venv && .venv\Scripts\activate     # Windows; source .venv/bin/activate elsewhere
+python -m pip install -r eval/requirements.txt -r eval/requirements-parsebench.txt -r eval/requirements-run.txt
+python -m eval.tests                               # self-test on synthetic fixtures
 python -m eval verify --quick                      # are the LFS files really here?
-python -m eval inputs                              # writes inputs.csv: every input and its prediction file
 ```
 
-**1. Run your parser** on each `input_path` in `inputs.csv` and save the output as Markdown at
-`predictions/<your-model>/<prediction_path>`. The rule behind `prediction_path`:
+Then either let the kit call your model (**A**), or run your parser yourself and hand over its outputs (**B**).
+
+### A. Your model has an OpenAI-compatible endpoint
+
+Create `predictions/<your-model>/run_card.yaml`:
+
+```yaml
+model: new-ocr
+version: test
+input_mode: image            # pages are rendered to PNG and sent as images
+dpi: 300
+endpoint:
+  url: https://<host>/v1/chat/completions   # full chat-completions URL
+  model: <model name the endpoint expects>
+  api_key_env: NEW_OCR_API_KEY              # name of the environment variable, never the key itself
+  concurrency: 4                            # max 16
+  # optional: prompt, max_tokens (16384), temperature (0), timeout_s (600), retries (2),
+  #           auth_header ("Authorization"), auth_prefix ("Bearer "), extra_body: {...}
+```
+
+```bash
+$env:NEW_OCR_API_KEY = "<key>"                       # PowerShell; export NEW_OCR_API_KEY=... elsewhere
+python -m eval run predictions/new-ocr --smoke       # 2 inputs per collection: check it works
+python -m eval run predictions/new-ocr               # everything (1,040 inputs); re-run to resume
+python -m eval score predictions/new-ocr
+```
+
+**A full run is long.** Throughput depends on the endpoint: at 1.6–5.6 pages a minute (measured on one vendor API),
+1,040 inputs take about 3–11 hours. `--smoke` prints an estimate for the rest. To start smaller, pick collections, e.g. only the two public subsets (620 inputs):
+
+```bash
+python -m eval run predictions/new-ocr --collections parsebench olmocr
+```
+
+An interrupted run resumes where it stopped; failed inputs are retried on the next run. Every response is kept
+under `predictions/new-ocr/_raw/` (status, latency, usage, finish_reason). A truncated answer
+(`finish_reason: length`) or an error is a failure, never a prediction.
+
+### B. You run the parser yourself
+
+`python -m eval inputs` writes `inputs.csv`: every input and the file its output must go to. Save one Markdown
+file per input at `predictions/<your-model>/<prediction_path>`:
 
 ```
 data/<path>/<name>.<ext>            ->  predictions/<model>/<path>/<name>.md
 data/corpus/<family>/<doc>.pdf, p.7 ->  predictions/<model>/corpus/<family>/<doc>_p7.md   (financial: one file per selected page)
 ```
 
-Add `predictions/<your-model>/run_card.yaml`:
+Add `predictions/<your-model>/run_card.yaml` with `model`, `version`, `input_mode` (`image` or `pdf`),
+`dpi` (for images), `date` and `notes`, then `python -m eval score predictions/<your-model>`.
+Collections without a folder are skipped.
 
-```yaml
-model: my-parser
-version: 2.1.0            # as reported by the service, if it reports one
-input_mode: image         # image | pdf   (pdf = extracted single-page PDF)
-dpi: 300                  # required when input_mode is image
-output_format: markdown
-date: 2026-10-13
-notes: ""                 # anything that differs from docs/protocol.md
-```
+### With Copilot
 
-**2. Score:**
-
-```bash
-python -m eval score predictions/<your-model>
-```
-
-Reports land in `results/<your-model>/` (git-ignored). Collections without a folder under
-`predictions/<your-model>/` are skipped, so you can submit only the ones you need.
-
-**With Copilot:** open the repository in VS Code agent mode or Copilot CLI and ask
-*"run the ocr-benchmark skill on predictions/&lt;your-model&gt;"*. The skill runs the same commands;
-every number comes from the scripts, never from the assistant.
+Open the repository in VS Code agent mode or Copilot CLI and ask
+*"run the ocr-benchmark skill for predictions/&lt;your-model&gt;"*. The skill checks the setup, runs a smoke test,
+tells you how long the full run will take and lets you pick collections, then runs, scores and summarises.
+Every number comes from the scripts, never from the assistant.
 
 ## Reading the results
 
@@ -109,7 +134,7 @@ data/
   perturbed/                   perturbation images + manifest.csv
 gt/                            index
 metadata/                      checksums.csv, dataset.json, GT provenance, upstream licenses
-eval/                          scorers (python -m eval), tests (python -m eval.tests), vendored upstream code
+eval/                          runner + scorers (python -m eval), tests (python -m eval.tests), vendored upstream code
 .github/skills/ocr-benchmark/  Copilot skill
 docs/protocol.md               full evaluation protocol
 docs/sources.md                data sources, attribution and rights
