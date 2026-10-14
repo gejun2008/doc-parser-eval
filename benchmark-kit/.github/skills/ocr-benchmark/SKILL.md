@@ -29,8 +29,10 @@ fails, report its error output and stop.
    Tests failing → stop: the scorer is not trustworthy on this machine. Verify problems → usually `git lfs pull`.
 
 2. **Run card.** `predictions/<model>/run_card.yaml` must exist with `model`, `input_mode`, `dpi`.
-   If the user gave an endpoint URL, it also needs an `endpoint:` block (`url`, `model`, `api_key_env`,
-   `concurrency`); see README section A. Ask the user for missing values; do not guess. Ask the user to set the key
+   If the user gave an endpoint URL and there is no run card yet, create it from README section A
+   (`input_mode: image`, `dpi: 300`, `concurrency: 4`) and ask only for what you cannot know: a short folder name
+   for the model, the model name the endpoint expects, and the environment-variable name for the key.
+   Never overwrite an existing run card or another model's folder. Ask the user to set the key
    themselves in the terminal (`$env:<api_key_env> = "..."`); never ask them to paste the key into chat.
 
 3. **If the run card has an endpoint** (the kit calls the model):
@@ -58,5 +60,9 @@ fails, report its error output and stop.
    - the "Read with care" notes of each report;
    - dataset commit, scorer version, input mode and endpoint model from `results/<model>/run_card.yaml`.
 
-6. **Comparing two models:** `python -m eval compare results/<a> results/<b>`. Lead with any WARNING lines
-   (different dataset commit, input mode or scorer version mean the comparison is not valid).
+6. **Several models.** When more than one `results/<model>/` exists, or the user asks to compare:
+   - `python -m eval table` (all models side by side, written to `results/side_by_side.md`); quote its cells as
+     written, keep the ⚠ marks, and do not rank the models or add up collections;
+   - for a claim that one model is better on a collection, `python -m eval compare results/<a> results/<b>`
+     and use its "Reading" column. Lead with any WARNING lines (different dataset commit, input mode or scorer
+     version mean the comparison is not valid).

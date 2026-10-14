@@ -242,6 +242,10 @@ class EndToEnd(unittest.TestCase):
             self.assertEqual(main(["compare", str(out / "a"), str(out / "b"),
                                    "--out", str(out / "cmp.md")]), 0)
             self.assertIn("Only A", (out / "cmp.md").read_text(encoding="utf-8"))
+            self.assertEqual(main(["table", str(out / "a"), str(out / "b"), "--out", str(out / "t.md")]), 0)
+            table = (out / "t.md").read_text(encoding="utf-8")
+            self.assertIn("| page_integrity |", table)        # one row per stratum, one column per model
+            self.assertIn("no overall score", table)
         finally:
             shutil.rmtree(out)
 
