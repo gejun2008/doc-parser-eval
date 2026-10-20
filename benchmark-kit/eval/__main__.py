@@ -103,10 +103,16 @@ def cmd_score(a):
         if not with_math:
             print("! --with-math given but Playwright/Chromium cannot start: math tests stay unscored")
 
+    allowed, sample = None, None
+    if a.inputs:
+        from .sample import load_sample
+        allowed, sample = load_sample(a.inputs)
+
     out = Path(a.out or ROOT / "results" / pred_root.name)
     card = dict(card, dataset_commit=git_commit(), eval_version=__version__,
                 scored_utc=datetime.now(timezone.utc).isoformat(timespec="seconds"),
-                collections=colls, olmocr_math="scored" if with_math else "skipped")
+                collections=colls, olmocr_math="scored" if with_math else "skipped",
+                sample=sample or "all inputs")
 
     from .report import perturbation_drop, render
     results, summary = {}, {"run_card": card}
@@ -124,6 +130,13 @@ def cmd_score(a):
         else:
             from .olmocr import score_olmocr
             rows, cov = score_olmocr(pred_root, with_math=with_math)
+        if allowed is not None:
+            # score only the sampled inputs; everything else is out of scope, not missing
+            rows = [r for r in rows if r["item"] in allowed]
+            items = [i for i in _inputs(c) if i["prediction_path"] in allowed]
+            cov = {"inputs_in_sample": len(items),
+                   "inputs_with_prediction": sum((pred_root / i["prediction_path"]).is_file() for i in items),
+                   **{k: v for k, v in cov.items() if not isinstance(v, int)}}
         results[c] = (rows, cov)
 
     for c, (rows, cov) in results.items():
@@ -154,23 +167,52 @@ def cmd_run(a):
         sys.exit(f"{p} not found. Create it with an endpoint: block first (see README: Run your model).")
     card = yaml.safe_load(p.read_text(encoding="utf-8")) or {}
     items = [dict(r, collection=c) for c in a.collections for r in _inputs(c)]
+    sample = None
+    if a.inputs:
+        from .sample import load_sample
+        allowed, sample = load_sample(a.inputs)
+        items = [i for i in items if i["prediction_path"] in allowed]
     limit = 2 if a.smoke else a.limit
     summary = run(pred_root, card, items, limit=limit)
-    summary.update(collections=a.collections, limit=limit,
+    summary.update(collections=a.collections, limit=limit, sample=sample,
                    finished_utc=datetime.now(timezone.utc).isoformat(timespec="seconds"))
     log = pred_root / "_raw" / "_runs.jsonl"
     log.parent.mkdir(parents=True, exist_ok=True)
     with log.open("a", encoding="utf-8") as fh:
         fh.write(json.dumps(summary, ensure_ascii=False) + "\n")
     print(f"\nCalled {summary['called']}: ok {summary['ok']}, failed {summary['fail']}, "
-          f"median latency {summary['median_latency_s']} s, wall {summary['wall_s']} s")
+          f"median latency {summary['median_latency_s']} s, wall {summary['wall_s']} s, "
+          f"tokens in {summary['prompt_tokens']:,} / out {summary['completion_tokens']:,}")
     if summary["remaining_without_prediction"]:
         est = summary["estimated_minutes_for_remaining"]
         print(f"{summary['remaining_without_prediction']} inputs still have no prediction"
               + (f"; at this speed about {est} min ({est / 60:.1f} h) to finish." if est is not None else ".")
               + " Re-run the same command to continue (failed inputs are retried).")
     else:
-        print(f"All inputs have a prediction. Next: python -m eval score {pred_root}")
+        nxt = f" --inputs {a.inputs}" if a.inputs else ""
+        print(f"All inputs have a prediction. Next: python -m eval score {pred_root}{nxt}")
+    return 0
+
+
+def cmd_sample(a):
+    from .sample import DEFAULT_QUOTA, build_sample, write_sample
+    quota = dict(DEFAULT_QUOTA)
+    if a.quota:
+        quota = {}
+        for q in a.quota:
+            k, _, v = q.partition("=")
+            if k not in COLLECTIONS or not v.isdigit():
+                sys.exit(f"--quota expects collection=N with collection in {COLLECTIONS}, got {q}")
+            quota[k] = int(v)
+    items = [dict(r, collection=c) for c in quota for r in _inputs(c)]
+    rows = build_sample(items, quota, a.seed)
+    path = write_sample(rows, a.name)
+    from collections import Counter
+    for c in quota:
+        strata = Counter(r["stratum"] for r in rows if r["collection"] == c)
+        print(f"  {c}: {sum(strata.values())}  (" + ", ".join(f"{k} {v}" for k, v in sorted(strata.items())) + ")")
+    print(f"{len(rows)} inputs, seed {a.seed} -> {path}")
+    print(f"Use the same file for every model: python -m eval run predictions/<model> --inputs {path.relative_to(ROOT).as_posix()}")
     return 0
 
 
@@ -218,6 +260,7 @@ def main(argv=None):
                    help="default: every collection folder present in the predictions directory")
     s.add_argument("--with-math", action="store_true",
                    help="score olmOCR math tests (needs Playwright + Chromium)")
+    s.add_argument("--inputs", help="score only the inputs listed in a sample file (python -m eval sample)")
     s.add_argument("--out", help="default: results/<model folder name>")
     s.set_defaults(fn=cmd_score)
 
@@ -227,7 +270,15 @@ def main(argv=None):
                    help="default: all four (1,040 inputs)")
     r.add_argument("--smoke", action="store_true", help="only 2 inputs per collection, to test the connection")
     r.add_argument("--limit", type=int, help="at most N new inputs per collection")
+    r.add_argument("--inputs", help="only the inputs listed in a sample file (python -m eval sample)")
     r.set_defaults(fn=cmd_run)
+
+    sp = sub.add_parser("sample", help="write a fixed, stratified sample of inputs to samples/<name>.csv")
+    sp.add_argument("--name", required=True)
+    sp.add_argument("--quota", nargs="+", metavar="COLLECTION=N",
+                    help="default: financial=40 parsebench=30 olmocr=20 perturbed=10")
+    sp.add_argument("--seed", type=int, default=20261020)
+    sp.set_defaults(fn=cmd_sample)
 
     t = sub.add_parser("table", help="several scored models side by side (no ranking, no total)")
     t.add_argument("results", nargs="*", help="default: every results/<model> with a summary.json")

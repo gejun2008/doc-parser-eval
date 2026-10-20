@@ -21,7 +21,7 @@ SECTIONS = [
     ("perturbed", "Perturbation — pass rate by variant", "variant", "rate"),
     ("parsebench", "ParseBench subset — mean score by dimension", "test_type", "mean"),
 ]
-CARD_KEYS = ["version", "input_mode", "dpi", "dataset_commit", "eval_version", "olmocr_math", "scored_utc"]
+CARD_KEYS = ["version", "input_mode", "dpi", "sample", "dataset_commit", "eval_version", "olmocr_math", "scored_utc"]
 
 
 def _load(d):
@@ -60,10 +60,14 @@ def side_by_side(dirs=None):
            "`python -m eval compare <a> <b>` for a paired test. ⚠ = fewer than "
            f"{MIN_N} scored items: not interpretable on its own.", "",
            "## Runs", "", head, sep]
-    out += [f"| {k} | " + " | ".join(str(m["card"].get(k, "")) for m in models) + " |" for k in CARD_KEYS]
+    def fmt(v):
+        if isinstance(v, dict) and "file" in v:   # sample descriptor
+            return f"{v['file']} (n={v['n']}, {v['sha256_16'][:8]})"
+        return "" if v is None else str(v)
+    out += [f"| {k} | " + " | ".join(fmt(m["card"].get(k)) for m in models) + " |" for k in CARD_KEYS]
     out += ["| endpoint model | " + " | ".join(str((m["card"].get("endpoint") or {}).get("model", "—"))
                                                for m in models) + " |", ""]
-    for k in ("dataset_commit", "input_mode", "dpi", "eval_version"):
+    for k in ("dataset_commit", "input_mode", "dpi", "eval_version", "sample"):
         if len({str(m["card"].get(k)) for m in models}) > 1:
             out += [f"> **WARNING:** `{k}` differs between runs; those columns are not directly comparable.", ""]
 

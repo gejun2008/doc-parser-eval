@@ -3,7 +3,7 @@
 Inputs, ground truth and scorers for evaluating document parsers on financial documents.
 Point it at your model's endpoint (or hand it your parser's outputs), run one command or one Copilot skill, get a report per collection.
 
-**Snapshot:** `2026-09-30` · **Financial GT frozen:** `2026-09-23` · **Scorer:** `eval 0.3.1`
+**Snapshot:** `2026-09-30` · **Financial GT frozen:** `2026-09-23` · **Scorer:** `eval 0.4.0`
 **This repository never stores model outputs, scores or credentials.**
 
 ## Collections
@@ -66,6 +66,7 @@ endpoint:
   concurrency: 4                            # max 16
   # optional: prompt, max_tokens (16384), temperature (0), timeout_s (600), retries (2),
   #           auth_header ("Authorization"), auth_prefix ("Bearer "), extra_body: {...}
+  # newer OpenAI models: token_param: max_completion_tokens   and   temperature: null (omit it)
 ```
 
 ```bash
@@ -85,6 +86,28 @@ python -m eval run predictions/new-ocr --collections parsebench olmocr
 An interrupted run resumes where it stopped; failed inputs are retried on the next run. Every response is kept
 under `predictions/new-ocr/_raw/` (status, latency, usage, finish_reason). A truncated answer
 (`finish_reason: length`) or an error is a failure, never a prediction.
+
+### Quick comparison of several models on a fixed sample
+
+To compare a few models fast, score them all on the **same** small sample instead of all 1,040 inputs:
+
+```bash
+python -m eval sample --name quick100        # 100 inputs: financial 40, ParseBench 30, olmOCR 20, perturbation 10
+# one run card per model (same endpoint, different endpoint.model), e.g. predictions/luna, predictions/sol, predictions/astra
+python -m eval run   predictions/luna --inputs samples/quick100.csv
+python -m eval score predictions/luna --inputs samples/quick100.csv
+#   ... same two lines for each model ...
+python -m eval table                          # all models side by side
+```
+
+- The sample is stratified (document family / subset / variant / file group) and fixed by a seed: the same command
+  gives the same file. Commit `samples/quick100.csv` if others should test on exactly the same inputs.
+- `--quota financial=60 parsebench=40` changes the mix; `--seed` changes the draw.
+- Only sampled inputs are scored; the rest are out of scope, not failures. The sample is recorded in each
+  `results/<model>/run_card.yaml`, and `table` / `compare` warn when two runs used different samples.
+- **Small sample, wide intervals.** Many strata will have fewer than 20 items and show *insufficient sample*.
+  A sample is for a first cut between models; confirm the choice on the full set.
+- The run prints prompt and completion tokens, so cost per model is tokens × price.
 
 ### B. You run the parser yourself
 

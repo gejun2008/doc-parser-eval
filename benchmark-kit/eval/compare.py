@@ -23,7 +23,7 @@ def compare(dir_a, dir_b):
     card_a = yaml.safe_load((a / "run_card.yaml").read_text(encoding="utf-8"))
     card_b = yaml.safe_load((b / "run_card.yaml").read_text(encoding="utf-8"))
     lines = [f"# {card_a.get('model')} vs {card_b.get('model')}", ""]
-    for k in ("dataset_commit", "input_mode", "dpi", "eval_version"):
+    for k in ("dataset_commit", "input_mode", "dpi", "eval_version", "sample"):
         if card_a.get(k) != card_b.get(k):
             lines.append(f"> **WARNING:** `{k}` differs ({card_a.get(k)} vs {card_b.get(k)}). "
                          "Results may not be comparable.")

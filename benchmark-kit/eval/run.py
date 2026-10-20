@@ -51,6 +51,7 @@ def load_endpoint(card):
     ep.setdefault("prompt", DEFAULT_PROMPT)
     ep.setdefault("max_tokens", 16384)
     ep.setdefault("temperature", 0.0)
+    ep.setdefault("token_param", "max_tokens")   # newer OpenAI models: max_completion_tokens
     ep.setdefault("timeout_s", 600)
     ep.setdefault("retries", 2)
     ep.setdefault("auth_header", "Authorization")
@@ -80,9 +81,10 @@ def _request_body(ep, image, mime):
             {"type": "image_url", "image_url": {"url": f"data:{mime};base64,{base64.b64encode(image).decode()}"}},
             {"type": "text", "text": ep["prompt"]},
         ]}],
-        "max_tokens": ep["max_tokens"],
-        "temperature": ep["temperature"],
+        ep["token_param"]: ep["max_tokens"],
     }
+    if ep["temperature"] is not None:  # some models reject temperature; `temperature: null` omits it
+        body["temperature"] = ep["temperature"]
     body.update(ep.get("extra_body") or {})
     return body
 
@@ -120,7 +122,7 @@ def _outcome(rec):
 
 
 def run_one(item, ep, key, pred_root, dpi, data=DATA):
-    """Process one input. Returns 'ok' | 'fail', latency."""
+    """Process one input. Returns ('ok' | 'fail', latency, usage)."""
     out = Path(pred_root) / item["prediction_path"]
     raw_path = Path(pred_root) / "_raw" / (item["prediction_path"].removesuffix(".md") + ".json")
     try:
@@ -157,7 +159,7 @@ def run_one(item, ep, key, pred_root, dpi, data=DATA):
     if ok:
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(content, encoding="utf-8")
-    return ("ok" if ok else "fail"), final.get("latency_s")
+    return ("ok" if ok else "fail"), final.get("latency_s"), usage or {}
 
 
 def run(pred_root, card, items, limit=None, data=DATA, log=print):
@@ -172,16 +174,18 @@ def run(pred_root, card, items, limit=None, data=DATA, log=print):
             todo.append(it)
     log(f"{len(items)} inputs: {len(items) - len(pending)} already have a prediction, "
         f"{len(todo)} to call now (concurrency {ep['concurrency']})")
-    counts, lats, t0 = {"ok": 0, "fail": 0}, [], time.monotonic()
+    counts, lats, tokens, t0 = {"ok": 0, "fail": 0}, [], [0, 0], time.monotonic()
     with cf.ThreadPoolExecutor(ep["concurrency"]) as pool:
         futs = {pool.submit(run_one, it, ep, key, pred_root, dpi, data): it for it in todo}
         for n, f in enumerate(cf.as_completed(futs), 1):
             it = futs[f]
             try:
-                state, lat = f.result()
+                state, lat, usage = f.result()
             except Exception as e:  # noqa: BLE001  rendering or file errors: report, keep going
-                state, lat = "fail", None
+                state, lat, usage = "fail", None, {}
                 log(f"  ! {it['input_path']} p{it['page']}: {type(e).__name__}: {e}")
+            tokens[0] += usage.get("prompt_tokens") or 0
+            tokens[1] += usage.get("completion_tokens") or 0
             counts[state] += 1
             if lat:
                 lats.append(lat)
@@ -197,6 +201,7 @@ def run(pred_root, card, items, limit=None, data=DATA, log=print):
     settings = {k: v for k, v in ep.items() if k != "prompt"}
     settings["prompt_sha256_16"] = hashlib.sha256(ep["prompt"].encode()).hexdigest()[:16]
     return {"endpoint": settings, "dpi": dpi, "called": len(todo), **counts, "wall_s": round(wall, 1),
+            "prompt_tokens": tokens[0], "completion_tokens": tokens[1],
             "median_latency_s": round(statistics.median(lats), 1) if lats else None,
             "remaining_without_prediction": remaining,
             "estimated_minutes_for_remaining": round(per_input * remaining / 60) if per_input else None}

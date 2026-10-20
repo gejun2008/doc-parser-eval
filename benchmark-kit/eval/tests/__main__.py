@@ -208,6 +208,23 @@ class RunOpenAI(unittest.TestCase):
         self.assertNotIn("base64", raw)                                  # nor the image
         self.assertEqual(json.loads(raw)["finish_reason"], "stop")
 
+    def test_newer_openai_params(self):
+        from eval.run import run
+        item = [i for i in self._items() if i["prediction_path"] == "corpus/demo/demo_doc_p1.md"]
+        card = self._card("")
+        srv = _MockOpenAI([("ok", "x")])
+        card["endpoint"].update(url=srv.url, token_param="max_completion_tokens", temperature=None)
+        try:
+            s = run(self.pred, card, item, data=self.data, log=lambda *_: None)
+        finally:
+            srv.close()
+        body = srv.requests[0]["body"]
+        self.assertEqual(s["ok"], 1)
+        self.assertIn("max_completion_tokens", body)
+        self.assertNotIn("max_tokens", body)
+        self.assertNotIn("temperature", body)
+        self.assertEqual((s["prompt_tokens"], s["completion_tokens"]), (10, 5))
+
     def test_truncated_and_retry(self):
         from eval.run import run
         item = [i for i in self._items() if i["prediction_path"] == "corpus/demo/demo_doc_p1.md"]
@@ -226,6 +243,32 @@ class RunOpenAI(unittest.TestCase):
         self.assertEqual(s["ok"], 1)                                     # 500 retried, then success
         raw = json.loads((self.pred / "_raw/corpus/demo/demo_doc_p1.json").read_text(encoding="utf-8"))
         self.assertEqual([a["status"] for a in raw["attempts"]], [500, 200])
+
+
+class Sampling(unittest.TestCase):
+    def test_sample_and_scoped_scoring(self):
+        from eval.__main__ import _inputs
+        from eval.sample import build_sample, stratum_of
+        items = [dict(r, collection=c) for c in ("financial", "perturbed") for r in _inputs(c)]
+        a = build_sample(items, {"financial": 1, "perturbed": 1}, seed=1)
+        self.assertEqual(a, build_sample(items, {"financial": 1, "perturbed": 1}, seed=1))  # deterministic
+        self.assertEqual(sorted(r["collection"] for r in a), ["financial", "perturbed"])
+        self.assertEqual(stratum_of("perturbed", "perturbed/dpi100/x.md"), "dpi100")
+        self.assertEqual(stratum_of("olmocr", "olmocr_bench/bench_data/pdfs/tables/x.md"), "tables")
+        out = Path(tempfile.mkdtemp())
+        try:
+            sample = out / "s.csv"
+            sample.write_text("collection,stratum,input_path,page,prediction_path\n"
+                              "financial,demo,data/corpus/demo/demo_doc.pdf,1,corpus/demo/demo_doc_p1.md\n",
+                              encoding="utf-8")
+            self.assertEqual(main(["score", str(PRED), "--collections", "financial",
+                                   "--inputs", str(sample), "--out", str(out / "r")]), 0)
+            rows = read_csv(out / "r" / "financial.csv")
+            # page 2 is outside the sample: out of scope, not "missing"
+            self.assertEqual({r["outcome"] for r in rows}, {"pass", "fail", "not_scored"})
+            self.assertIn("s.csv", (out / "r" / "run_card.yaml").read_text(encoding="utf-8"))
+        finally:
+            shutil.rmtree(out)
 
 
 class EndToEnd(unittest.TestCase):

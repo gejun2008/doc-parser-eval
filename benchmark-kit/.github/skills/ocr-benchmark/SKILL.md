@@ -39,6 +39,11 @@ fails, report its error output and stop.
    a. Smoke test: `python -m eval run predictions/<model> --smoke`. It must end with ok > 0 and fail = 0.
       Open one produced `.md` file and confirm it is Markdown of a document page (not an error message or empty).
       On failures, show the `status` / `error` / `finish_reason` from the newest file under `predictions/<model>/_raw/`.
+   If the user names a sample (e.g. `samples/quick100.csv`) or asks for a quick comparison of several models,
+   use `--inputs <sample>` on every `run` and `score` command and the same sample for every model; create it
+   with `python -m eval sample --name <name>` if it does not exist yet. Several models on one endpoint = one
+   run-card folder per model, differing only in `endpoint.model`. If the endpoint rejects `max_tokens` or
+   `temperature` (newer OpenAI models), set `token_param: max_completion_tokens` and `temperature: null`.
    b. Tell the user the estimate the smoke run printed and offer the choice. **Default is everything**:
       - all collections (1,040 inputs) — `python -m eval run predictions/<model>`
       - only the public subsets, ParseBench 500 + olmOCR 120 — add `--collections parsebench olmocr`
@@ -50,7 +55,7 @@ fails, report its error output and stop.
    **If there is no endpoint**, the user supplies outputs: check `predictions/<model>/` against
    `python -m eval inputs` (writes `inputs.csv`) and report how many expected files are missing.
 
-4. **Score:** `python -m eval score predictions/<model>`. Add `--with-math` only if the user asked for math tests;
+4. **Score:** `python -m eval score predictions/<model>` (plus `--inputs <sample>` if the run used one). Add `--with-math` only if the user asked for math tests;
    if the output says math stays unscored, say so.
 
 5. **Summarise** from `results/<model>/*.md`, quoting numbers exactly as written:
@@ -58,7 +63,8 @@ fails, report its error output and stop.
    - every *missing* count above zero (failed or not-run inputs count as failures; on ParseBench, empty documents);
    - ParseBench Visual Grounding is N/A for markdown (never report it as 0);
    - the "Read with care" notes of each report;
-   - dataset commit, scorer version, input mode and endpoint model from `results/<model>/run_card.yaml`.
+   - dataset commit, scorer version, input mode, sample and endpoint model from `results/<model>/run_card.yaml`;
+   - prompt and completion tokens printed by `eval run` (cost is the user's to compute from their prices).
 
 6. **Several models.** When more than one `results/<model>/` exists, or the user asks to compare:
    - `python -m eval table` (all models side by side, written to `results/side_by_side.md`); quote its cells as
