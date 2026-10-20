@@ -3,7 +3,7 @@
 Inputs, ground truth and scorers for evaluating document parsers on financial documents.
 Point it at your model's endpoint (or hand it your parser's outputs), run one command or one Copilot skill, get a report per collection.
 
-**Snapshot:** `2026-09-30` · **Financial GT frozen:** `2026-09-23` · **Scorer:** `eval 0.3.0`
+**Snapshot:** `2026-09-30` · **Financial GT frozen:** `2026-09-23` · **Scorer:** `eval 0.3.1`
 **This repository never stores model outputs, scores or credentials.**
 
 ## Collections

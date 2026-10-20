@@ -251,4 +251,6 @@ class EndToEnd(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    from eval.common import ensure_utf8_mode
+    ensure_utf8_mode("eval.tests", sys.argv[1:])
     sys.exit(unittest.main(module=__name__, verbosity=2).result.wasSuccessful() is False)

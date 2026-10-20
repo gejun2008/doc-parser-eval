@@ -19,6 +19,18 @@ MIN_N = 20
 PASS, FAIL, MISSING, NOT_SCORED = "pass", "fail", "missing", "not_scored"
 
 
+def ensure_utf8_mode(module, argv):
+    """Re-launch `python -m <module>` in Python's UTF-8 mode when the platform default is not UTF-8
+    (Windows: cp936/cp1252). Upstream ParseBench and olmOCR code opens files without an encoding,
+    which fails on Chinese text or emoji under those code pages. Returns only if no relaunch is needed."""
+    import locale
+    import sys
+    if sys.flags.utf8_mode or locale.getpreferredencoding(False).lower().replace("-", "") == "utf8":
+        return
+    env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
+    sys.exit(subprocess.run([sys.executable, "-X", "utf8", "-m", module, *argv], env=env).returncode)
+
+
 def data_relative(input_path):
     """'data/corpus/x.pdf', 'corpus/x.pdf' or 'C:\\...\\data\\corpus\\x.pdf' -> 'corpus/x.pdf'."""
     s = str(input_path).replace("\\", "/")

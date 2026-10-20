@@ -104,6 +104,9 @@ one dimension at a time. A file's score is the dimension's headline metric, the 
 - Page header/footer fields are empty in a markdown submission. Rules that read them from structured page data fall
   back to the markdown, as they do for any provider without that data.
 - Means per dimension and stratum with a percentile bootstrap 95% interval (2,000 resamples, fixed seed).
+- Encoding: the official evaluator reads and writes files with the platform default encoding. On Windows
+  (cp936 / cp1252) that breaks on Chinese text or emoji, so `python -m eval` re-launches itself in Python's UTF-8
+  mode (`-X utf8`) whenever the default is not UTF-8. No setting is needed.
 - Install: `python -m pip install -r eval/requirements-parsebench.txt`. Never install `parse-bench` from PyPI:
   its 1.0.4 is a different build from `3295d7f`.
 

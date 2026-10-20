@@ -197,6 +197,9 @@ def cmd_compare(a):
 
 
 def main(argv=None):
+    if argv is None:
+        from .common import ensure_utf8_mode
+        ensure_utf8_mode("eval", sys.argv[1:])
     ap = argparse.ArgumentParser(prog="python -m eval", description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)
 
